@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sagar Das | Income Tax Practitioner & Financial Advisor</title>
-    <!-- Animate.css for stunning animations -->
+    <!-- Animate.css for entrance effects -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         * {
@@ -18,13 +18,18 @@
             scroll-behavior: smooth;
         }
 
+        /* Behance Inspired Premium Dark Nordic Background with ambient glow */
         body {
-            background-color: #0b111e;
+            background-color: #080b10;
+            background-image: 
+                radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.07) 0%, transparent 40%),
+                radial-gradient(circle at 10% 60%, rgba(129, 140, 248, 0.06) 0%, transparent 45%);
             color: #e2e8f0;
             overflow-x: hidden;
+            background-attachment: fixed;
         }
 
-        /* পার্টিকল ব্যাকগ্রাউন্ড কন্টেইনার */
+        /* Particle Background Box */
         #particles-js {
             position: fixed;
             width: 100%;
@@ -40,197 +45,418 @@
             z-index: 2;
         }
 
-        /* গ্লোয়িং হেডার */
+        /* Minimalistic & Clean Header */
         header {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
-            backdrop-filter: blur(10px);
-            padding: 100px 20px;
+            background: rgba(8, 11, 16, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 90px 20px;
             text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         header h1 {
-            font-size: 3rem;
-            color: #fff;
-            text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+            font-size: 3.5rem;
+            color: #ffffff;
+            font-weight: 800;
+            letter-spacing: -1px;
             margin-bottom: 15px;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
         }
 
-        header p {
+        .tagline {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .typed-container {
             font-size: 1.4rem;
             color: #38bdf8;
             font-weight: 500;
+            min-height: 35px;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-bar {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .contact-bar a {
+            color: #ffffff;
+            margin: 0 12px;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(255,255,255,0.3);
+            transition: all 0.3s;
+        }
+
+        .contact-bar a:hover {
+            color: #38bdf8;
+            border-bottom-color: #38bdf8;
         }
 
         .container {
-            max-width: 900px;
-            margin: 40px auto;
+            max-width: 950px;
+            margin: 50px auto;
             padding: 0 20px;
         }
 
-        /* গ্লাস মরফিজম সেকশন কার্ড */
+        /* Sleek Behance-Style Container Boxes */
         section {
-            background: rgba(30, 41, 59, 0.45);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            margin-bottom: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(17, 24, 39, 0.35);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 45px;
+            margin-bottom: 35px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         section:hover {
-            transform: translateY(-5px) scale(1.01);
-            border-color: rgba(56, 189, 248, 0.4);
-            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.1);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.08);
+            background: rgba(17, 24, 39, 0.45);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
         }
 
         h2 {
-            color: #fff;
-            font-size: 1.8rem;
-            margin-bottom: 25px;
+            color: #ffffff;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
             position: relative;
-            display: inline-block;
         }
 
-        h2::after {
+        h2::before {
             content: '';
             position: absolute;
             left: 0;
-            bottom: -6px;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #38bdf8, #818cf8);
-            transition: width 0.4s ease;
-            border-radius: 2px;
+            bottom: -8px;
+            width: 40px;
+            height: 2px;
+            background: #38bdf8;
         }
 
-        section:hover h2::after {
-            width: 100%;
-        }
-
-        .info-grid {
+        .grid-3 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
         }
 
-        /* থ্রিডি ইফেক্ট কার্ড */
-        .info-card {
-            background: rgba(15, 23, 42, 0.6);
+        /* Minimal Cards */
+        .card-item {
+            background: rgba(8, 11, 16, 0.5);
             padding: 25px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
             transition: all 0.3s ease;
         }
 
-        .info-card:hover {
-            background: rgba(30, 41, 59, 0.8);
-            transform: translateY(-8px);
-            border-color: #38bdf8;
+        .card-item:hover {
+            background: rgba(8, 11, 16, 0.8);
+            border-color: rgba(56, 189, 248, 0.2);
         }
 
-        .info-card h3 {
-            color: #38bdf8;
+        .card-item h3 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        .card-item p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .exp-item, .edu-item {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .exp-item:last-child, .edu-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .exp-header, .edu-header {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
             margin-bottom: 12px;
-            font-size: 1.25rem;
         }
 
-        /* নিয়ন পালস বাটন */
+        .job-title {
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .company-name {
+            color: #38bdf8;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-top: 2px;
+            display: inline-block;
+        }
+
+        .duration, .location-text {
+            color: #64748b;
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 22px;
+            margin-bottom: 10px;
+            color: #cbd5e1;
+            font-size: 0.98rem;
+        }
+
+        ul li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: #64748b;
+        }
+
+        /* Solid Elegant White Button (Premium Behance Style) */
         .btn {
             display: inline-block;
-            background: linear-gradient(90deg, #4ade80, #22c55e);
-            color: #fff;
-            padding: 14px 30px;
+            background: #ffffff;
+            color: #080b10;
+            padding: 15px 35px;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: bold;
-            margin-top: 20px;
-            box-shadow: 0 0 15px rgba(74, 222, 128, 0.4);
-            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
         }
 
         .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(74, 222, 128, 0.7);
-        }
-
-        a {
-            color: #38bdf8;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        a:hover {
-            color: #818cf8;
+            background: #38bdf8;
+            color: #ffffff;
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.25);
         }
 
         footer {
             text-align: center;
-            padding: 40px;
-            margin-top: 60px;
-            font-size: 0.9rem;
-            color: #64748b;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(15, 23, 42, 0.8);
+            padding: 50px;
+            margin-top: 80px;
+            font-size: 0.85rem;
+            color: #475569;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            background: rgba(8, 11, 16, 0.9);
         }
     </style>
 </head>
 <body>
 
-    <!-- অ্যানিমেটেড পার্টিকল ব্যাকগ্রাউন্ড -->
+    <!-- Ambient Floating Particles -->
     <div id="particles-js"></div>
 
     <div class="main-content">
-        <header class="animate__animated animate__fadeInDown">
-            <h1>সাগর দাশ (Sagar Das)</h1>
-            <!-- ডাইনামিক টাইপিং টেক্সট -->
-            <p><span id="typed-text"></span></p>
-            <p style="font-size: 1rem; margin-top: 10px; color: #94a3b8;">সদস্য: জাতীয় রাজস্ব বোর্ড (NBR) ও সিলেট জেলা কর আইনজীবী সমিতি</p>
+        <header class="animate__animated animate__fadeIn">
+            <h1>Sagar Das (ITP)</h1>
+            <div class="tagline">|| Income Tax Practitioner (ITP) || Accountant || TAX Expert || Consultant || Accounting & Finance || XERO Advisor ||</div>
+            
+            <div class="typed-container">
+                Certified <span id="typed-text"></span>
+            </div>
+
+            <div class="contact-bar">
+                <span>📍 Sylhet, Bangladesh</span> | 
+                <span>📞 <a href="tel:01687036519">01687036519</a></span> | 
+                <span>✉️ <a href="mailto:1997sagardas@gmail.com">1997sagardas@gmail.com</a></span> | 
+                <span>🔗 <a href="https://linkedin.com/in/sagrds" target="_blank">LinkedIn</a></span>
+            </div>
         </header>
 
         <div class="container">
             
-            <section id="about" class="animate__animated animate__fadeInUp animate__delay-1s">
-                <h2>আমার পরিচিতি</h2>
-                <p style="color: #cbd5e1; font-size: 1.1rem;">আমি একজন পেশাদার আয়কর আইনজীবী (ITP) এবং আর্থিক পরামর্শক। বর্তমানে আমি <strong>ইয়ো টেক লিমিটেড (Yo Tech Limited)</strong>-এ সিনিয়র অ্যাকাউন্টস এক্সিকিউティブ হিসেবে কর্মরত আছি। ব্যক্তি ও প্রাতিষ্ঠানিক পর্যায়ের কর নির্ধারণ, রিটার্ন দাখিল এবং আর্থিক ব্যবস্থাপনায় দীর্ঘ অভিজ্ঞতা নিয়ে আমি আমার ক্লায়েন্টদের আইনি ও কৌশলগত সহায়তা প্রদান করে আসছি।</p>
-            </section>
-
-            <section id="services" class="animate__animated animate__fadeInUp animate__delay-1s">
-                <h2>সেবাসমূহ</h2>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <h3>আয়কর পরামর্শ</h3>
-                        <p style="color: #94a3b8;">ব্যক্তিগত ও কর্পোরেট আয়কর রিটার্ন প্রস্তুত এবং দাখিল।</p>
+            <!-- Professional Credentials -->
+            <section class="animate__animated animate__fadeInUp">
+                <h2>Professional Credentials & Membership</h2>
+                <div class="grid-3">
+                    <div class="card-item">
+                        <h3>Certification Status</h3>
+                        <p>Certified Income Tax Practitioner (ITP).</p>
                     </div>
-                    <div class="info-card">
-                        <h3>আর্থিক পরিকল্পনা</h3>
-                        <p style="color: #94a3b8;">ব্যবসার হিসাব রক্ষণাবেক্ষণ এবং ট্যাক্স সাশ্রয়ী আর্থিক পরিকল্পনা।</p>
+                    <div class="card-item">
+                        <h3>Regulatory Body</h3>
+                        <p>Registered with the National Board of Revenue (NBR).</p>
                     </div>
-                    <div class="info-card">
-                        <h3>আইনি প্রতিনিধিত্ব</h3>
-                        <p style="color: #94a3b8;">জাতীয় রাজস্ব বোর্ড ও কর অঞ্চলের যেকোনো আইনি জটিলতার সমাধান।</p>
+                    <div class="card-item">
+                        <h3>Association Membership</h3>
+                        <p>Member of the Sylhet District Taxes Bar Association.</p>
                     </div>
                 </div>
             </section>
 
-            <section id="contact" class="animate__animated animate__fadeInUp animate__delay-1s">
-                <h2>যোগাযোগ করুন</h2>
-                <p style="color: #cbd5e1;">আপনার কর সংক্রান্ত যেকোনো পরামর্শ বা সেবার জন্য সরাসরি যোগাযোগ করতে পারেন:</p>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <strong>ইমেইল:</strong><br>
-                        <a href="mailto:sagard.itp@gmail.com">sagard.itp@gmail.com</a>
+            <!-- Summary -->
+            <section class="animate__animated animate__fadeInUp">
+                <h2>Professional Summary</h2>
+                <p style="font-size: 1.1rem; line-height: 1.75; color: #cbd5e1;">
+                    Dedicated financial professional with a passion for accuracy and efficiency. Experienced in providing comprehensive accounting services and proficient in tax planning and compliance. Skilled in leveraging technology to streamline processes and maximize financial outcomes. Committed to delivering top-notch client service and fostering strong professional relationships.
+                </p>
+            </section>
+
+            <!-- Competencies -->
+            <section class="animate__animated animate__fadeInUp">
+                <h2>Core Competencies</h2>
+                <div class="grid-3">
+                    <div class="card-item">
+                        <h3>Taxation</h3>
+                        <p>Income Tax Preparation, Tax Planning, TDS & VDS Management, VAT Compliance.</p>
                     </div>
-                    <div class="info-card">
-                        <strong>ওয়েবসাইট:</strong><br>
-                        <a href="https://sagar.pro.bd" target="_blank">sagar.pro.bd</a>
+                    <div class="card-item">
+                        <h3>Accounting</h3>
+                        <p>UK Bookkeeping, Financial Reporting, Bank Transactions, Voucher Preparation.</p>
+                    </div>
+                    <div class="card-item">
+                        <h3>Technical & Soft Skills</h3>
+                        <p>Xero Advisor Certified, Fraud Detection, Budgeting, Risk Assessment, Strategic Communications, Critical Thinking.</p>
                     </div>
                 </div>
-                <br>
-                <a href="https://wa.me/8801687036519" class="btn" target="_blank">💬 WhatsApp-এ মেসেজ করুন</a>
+            </section>
+
+            <!-- Experience -->
+            <section class="animate__animated animate__fadeInUp">
+                <h2>Professional Experience</h2>
+                
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <div>
+                            <span class="job-title">Senior Account Executive (Accounts & Finance)</span><br>
+                            <span class="company-name">VALT/YO TECH LIMITED</span>
+                        </div>
+                        <div>
+                            <div class="duration">February 2025 - Present</div>
+                            <div class="location-text">Sylhet, Bangladesh</div>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>Accounting Functions: Manage cash transactions, record payments (cash, cheques), and maintain accurate daily cash accounts.</li>
+                        <li>Tax Preparation & Planning: File income tax returns and identify opportunities to minimize or defer tax payments.</li>
+                        <li>Financial Management: Develop feasible budgets and provide expert advice on cost optimization and profit improvement.</li>
+                        <li>Compliance & Audit: Stay up to date with tax law changes and prepare clients for audits by ensuring documentation is accurate.</li>
+                        <li>Risk Mitigation: Analyze financial information to identify risks and utilize procedures to detect potential fraud.</li>
+                    </ul>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <div>
+                            <span class="job-title">Tax Accountant</span><br>
+                            <span class="company-name">Global Immigration Watch</span>
+                        </div>
+                        <div>
+                            <div class="duration">July 2021 - February 2025</div>
+                            <div class="location-text">Agrony 14, Londoni Rd, Sylhet</div>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>Handled all cash transactions, daily cash checking, and bank-related transactions.</li>
+                        <li>Prepared daily payment vouchers, party payments, and receipt vouchers.</li>
+                        <li>Researched and maintained comprehensive tax and financial records for clients.</li>
+                        <li>Assessed financial information and made recommendations to fix identified risks.</li>
+                    </ul>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <div>
+                            <span class="job-title">Accountant</span><br>
+                            <span class="company-name">AIMS Academy</span>
+                        </div>
+                        <div>
+                            <div class="duration">February 2023 - September 2023</div>
+                            <div class="location-text">Sylhet, Bangladesh</div>
+                        </div>
+                    </div>
+                    <p style="color: #cbd5e1; padding-left: 22px; font-size: 0.98rem;">Served as Accountant for AIMS English, AIMS Academy, and AIMS Education.</p>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <div>
+                            <span class="job-title">Service Desk Assistant</span><br>
+                            <span class="company-name">Anandaniketan School</span>
+                        </div>
+                        <div>
+                            <div class="duration">October 2021 - February 2023</div>
+                            <div class="location-text">Sylhet, Bangladesh</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education -->
+            <section class="animate__animated animate__fadeInUp">
+                <h2>Education</h2>
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <span class="job-title">Master of Business Administration (MBA), Accounting</span>
+                        <span class="duration">2020 - 2021</span>
+                    </div>
+                    <p class="company-name">National University, Bangladesh</p>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <span class="job-title">Bachelor of Business Administration (BBA), Accounting</span>
+                        <span class="duration">2015 - 2020</span>
+                    </div>
+                    <p class="company-name">National University, Bangladesh</p>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <span class="job-title">Higher Secondary School Certificate, Business Studies</span>
+                        <span class="duration">2013 - 2015</span>
+                    </div>
+                    <p class="company-name">Sylhet Commerce College</p>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <span class="job-title">Secondary School Certificate, Science</span>
+                        <span class="duration">2007 - 2013</span>
+                    </div>
+                    <p class="company-name">Police Line High School, Sylhet</p>
+                </div>
+            </section>
+
+            <!-- Certifications -->
+            <section class="animate__animated animate__fadeInUp">
+                <h2>Certifications</h2>
+                <div class="grid-3">
+                    <div class="card-item"><h3>Xero Advisor Certified</h3></div>
+                    <div class="card-item"><h3>TDS & VDS Management</h3></div>
+                    <div class="card-item"><h3>Bangladesh Labour Act</h3></div>
+                    <div class="card-item"><h3>UK Agent & Counsellor Training</h3></div>
+                    <div class="card-item"><h3>Critical Thinking</h3></div>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section style="text-align: center;" class="animate__animated animate__fadeInUp">
+                <h2>Get In Touch</h2>
+                <p style="margin-bottom: 25px; color: #94a3b8;">Need professional support with Corporate Tax Compliance or Bookkeeping?</p>
+                <a href="https://wa.me/8801687036519" class="btn" target="_blank">Connect via WhatsApp</a>
             </section>
 
         </div>
@@ -240,28 +466,28 @@
         </footer>
     </div>
 
-    <!-- Motion Scripts (Particles and Typing Effect) -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script>
-        // টাইপিং অ্যানিমেশন কনফিগারেশন
+        // Typing Config
         var typed = new Typed('#typed-text', {
-            strings: ['আয়কর আইনজীবী', 'আর্থিক পরামর্শক', 'ট্যাক্স এক্সপার্ট'],
-            typeSpeed: 60,
-            backSpeed: 40,
+            strings: ['Income Tax Practitioner (ITP)', 'Tax Expert', 'XERO Advisor', 'Financial Consultant'],
+            typeSpeed: 50,
+            backSpeed: 30,
             loop: true
         });
 
-        // পার্টিকল মোশন কনফিগারেশন
+        // Soft Ambient Particles
         particlesJS('particles-js', {
             "particles": {
-                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": "#38bdf8" },
+                "number": { "value": 40, "density": { "enable": true, "value_area": 1000 } },
+                "color": { "value": "#ffffff" },
                 "shape": { "type": "circle" },
-                "opacity": { "value": 0.3, "random": true },
-                "size": { "value": 3, "random": true },
-                "line_linked": { "enable": true, "distance": 150, "color": "#38bdf8", "opacity": 0.15, "width": 1 },
-                "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+                "opacity": { "value": 0.15, "random": true },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 0.8, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
             }
         });
     </script>
