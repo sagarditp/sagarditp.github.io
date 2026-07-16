@@ -29,7 +29,6 @@
             background-attachment: fixed;
         }
 
-        /* Particle Background Box */
         #particles-js {
             position: fixed;
             width: 100%;
@@ -150,7 +149,6 @@
             gap: 20px;
         }
 
-        /* Minimal Cards */
         .card-item {
             background: rgba(8, 11, 16, 0.5);
             padding: 25px;
@@ -175,6 +173,81 @@
             color: #94a3b8;
             font-size: 0.95rem;
         }
+
+        /* --- Interactive Motion Calculator Styles --- */
+        .calc-box {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(8, 11, 16, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+        }
+
+        .calc-btn {
+            width: 100%;
+            background: #ffffff;
+            color: #080b10;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calc-btn:hover {
+            background: #38bdf8;
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
+        }
+
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px dashed rgba(56, 189, 248, 0.2);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result-box h4 {
+            color: #38bdf8;
+            margin-bottom: 5px;
+        }
+
+        .result-box p {
+            font-size: 1.5rem;
+            color: #ffffff;
+            font-weight: 700;
+        }
+        /* ------------------------------------------- */
 
         .exp-item, .edu-item {
             margin-bottom: 30px;
@@ -234,7 +307,6 @@
             color: #64748b;
         }
 
-        /* Solid Elegant White Button (Premium Behance Style) */
         .btn {
             display: inline-block;
             background: #ffffff;
@@ -268,70 +340,60 @@
 </head>
 <body>
 
-    <!-- Ambient Floating Particles -->
     <div id="particles-js"></div>
 
     <div class="main-content">
         <header class="animate__animated animate__fadeIn">
             <h1>Sagar Das (ITP)</h1>
-            <div class="tagline">|| Income Tax Practitioner (ITP) || Accountant || TAX Expert || Consultant || Accounting & Finance || XERO Advisor ||</div>
+            <div class="tagline">|| Income Tax Practitioner (ITP) || Accountant || TAX Expert || Consultant || Accounting & Finance || XERO Advisor ||[cite: 1]</div>
             
             <div class="typed-container">
                 Certified <span id="typed-text"></span>
             </div>
 
             <div class="contact-bar">
-                <span>📍 Sylhet, Bangladesh</span> | 
-                <span>📞 <a href="tel:01687036519">01687036519</a></span> | 
-                <span>✉️ <a href="mailto:1997sagardas@gmail.com">1997sagardas@gmail.com</a></span> | 
-                <span>🔗 <a href="https://linkedin.com/in/sagrds" target="_blank">LinkedIn</a></span>
+                <span>📍 Sylhet, Bangladesh[cite: 1]</span> | 
+                <span>📞 <a href="tel:01687036519">01687036519</a>[cite: 1]</span> | 
+                <span>✉️ <a href="mailto:1997sagardas@gmail.com">1997sagardas@gmail.com</a>[cite: 1]</span> | 
+                <span>🔗 <a href="https://linkedin.com/in/sagrds" target="_blank">LinkedIn</a>[cite: 1]</span>
             </div>
         </header>
 
         <div class="container">
             
-            <!-- Professional Credentials -->
+            <!-- NEW: Interactive Tax Estimation Tool -->
+            <section class="animate__animated animate__fadeInUp">
+                <h2>Quick Tax Estimator (BD)</h2>
+                <div class="calc-box">
+                    <div class="input-group">
+                        <label for="income">Enter Annual Taxable Income (BDT):</label>
+                        <input type="number" id="income" placeholder="e.g. 500000">
+                    </div>
+                    <button class="calc-btn" onclick="calculateTax()">Estimate Tax Liability</button>
+                    
+                    <div class="result-box animate__animated animate__fadeIn" id="resultBox">
+                        <h4>Estimated Tax Liability:</h4>
+                        <p id="taxResult">0 BDT</p>
+                        <small style="color: #64748b; display:block; margin-top:5px;">*Disclaimer: This is a general estimate based on standard tax slabs. Consult for detailed filing.</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Credentials -->
             <section class="animate__animated animate__fadeInUp">
                 <h2>Professional Credentials & Membership</h2>
                 <div class="grid-3">
                     <div class="card-item">
                         <h3>Certification Status</h3>
-                        <p>Certified Income Tax Practitioner (ITP).</p>
+                        <p>Certified Income Tax Practitioner (ITP).[cite: 1]</p>
                     </div>
                     <div class="card-item">
                         <h3>Regulatory Body</h3>
-                        <p>Registered with the National Board of Revenue (NBR).</p>
+                        <p>Registered with the National Board of Revenue (NBR).[cite: 1]</p>
                     </div>
                     <div class="card-item">
                         <h3>Association Membership</h3>
-                        <p>Member of the Sylhet District Taxes Bar Association.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Summary -->
-            <section class="animate__animated animate__fadeInUp">
-                <h2>Professional Summary</h2>
-                <p style="font-size: 1.1rem; line-height: 1.75; color: #cbd5e1;">
-                    Dedicated financial professional with a passion for accuracy and efficiency. Experienced in providing comprehensive accounting services and proficient in tax planning and compliance. Skilled in leveraging technology to streamline processes and maximize financial outcomes. Committed to delivering top-notch client service and fostering strong professional relationships.
-                </p>
-            </section>
-
-            <!-- Competencies -->
-            <section class="animate__animated animate__fadeInUp">
-                <h2>Core Competencies</h2>
-                <div class="grid-3">
-                    <div class="card-item">
-                        <h3>Taxation</h3>
-                        <p>Income Tax Preparation, Tax Planning, TDS & VDS Management, VAT Compliance.</p>
-                    </div>
-                    <div class="card-item">
-                        <h3>Accounting</h3>
-                        <p>UK Bookkeeping, Financial Reporting, Bank Transactions, Voucher Preparation.</p>
-                    </div>
-                    <div class="card-item">
-                        <h3>Technical & Soft Skills</h3>
-                        <p>Xero Advisor Certified, Fraud Detection, Budgeting, Risk Assessment, Strategic Communications, Critical Thinking.</p>
+                        <p>Member of the Sylhet District Taxes Bar Association.[cite: 1]</p>
                     </div>
                 </div>
             </section>
@@ -344,19 +406,19 @@
                     <div class="exp-header">
                         <div>
                             <span class="job-title">Senior Account Executive (Accounts & Finance)</span><br>
-                            <span class="company-name">VALT/YO TECH LIMITED</span>
+                            <span class="company-name">VALT/YO TECH LIMITED</span>[cite: 1]
                         </div>
                         <div>
-                            <div class="duration">February 2025 - Present</div>
-                            <div class="location-text">Sylhet, Bangladesh</div>
+                            <div class="duration">February 2025 - Present[cite: 1]</div>
+                            <div class="location-text">Sylhet, Bangladesh[cite: 1]</div>
                         </div>
                     </div>
                     <ul>
-                        <li>Accounting Functions: Manage cash transactions, record payments (cash, cheques), and maintain accurate daily cash accounts.</li>
-                        <li>Tax Preparation & Planning: File income tax returns and identify opportunities to minimize or defer tax payments.</li>
-                        <li>Financial Management: Develop feasible budgets and provide expert advice on cost optimization and profit improvement.</li>
-                        <li>Compliance & Audit: Stay up to date with tax law changes and prepare clients for audits by ensuring documentation is accurate.</li>
-                        <li>Risk Mitigation: Analyze financial information to identify risks and utilize procedures to detect potential fraud.</li>
+                        <li>Accounting Functions: Manage cash transactions, record payments (cash, cheques), and maintain accurate daily cash accounts.[cite: 1]</li>
+                        <li>Tax Preparation & Planning: File income tax returns and identify opportunities to minimize or defer tax payments.[cite: 1]</li>
+                        <li>Financial Management: Develop feasible budgets and provide expert advice on cost optimization and profit improvement.[cite: 1]</li>
+                        <li>Compliance & Audit: Stay up to date with tax law changes and prepare clients for audits by ensuring documentation is accurate.[cite: 1]</li>
+                        <li>Risk Mitigation: Analyze financial information to identify risks and utilize procedures to detect potential fraud.[cite: 1]</li>
                     </ul>
                 </div>
 
@@ -364,46 +426,19 @@
                     <div class="exp-header">
                         <div>
                             <span class="job-title">Tax Accountant</span><br>
-                            <span class="company-name">Global Immigration Watch</span>
+                            <span class="company-name">Global Immigration Watch</span>[cite: 1]
                         </div>
                         <div>
-                            <div class="duration">July 2021 - February 2025</div>
-                            <div class="location-text">Agrony 14, Londoni Rd, Sylhet</div>
+                            <div class="duration">July 2021 - February 2025[cite: 1]</div>
+                            <div class="location-text">Agrony 14, Londoni Rd, Sylhet[cite: 1]</div>
                         </div>
                     </div>
                     <ul>
-                        <li>Handled all cash transactions, daily cash checking, and bank-related transactions.</li>
-                        <li>Prepared daily payment vouchers, party payments, and receipt vouchers.</li>
-                        <li>Researched and maintained comprehensive tax and financial records for clients.</li>
-                        <li>Assessed financial information and made recommendations to fix identified risks.</li>
+                        <li>Handled all cash transactions, daily cash checking, and bank-related transactions.[cite: 1]</li>
+                        <li>Prepared daily payment vouchers, party payments, and receipt vouchers.[cite: 1]</li>
+                        <li>Researched and maintained comprehensive tax and financial records for clients.[cite: 1]</li>
+                        <li>Assessed financial information and made recommendations to fix identified risks.[cite: 1]</li>
                     </ul>
-                </div>
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <div>
-                            <span class="job-title">Accountant</span><br>
-                            <span class="company-name">AIMS Academy</span>
-                        </div>
-                        <div>
-                            <div class="duration">February 2023 - September 2023</div>
-                            <div class="location-text">Sylhet, Bangladesh</div>
-                        </div>
-                    </div>
-                    <p style="color: #cbd5e1; padding-left: 22px; font-size: 0.98rem;">Served as Accountant for AIMS English, AIMS Academy, and AIMS Education.</p>
-                </div>
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <div>
-                            <span class="job-title">Service Desk Assistant</span><br>
-                            <span class="company-name">Anandaniketan School</span>
-                        </div>
-                        <div>
-                            <div class="duration">October 2021 - February 2023</div>
-                            <div class="location-text">Sylhet, Bangladesh</div>
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -412,31 +447,17 @@
                 <h2>Education</h2>
                 <div class="edu-item">
                     <div class="edu-header">
-                        <span class="job-title">Master of Business Administration (MBA), Accounting</span>
-                        <span class="duration">2020 - 2021</span>
+                        <span class="job-title">Master of Business Administration (MBA), Accounting[cite: 1]</span>
+                        <span class="duration">2020 - 2021[cite: 1]</span>
                     </div>
-                    <p class="company-name">National University, Bangladesh</p>
+                    <p class="company-name">National University, Bangladesh[cite: 1]</p>
                 </div>
                 <div class="edu-item">
                     <div class="edu-header">
-                        <span class="job-title">Bachelor of Business Administration (BBA), Accounting</span>
-                        <span class="duration">2015 - 2020</span>
+                        <span class="job-title">Bachelor of Business Administration (BBA), Accounting[cite: 1]</span>
+                        <span class="duration">2015 - 2020[cite: 1]</span>
                     </div>
-                    <p class="company-name">National University, Bangladesh</p>
-                </div>
-                <div class="edu-item">
-                    <div class="edu-header">
-                        <span class="job-title">Higher Secondary School Certificate, Business Studies</span>
-                        <span class="duration">2013 - 2015</span>
-                    </div>
-                    <p class="company-name">Sylhet Commerce College</p>
-                </div>
-                <div class="edu-item">
-                    <div class="edu-header">
-                        <span class="job-title">Secondary School Certificate, Science</span>
-                        <span class="duration">2007 - 2013</span>
-                    </div>
-                    <p class="company-name">Police Line High School, Sylhet</p>
+                    <p class="company-name">National University, Bangladesh[cite: 1]</p>
                 </div>
             </section>
 
@@ -444,11 +465,9 @@
             <section class="animate__animated animate__fadeInUp">
                 <h2>Certifications</h2>
                 <div class="grid-3">
-                    <div class="card-item"><h3>Xero Advisor Certified</h3></div>
-                    <div class="card-item"><h3>TDS & VDS Management</h3></div>
-                    <div class="card-item"><h3>Bangladesh Labour Act</h3></div>
-                    <div class="card-item"><h3>UK Agent & Counsellor Training</h3></div>
-                    <div class="card-item"><h3>Critical Thinking</h3></div>
+                    <div class="card-item"><h3>Xero Advisor Certified[cite: 1]</h3></div>
+                    <div class="card-item"><h3>TDS & VDS Management[cite: 1]</h3></div>
+                    <div class="card-item"><h3>Bangladesh Labour Act[cite: 1]</h3></div>
                 </div>
             </section>
 
@@ -478,7 +497,7 @@
             loop: true
         });
 
-        // Soft Ambient Particles
+        // Ambient Particles
         particlesJS('particles-js', {
             "particles": {
                 "number": { "value": 40, "density": { "enable": true, "value_area": 1000 } },
@@ -490,6 +509,44 @@
                 "move": { "enable": true, "speed": 0.8, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
             }
         });
+
+        // Motion Calculator Logic
+        function calculateTax() {
+            let income = parseFloat(document.getElementById('income').value);
+            let tax = 0;
+            let resultBox = document.getElementById('resultBox');
+            let taxResult = document.getElementById('taxResult');
+            
+            if (isNaN(income) || income <= 0) {
+                alert("Please enter a valid income amount.");
+                return;
+            }
+
+            // General slab calculation logic example
+            let taxable = income - 350000; // General exemption limit basic threshold
+            if (taxable > 0) {
+                if (taxable <= 100000) tax += taxable * 0.05;
+                else {
+                    tax += 100000 * 0.05;
+                    taxable -= 100000;
+                    if (taxable <= 300000) tax += taxable * 0.10;
+                    else {
+                        tax += 300000 * 0.10;
+                        taxable -= 300000;
+                        if (taxable <= 400000) tax += taxable * 0.15;
+                        else {
+                            tax += 400000 * 0.15;
+                            taxable -= 400000;
+                            tax += taxable * 0.20;
+                        }
+                    }
+                }
+            }
+
+            // Trigger instant motion appearance
+            resultBox.style.display = "block";
+            taxResult.innerText = Math.round(tax).toLocaleString('en-IN') + " BDT";
+        }
     </script>
 </body>
 </html>
