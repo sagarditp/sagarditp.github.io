@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Corporation Tax Calculator | SAGAR DAS, ITP & Financial Advisor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050a14;--bg2:#0a1221;--bg3:#0f1a2e;
+  --accent:#00d4aa;--accent2:#00b894;--accent3:#00e6c3;
+  --accent-glow:rgba(0,212,170,.15);
+  --text:#8b9cb8;--textl:#e1e7f0;--white:#ffffff;
+  --card:rgba(15,26,46,.85);
+  --border:rgba(0,212,170,.12);--border2:rgba(0,212,170,.25);
+  --red:#ff6b6b;--orange:#ffa94d;--purple:#b197fc;--blue:#74c0fc;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* NAVIGATION */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(5,10,20,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);letter-spacing:-.5px}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center}
+.nav-links a{color:var(--textl);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.5px;transition:all .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+
+/* DROPDOWN MENU CSS */
+.dropdown { position: relative; }
+.nav-drop-btn { background: transparent; border: none; font-family: inherit; font-size: .8rem; font-weight: 500; color: var(--textl); cursor: pointer; display: flex; align-items: center; gap: 4px; transition: color .3s; padding: 0; letter-spacing: .5px; outline: none; }
+.nav-drop-btn:hover { color: var(--accent); }
+.dropdown-menu { display: none; position: absolute; top: calc(100% + 15px); left: 0; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: .5rem 0; min-width: 220px; box-shadow: 0 10px 40px rgba(0,0,0,.6); flex-direction: column; gap: 0; }
+.dropdown-menu::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; } 
+.dropdown-menu li { width: 100%; list-style: none; }
+.dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu { display: flex; animation: slideUp .3s ease forwards; }
+.nav-links .dropdown-menu a { display: block; padding: .6rem 1.2rem; font-size: .8rem; color: var(--text); transition: all .2s; }
+.nav-links .dropdown-menu a::after { display: none; }
+.nav-links .dropdown-menu a:hover { color: var(--accent); background: var(--accent-glow); padding-left: 1.5rem; }
+.dd-icon { transition: transform .3s; }
+.dropdown:hover .dd-icon, .dropdown.open .dd-icon { transform: rotate(180deg); }
+
+.ham{display:none;flex-direction:column;gap:6px;cursor:pointer;padding:5px}
+.ham span{width:24px;height:2px;background:var(--accent);border-radius:2px;transition:all .3s}
+#mob{display:none;position:fixed;top:65px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);z-index:199;padding:1.5rem 2rem;max-height:calc(100vh - 65px);overflow-y:auto}
+#mob.open{display:block}
+#mob ul{list-style:none;display:flex;flex-direction:column;gap:1rem}
+#mob a{color:var(--textl);text-decoration:none;font-size:.95rem;transition:color .3s}
+#mob a:hover{color:var(--accent)}
+
+/* MOBILE DROPDOWN STYLES */
+details summary { list-style: none; cursor: pointer; color: var(--textl); font-size: .95rem; font-weight: 500; transition: color .3s; display: flex; justify-content: space-between; align-items: center; }
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: '▾'; transition: transform 0.3s; color: var(--text); }
+details[open] summary::after { transform: rotate(180deg); color: var(--accent); }
+details summary:hover { color: var(--accent); }
+details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
+.mob-sub { padding-left: 1rem; border-left: 1px dashed var(--border); margin-left: 0.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:1150px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  .ham{display:flex}
+}
+
+/* PAGE */
+.page{padding:6.5rem 2rem 3rem;max-width:1200px;margin:0 auto}
+.page-hero{margin-bottom:2rem}
+.page-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent-glow);border:1px solid var(--border2);border-radius:50px;padding:.35rem .9rem;font-size:.72rem;color:var(--accent);font-weight:600;margin-bottom:1rem}
+.page-title{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--white);margin-bottom:.5rem;letter-spacing:-.5px}
+.page-title span{color:var(--accent)}
+.page-sub{font-size:.88rem;color:var(--text);line-height:1.7;max-width:840px}
+.page-sub a{color:var(--accent);text-decoration:none}
+.page-sub a:hover{text-decoration:underline}
+
+/* TABS */
+.main-tabs{display:flex;gap:.5rem;margin:1.3rem 0 2rem;background:var(--bg2);border-radius:12px;padding:.4rem;border:1px solid var(--border)}
+.main-tab{flex:1;text-align:center;padding:.6rem .5rem;font-size:.82rem;border-radius:9px;cursor:pointer;color:var(--text);transition:all .25s;border:none;background:transparent;font-family:'Inter',sans-serif;font-weight:500}
+.main-tab.active{background:var(--accent);color:var(--bg);font-weight:700}
+.main-tab:hover:not(.active){color:var(--accent)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* LAYOUT */
+.calc-layout{display:grid;grid-template-columns:1fr 420px;gap:2rem;align-items:start}
+@media(max-width:1000px){.calc-layout{grid-template-columns:1fr}}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.6rem 1.8rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent3))}
+.card-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem}
+.card-title span{font-size:1.2rem}
+.card-title small{font-size:.72rem;color:var(--text);font-weight:400;margin-left:.3rem}
+
+/* FORM */
+.form-section{margin-bottom:1.4rem;padding-bottom:1.4rem;border-bottom:1px solid var(--border)}
+.form-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.form-section-label{font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.9rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.form-grid.col3{grid-template-columns:1fr 1fr 1fr}
+.form-grid.col1{grid-template-columns:1fr}
+@media(max-width:600px){.form-grid,.form-grid.col3{grid-template-columns:1fr}}
+
+.form-field{display:flex;flex-direction:column;gap:.3rem}
+.form-label{font-size:.78rem;color:var(--textl);font-weight:500}
+.form-label .hint{font-size:.7rem;color:var(--text);font-weight:400;display:block;margin-top:.1rem}
+.form-input,.form-select{padding:.6rem .85rem;border-radius:9px;border:1px solid var(--border2);background:var(--bg3);color:var(--textl);font-size:.85rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+.form-input:focus,.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,.12)}
+.form-input[type=number]::-webkit-inner-spin-button,
+.form-input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+.form-input[type=number]{-moz-appearance:textfield}
+
+.input-prefix-wrap{position:relative}
+.input-prefix{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:.85rem;color:var(--text);pointer-events:none}
+.input-prefix-wrap .form-input{padding-left:1.8rem}
+
+/* RATE SELECTOR */
+.rate-band-display{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-top:.5rem}
+.rate-band-box{border-radius:12px;padding:.85rem .8rem;text-align:center;border:2px solid transparent;transition:all .3s;cursor:default}
+.rate-band-box.small{background:rgba(0,212,170,.08);border-color:rgba(0,212,170,.2)}
+.rate-band-box.marginal{background:rgba(255,169,77,.08);border-color:rgba(255,169,77,.2)}
+.rate-band-box.main{background:rgba(255,107,107,.08);border-color:rgba(255,107,107,.2)}
+.rate-band-box.active-band{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,212,170,.2)}
+.rate-band-box.active-band.marginal{border-color:var(--orange);box-shadow:0 6px 20px rgba(255,169,77,.2)}
+.rate-band-box.active-band.main{border-color:var(--red);box-shadow:0 6px 20px rgba(255,107,107,.2)}
+.rate-band-label{font-size:.65rem;color:var(--text);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.8px}
+.rate-band-pct{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700}
+.rate-band-box.small .rate-band-pct{color:var(--accent)}
+.rate-band-box.marginal .rate-band-pct{color:var(--orange)}
+.rate-band-box.main .rate-band-pct{color:var(--red)}
+.rate-band-range{font-size:.65rem;margin-top:.25rem}
+.rate-band-box.small .rate-band-range{color:var(--accent);opacity:.7}
+.rate-band-box.marginal .rate-band-range{color:var(--orange);opacity:.7}
+.rate-band-box.main .rate-band-range{color:var(--red);opacity:.7}
+
+/* CT PROGRESS BAR */
+.ct-bar-track{height:14px;background:var(--bg3);border-radius:99px;overflow:hidden;border:1px solid var(--border);position:relative;margin:.5rem 0}
+.ct-bar-fill{height:100%;border-radius:99px;transition:width .5s ease,background .4s;min-width:2px}
+.ct-bar-fill.small{background:linear-gradient(90deg,var(--accent2),var(--accent))}
+.ct-bar-fill.marginal{background:linear-gradient(90deg,var(--orange),#ffda4d)}
+.ct-bar-fill.main{background:linear-gradient(90deg,var(--red),#ff9f43)}
+.ct-bar-markers{position:relative;height:0}
+.ct-bar-marker{position:absolute;bottom:7px;width:2px;height:14px;background:rgba(255,255,255,.3);border-radius:1px}
+
+/* CALC BUTTONS */
+.calc-btn{width:100%;padding:.85rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg);font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;margin-top:.5rem;letter-spacing:.3px}
+.calc-btn:hover{background:linear-gradient(135deg,var(--accent3),var(--accent));transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,212,170,.3)}
+.calc-btn:active{transform:translateY(0)}
+.reset-btn{width:100%;padding:.65rem;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:.8rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;margin-top:.6rem}
+.reset-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* RESULTS */
+.results-sticky{position:sticky;top:5.5rem}
+.result-card{background:var(--card);border:2px solid var(--accent);border-radius:20px;overflow:hidden}
+.result-header{background:linear-gradient(135deg,rgba(0,212,170,.12),rgba(0,212,170,.04));padding:1.3rem 1.5rem;border-bottom:1px solid var(--border2)}
+.result-header-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.result-header-sub{font-size:.75rem;color:var(--accent)}
+.result-body{padding:1.3rem 1.5rem;max-height:90vh;overflow-y:auto}
+.result-body::-webkit-scrollbar{width:4px}
+.result-body::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+
+.dual-hero{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.dual-hero-box{text-align:center;background:var(--bg2);border-radius:12px;padding:.8rem .5rem;border:1px solid var(--border)}
+.dual-hero-label{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--text);margin-bottom:.25rem}
+.dual-hero-value{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;line-height:1}
+.dual-hero-value.green{color:var(--accent)}
+.dual-hero-value.orange{color:var(--orange)}
+.dual-hero-value.red{color:var(--red)}
+.dual-hero-value.purple{color:var(--purple)}
+
+.result-hero{text-align:center;padding:1rem 0 1.2rem;border-bottom:1px solid var(--border);margin-bottom:1.1rem}
+.result-hero-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text);margin-bottom:.3rem}
+.result-hero-value{font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;color:var(--accent);line-height:1}
+.result-hero-sub{font-size:.75rem;color:var(--text);margin-top:.4rem}
+
+.result-section-title{font-size:.67rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin:1rem 0 .45rem;padding-bottom:.3rem;border-bottom:1px solid var(--border)}
+.result-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid rgba(0,212,170,.05)}
+.result-row:last-child{border-bottom:none}
+.result-row.total{padding-top:.7rem;margin-top:.3rem;border-top:2px solid var(--border2);border-bottom:none}
+.result-label{font-size:.78rem;color:var(--text);flex:1;line-height:1.4;padding-right:.5rem}
+.result-label small{display:block;font-size:.67rem;color:var(--text);opacity:.7;margin-top:.1rem}
+.result-value{font-size:.82rem;color:var(--textl);font-weight:600;text-align:right;white-space:nowrap}
+.result-row.total .result-label{color:var(--textl);font-weight:700;font-size:.85rem}
+.result-row.total .result-value{color:var(--accent);font-size:.9rem}
+.result-row.negative .result-value{color:var(--red)}
+.result-row.highlight .result-value{color:var(--accent)}
+.result-row.orange .result-value{color:var(--orange)}
+
+.breakdown-box{background:rgba(0,212,170,.04);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;margin:.4rem 0}
+.breakdown-row{display:flex;justify-content:space-between;align-items:center;font-size:.76rem;padding:.28rem 0;border-bottom:1px solid rgba(0,212,170,.06)}
+.breakdown-row:last-child{border-bottom:none}
+.breakdown-row span:first-child{color:var(--text)}
+.breakdown-row span:last-child{color:var(--textl);font-weight:600}
+.breakdown-row.hl span:last-child{color:var(--accent)}
+.breakdown-row.orange span:last-child{color:var(--orange)}
+.breakdown-row.red span:last-child{color:var(--red)}
+
+.info-box{border-radius:12px;padding:.9rem 1.1rem;font-size:.8rem;line-height:1.6;margin-top:.8rem}
+.info-box.blue{background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.2);color:var(--textl)}
+.info-box.yellow{background:rgba(255,169,77,.06);border:1px solid rgba(255,169,77,.2);color:#ffa94d}
+.info-box.red{background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.2);color:#ff6b6b}
+.info-box.purple{background:rgba(177,151,252,.06);border:1px solid rgba(177,151,252,.2);color:#b197fc}
+.info-box strong{display:block;margin-bottom:.3rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.8px}
+.info-box a{color:inherit;text-decoration:underline}
+
+.band-table{width:100%;border-collapse:collapse;font-size:.77rem;margin-top:.4rem}
+.band-table th{text-align:left;color:var(--accent);font-size:.68rem;text-transform:uppercase;letter-spacing:.8px;padding:.35rem .5rem;border-bottom:1px solid var(--border2)}
+.band-table td{padding:.45rem .5rem;border-bottom:1px solid rgba(0,212,170,.05);color:var(--textl);vertical-align:top}
+.band-table tr:last-child td{border-bottom:none}
+.band-table .hl{color:var(--accent);font-weight:600}
+.band-table .dim{color:var(--text)}
+.band-table .orange{color:var(--orange);font-weight:600}
+.band-table .red{color:var(--red);font-weight:600}
+
+.empty-state{text-align:center;padding:2.5rem 1rem}
+.empty-state-icon{font-size:2.5rem;margin-bottom:.8rem}
+.empty-state-text{font-size:.84rem;color:var(--text);line-height:1.7}
+
+.disclaimer{background:rgba(255,169,77,.05);border:1px solid rgba(255,169,77,.15);border-radius:12px;padding:1rem 1.2rem;font-size:.75rem;color:var(--text);line-height:1.6;margin-top:1.5rem}
+.disclaimer strong{color:#ffa94d}
+.disclaimer a{color:#ffa94d}
+
+/* BAND INDICATOR */
+.band-indicator{display:inline-flex;align-items:center;gap:.5rem;border-radius:8px;padding:.35rem .85rem;font-size:.78rem;font-weight:700}
+.band-indicator.small{background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.3);color:var(--accent)}
+.band-indicator.marginal{background:rgba(255,169,77,.1);border:1px solid rgba(255,169,77,.3);color:var(--orange)}
+.band-indicator.main{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);color:var(--red)}
+
+/* YEAR SELECTOR TABS */
+.year-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
+.year-tab{padding:.38rem .85rem;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--textl);font-size:.77rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.year-tab.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:700}
+.year-tab:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+
+.page-footer{text-align:center;padding:2rem 2rem 1rem;font-size:.73rem;color:var(--text);opacity:.6;border-top:1px solid var(--border);margin-top:2rem}
+
+@media(max-width:700px){
+  .page{padding:6rem 1.2rem 2.5rem}
+  .page-title{font-size:1.6rem}
+  .card{padding:1.2rem 1.3rem}
+  .main-tabs{flex-direction:column}
+  .rate-band-display{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">SAGAR DAS <span> | ITP & Financial Advisor</span></div>
+  <ul class="nav-links">
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../index.html#experience">Experience</a></li>
+                <li><a href="../index.html#education">Education</a></li>
+                <li><a href="../index.html#certifications">Certifications</a></li>
+                <li><a href="../index.html#recommendations">Recommendations</a></li>
+                <li><a href="../dashboard.html">Dashboards</a></li>
+
+                <li class="dropdown" id="hmrcDropdown">
+                    <button type="button" class="nav-drop-btn" aria-expanded="false">HMRC Calculators <span class="dd-icon">▾</span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="calc-dividend-tax.html">Dividend Tax</a></li>
+                        <li><a href="calc-income-tax.html">Income Tax</a></li>
+                        <li><a href="calc-ni.html">National Insurance</a></li>
+                        <li><a href="calc-self-assessment.html">Self Assessment</a></li>
+                        <li><a href="calc-self-assessment-summary.html">Self Assessment Summary</a></li>
+                        <li><a href="calc-vat-reg.html">VAT Registration</a></li>
+                        <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
+                        <li><a href="calc-ct.html">Corporation Tax</a></li>
+                        <li><a href="calc-vat.html">VAT</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown" id="nbrDropdown">
+                    <button type="button" class="nav-drop-btn" aria-expanded="false">NBR Calculators <span class="dd-icon">▾</span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="../nbr_calculators/calc-bd-vds-tds-engine.html">BD VDS TDS Engine</a></li>
+                        <li><a href="../nbr_calculators/calc-nbr.html">NBR Calculator</a></li>
+                        <li><a href="../nbr_calculators/calculator.html">Calculator</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="../index.html#footer">Contact</a></li>
+            </ul>
+  <div class="ham" id="ham"><span></span><span></span><span></span></div>
+</nav>
+
+<div id="mob" class="mob">
+        <ul>
+            <li><a href="../index.html#skills">Skills</a></li>
+            <li><a href="../index.html#experience">Experience</a></li>
+            <li><a href="../index.html#education">Education</a></li>
+            <li><a href="../index.html#certifications">Certifications</a></li>
+            <li><a href="../index.html#recommendations">Recommendations</a></li>
+            <li><a href="../dashboard.html">Dashboards</a></li>
+
+            <li>
+                <details>
+                    <summary>HMRC Calculators</summary>
+                    <ul class="mob-sub">
+                        <li><a href="calc-dividend-tax.html">Dividend Tax</a></li>
+                        <li><a href="calc-income-tax.html">Income Tax</a></li>
+                        <li><a href="calc-ni.html">National Insurance</a></li>
+                        <li><a href="calc-self-assessment.html">Self Assessment</a></li>
+                        <li><a href="calc-self-assessment-summary.html">Self Assessment Summary</a></li>
+                        <li><a href="calc-vat-reg.html">VAT Registration</a></li>
+                        <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
+                        <li><a href="calc-ct.html">Corporation Tax</a></li>
+                        <li><a href="calc-vat.html">VAT</a></li>
+                    </ul>
+                </details>
+            </li>
+
+            <li>
+                <details>
+                    <summary>NBR Calculators</summary>
+                    <ul class="mob-sub">
+                        <li><a href="../nbr_calculators/calc-bd-vds-tds-engine.html">BD VDS TDS Engine</a></li>
+                        <li><a href="../nbr_calculators/calc-nbr.html">NBR Calculator</a></li>
+                        <li><a href="../nbr_calculators/calculator.html">Calculator</a></li>
+                    </ul>
+                </details>
+            </li>
+
+            <li><a href="../index.html#footer">Contact</a></li>
+        </ul>
+    </div>
+
+<div class="page">
+  <div class="page-hero">
+    <div class="page-badge">🏢 Corporation Tax · 2025/26</div>
+    <h1 class="page-title">Corporation Tax <span>Calculator</span></h1>
+    <p class="page-sub">
+      Calculate UK Corporation Tax for limited companies: small profits rate (19%), main rate (25%), marginal relief (3/200 fraction), associated companies, short accounting periods, and profit extraction planning.
+      Official references: <a href="https://www.gov.uk/guidance/corporation-tax-marginal-relief" target="_blank">Marginal Relief – GOV.UK →</a>
+      &nbsp;|&nbsp; <a href="https://www.gov.uk/government/publications/rates-and-allowances-corporation-tax/rates-and-allowances-corporation-tax" target="_blank">CT Rates & Allowances →</a>
+    </p>
+  </div>
+
+  <!-- MAIN TABS -->
+  <div class="main-tabs">
+    <button class="main-tab active" onclick="switchTab('tab_ct',this)">🏢 CT Calculation</button>
+    <button class="main-tab" onclick="switchTab('tab_marginal',this)">📐 Marginal Relief Detail</button>
+    <button class="main-tab" onclick="switchTab('tab_planning',this)">💡 Profit Extraction Planning</button>
+    <button class="main-tab" onclick="switchTab('tab_ref',this)">📋 Reference & Rates</button>
+  </div>
+
+  <!-- ═══════════════════════ TAB 1: MAIN CT CALC ═══════════════════════ -->
+  <div id="tab_ct" class="tab-panel active">
+    <div class="calc-layout">
+      <div>
+
+        <!-- PROFIT INPUTS -->
+        <div class="card">
+          <div class="card-title"><span>💰</span> Profit & Income Details</div>
+
+          <div class="form-section">
+            <div class="form-section-label">Trading Profit / Loss</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Trading profit (before adjustments)
+                  <span class="hint">Net profit per accounts — before CT adjustments</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="ct_trading" class="form-input" placeholder="0.00" oninput="ctLiveUpdate()">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Non-trading income (chargeable)
+                  <span class="hint">Rental income, interest received, etc.</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="ct_nontrading" class="form-input" placeholder="0.00" oninput="ctLiveUpdate()">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Capital gains (chargeable)
+                  <span class="hint">Gains on disposal of chargeable assets</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="ct_gains" class="form-input" placeholder="0.00" oninput="ctLiveUpdate()">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Franked investment income (FII)
+                  <span class="hint">Dividends from non-group UK companies — affects augmented profits only</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="ct_fii" class="form-input" placeholder="0.00" oninput="ctLiveUpdate()">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">Deductions & Reliefs</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Qualifying deductions (£)
+                  <span class="hint">Disallowable expenses already added back via CT600 adjustments</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="ct_deductions" class="form-input" placeholder="0.00" oninput="ctLiveUpdate()">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Losses brought forward (£)
+                  <span class="hint">Unutilised trading losses from prior years</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="ct_losses" class="form-input" placeholder="0.00" oninput="ctLiveUpdate()">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">R&D enhanced deduction (£)
+                  <span class="hint">SME or large company R&D relief — enter the additional deduction amount</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="ct_rd" class="form-input" placeholder="0.00" oninput="ctLiveUpdate()">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Other reliefs / allowances (£)
+                  <span class="hint">Capital allowances add-back, patent box, etc.</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="ct_other_rel" class="form-input" placeholder="0.00" oninput="ctLiveUpdate()">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">Company & Period Details</div>
+            <div class="form-grid col3">
+              <div class="form-field">
+                <label class="form-label">Accounting period length (months)
+                  <span class="hint">Enter actual length — thresholds are pro-rated if &lt;12</span>
+                </label>
+                <input type="number" id="ct_period" class="form-input" value="12" min="1" max="12" oninput="ctLiveUpdate()">
+              </div>
+              <div class="form-field">
+                <label class="form-label">Number of associated companies
+                  <span class="hint">Total inc. this company — divides £50k/£250k limits</span>
+                </label>
+                <input type="number" id="ct_assoc" class="form-input" value="1" min="1" oninput="ctLiveUpdate()">
+              </div>
+              <div class="form-field">
+                <label class="form-label">Tax year (financial year)</label>
+                <select id="ct_year" class="form-select">
+                  <option value="2526">2025/26 (FY2025)</option>
+                  <option value="2425">2024/25 (FY2024)</option>
+                  <option value="2324">2023/24 (FY2023)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- LIVE BAND DISPLAY -->
+          <div class="form-section">
+            <div class="form-section-label">Rate band (live)</div>
+            <div class="rate-band-display">
+              <div class="rate-band-box small" id="band_small">
+                <div class="rate-band-label">Small Profits</div>
+                <div class="rate-band-pct">19%</div>
+                <div class="rate-band-range">Up to £50,000*</div>
+              </div>
+              <div class="rate-band-box marginal" id="band_marginal">
+                <div class="rate-band-label">Marginal Relief</div>
+                <div class="rate-band-pct">19–25%</div>
+                <div class="rate-band-range">£50k – £250k*</div>
+              </div>
+              <div class="rate-band-box main" id="band_main">
+                <div class="rate-band-label">Main Rate</div>
+                <div class="rate-band-pct">25%</div>
+                <div class="rate-band-range">Over £250,000*</div>
+              </div>
+            </div>
+            <p style="font-size:.68rem;color:var(--text);margin-top:.5rem">* Limits are pro-rated for period &lt;12 months and divided by number of associated companies.</p>
+
+            <!-- CT PROGRESS BAR -->
+            <div style="margin-top:.8rem">
+              <div style="display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:.3rem">
+                <span id="ct_bar_label" style="color:var(--textl);font-weight:600">Taxable profits: £0</span>
+                <span style="color:var(--text)">Adjusted limits shown above</span>
+              </div>
+              <div style="position:relative">
+                <div class="ct-bar-track">
+                  <div class="ct-bar-fill small" id="ct_bar_fill" style="width:0%"></div>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:.66rem;color:var(--text);margin-top:.25rem">
+                <span>£0</span>
+                <span id="ct_bar_lbl_lower">£50,000</span>
+                <span id="ct_bar_lbl_upper">£250,000</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <button class="calc-btn" onclick="calcCT()">🏢 Calculate Corporation Tax</button>
+        <button class="reset-btn" onclick="resetCT()">↺ Reset</button>
+
+        <div class="disclaimer" style="margin-top:1.5rem">
+          <strong>⚠️ Disclaimer</strong>
+          This is an estimate. Actual CT liability requires a full CT600 return including all adjustments, capital allowances, group relief, and HMRC self-assessment.
+          <a href="https://www.gov.uk/prepare-file-annual-tax-return-corporation-tax" target="_blank">CT600 filing – GOV.UK →</a>
+        </div>
+      </div>
+
+      <!-- CT RESULTS PANEL -->
+      <div class="results-sticky">
+        <div class="result-card">
+          <div class="result-header">
+            <div class="result-header-title">🏢 Corporation Tax Result</div>
+            <div class="result-header-sub" id="ct_res_sub">2025/26 · 12-month period</div>
+          </div>
+          <div class="result-body">
+            <div id="ct_empty" class="empty-state">
+              <div class="empty-state-icon">🏢</div>
+              <div class="empty-state-text">Enter profit figures and click <strong style="color:var(--accent)">Calculate Corporation Tax</strong>.</div>
+            </div>
+            <div id="ct_content" style="display:none">
+
+              <!-- Band indicator -->
+              <div style="margin-bottom:1rem">
+                <div class="band-indicator" id="ct_band_badge">✅ Small Profits Rate — 19%</div>
+              </div>
+
+              <!-- DUAL HERO -->
+              <div class="dual-hero">
+                <div class="dual-hero-box">
+                  <div class="dual-hero-label">CT Liability</div>
+                  <div class="dual-hero-value red" id="cth_ct">£0</div>
+                  <div style="font-size:.68rem;color:var(--text);margin-top:.3rem">due to HMRC</div>
+                </div>
+                <div class="dual-hero-box">
+                  <div class="dual-hero-label">Effective Rate</div>
+                  <div class="dual-hero-value orange" id="cth_rate">0%</div>
+                  <div style="font-size:.68rem;color:var(--text);margin-top:.3rem">on taxable profits</div>
+                </div>
+              </div>
+
+              <!-- PROFITS COMPUTATION -->
+              <div class="result-section-title">Profits Computation</div>
+              <div class="result-row">
+                <div class="result-label">Trading profit</div>
+                <div class="result-value" id="ctr_trading">£0</div>
+              </div>
+              <div class="result-row" id="ctr_nontrading_row" style="display:none">
+                <div class="result-label">Non-trading income</div>
+                <div class="result-value" id="ctr_nontrading">£0</div>
+              </div>
+              <div class="result-row" id="ctr_gains_row" style="display:none">
+                <div class="result-label">Capital gains</div>
+                <div class="result-value" id="ctr_gains">£0</div>
+              </div>
+              <div class="result-row" id="ctr_deduct_row" style="display:none">
+                <div class="result-label negative">Less: qualifying deductions</div>
+                <div class="result-value" id="ctr_deduct" style="color:var(--red)">–£0</div>
+              </div>
+              <div class="result-row" id="ctr_losses_row" style="display:none">
+                <div class="result-label negative">Less: losses b/f</div>
+                <div class="result-value" id="ctr_losses" style="color:var(--red)">–£0</div>
+              </div>
+              <div class="result-row" id="ctr_rd_row" style="display:none">
+                <div class="result-label negative">Less: R&D relief</div>
+                <div class="result-value" id="ctr_rd" style="color:var(--red)">–£0</div>
+              </div>
+              <div class="result-row" id="ctr_other_row" style="display:none">
+                <div class="result-label negative">Less: other reliefs</div>
+                <div class="result-value" id="ctr_other" style="color:var(--red)">–£0</div>
+              </div>
+              <div class="result-row total">
+                <div class="result-label">Taxable total profits (TTP)</div>
+                <div class="result-value" id="ctr_ttp">£0</div>
+              </div>
+
+              <!-- AUGMENTED PROFITS -->
+              <div class="result-section-title">Augmented Profits (for threshold test)</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row"><span>Taxable total profits (TTP)</span><span id="ctr_aug_ttp">£0</span></div>
+                <div class="breakdown-row" id="ctr_fii_row"><span>Add: FII</span><span id="ctr_aug_fii">£0</span></div>
+                <div class="breakdown-row hl"><span>Augmented profits</span><span id="ctr_aug_total">£0</span></div>
+              </div>
+
+              <!-- THRESHOLD LIMITS -->
+              <div class="result-section-title">Adjusted Thresholds</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row"><span>Period (months)</span><span id="ctr_period_out">12</span></div>
+                <div class="breakdown-row"><span>Associated companies</span><span id="ctr_assoc_out">1</span></div>
+                <div class="breakdown-row hl"><span>Adjusted lower limit</span><span id="ctr_lower_lim">£50,000</span></div>
+                <div class="breakdown-row hl"><span>Adjusted upper limit</span><span id="ctr_upper_lim">£250,000</span></div>
+              </div>
+
+              <!-- CT CALCULATION -->
+              <div class="result-section-title">CT Calculation</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row"><span>CT at headline rate</span><span id="ctr_ct_gross">£0</span></div>
+                <div class="breakdown-row" id="ctr_mr_row" style="display:none">
+                  <span>Less: marginal relief (3/200)</span>
+                  <span id="ctr_mr_val" style="color:var(--accent)">–£0</span>
+                </div>
+                <div class="breakdown-row red"><span>CT liability</span><span id="ctr_ct_net">£0</span></div>
+              </div>
+
+              <!-- MARGINAL RELIEF FORMULA -->
+              <div id="ctr_formula_section" style="display:none">
+                <div class="result-section-title">Marginal Relief Formula</div>
+                <div class="info-box blue" style="margin-top:0">
+                  <strong>3/200 × (Upper Limit – Augmented Profits) × (TTP ÷ Augmented Profits)</strong>
+                  <div id="ctr_formula_detail" style="margin-top:.5rem;font-size:.78rem;line-height:1.7;color:var(--textl)"></div>
+                </div>
+              </div>
+
+              <!-- SUMMARY -->
+              <div class="result-section-title">Profit After Tax</div>
+              <div class="result-row">
+                <div class="result-label">Taxable total profits</div>
+                <div class="result-value" id="ctr_pat_ttp">£0</div>
+              </div>
+              <div class="result-row">
+                <div class="result-label negative">Corporation Tax</div>
+                <div class="result-value" id="ctr_pat_ct" style="color:var(--red)">–£0</div>
+              </div>
+              <div class="result-row total">
+                <div class="result-label">Profit after CT</div>
+                <div class="result-value" id="ctr_pat">£0</div>
+              </div>
+
+              <!-- EFFECTIVE RATES -->
+              <div class="result-section-title">Effective Rates</div>
+              <div class="result-row highlight">
+                <div class="result-label">Effective CT rate (CT ÷ TTP)</div>
+                <div class="result-value" id="ctr_eff_rate">0%</div>
+              </div>
+              <div class="result-row highlight">
+                <div class="result-label">Marginal rate on next £1 of profit</div>
+                <div class="result-value" id="ctr_marginal_next">—</div>
+              </div>
+              <div class="result-row highlight">
+                <div class="result-label">CT as % of accounting profit</div>
+                <div class="result-value" id="ctr_ct_pct_acc">0%</div>
+              </div>
+
+              <!-- PAYMENT DEADLINES -->
+              <div class="result-section-title">Payment Deadlines</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row"><span>Small / medium company</span><span style="color:var(--orange)">9 months + 1 day after AP end</span></div>
+                <div class="breakdown-row"><span>Large company (profits &gt; £1.5m)</span><span style="color:var(--orange)">Quarterly instalments</span></div>
+                <div class="breakdown-row"><span>Very large company (profits &gt; £20m)</span><span style="color:var(--orange)">Earlier quarterly instalments</span></div>
+                <div class="breakdown-row hl"><span>File CT600 by</span><span>12 months after AP end</span></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ TAB 2: MARGINAL RELIEF DETAIL ═══════════════════════ -->
+  <div id="tab_marginal" class="tab-panel">
+    <div class="calc-layout">
+      <div>
+        <div class="card">
+          <div class="card-title"><span>📐</span> Marginal Relief Deep Dive</div>
+
+          <div class="form-section">
+            <div class="form-section-label">Profit Scenarios</div>
+            <p style="font-size:.8rem;color:var(--text);margin-bottom:.9rem">Compare CT liability across a profit range, or check a single profit figure in detail.</p>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Taxable profits (£)</label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="mr_profit" class="form-input" placeholder="e.g. 120000">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">FII (augmented profits adjustment)</label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="mr_fii" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Associated companies (total inc. this)</label>
+                <input type="number" id="mr_assoc" class="form-input" value="1" min="1">
+              </div>
+              <div class="form-field">
+                <label class="form-label">Accounting period (months)</label>
+                <input type="number" id="mr_period" class="form-input" value="12" min="1" max="12">
+              </div>
+            </div>
+          </div>
+
+          <div class="info-box blue" style="margin-top:0">
+            <strong>Marginal Relief Formula (3/200 fraction)</strong>
+            CT = (Profits × 25%) – [3/200 × (Upper Limit – Augmented Profits) × (TTP ÷ Augmented Profits)]
+            <br><br>
+            The effective marginal rate within the band is <strong>26.5%</strong> — meaning each extra £1 of profit between £50k and £250k incurs 26.5p of tax (25p CT + 1.5p lost marginal relief). Above £250k, each extra £1 costs only 25p. This creates a tax "notch" — in practice, profits between £50k and £250k face a higher marginal rate than those above £250k.
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcMarginal()">📐 Calculate Marginal Relief Detail</button>
+        <button class="reset-btn" onclick="resetMarginal()">↺ Reset</button>
+
+        <!-- STEP TABLE -->
+        <div class="card" style="margin-top:1.5rem">
+          <div class="card-title"><span>📊</span> CT at Selected Profit Levels (single company, 12 months)</div>
+          <table class="band-table">
+            <thead>
+              <tr>
+                <th>Taxable Profits</th>
+                <th>Tax at 25%</th>
+                <th>Marginal Relief</th>
+                <th>CT Liability</th>
+                <th>Effective Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>£20,000</td><td>—</td><td>—</td><td class="hl">£3,800</td><td class="hl">19.0%</td></tr>
+              <tr><td>£50,000</td><td>—</td><td>—</td><td class="hl">£9,500</td><td class="hl">19.0%</td></tr>
+              <tr><td>£75,000</td><td>£18,750</td><td class="orange">–£2,625</td><td class="orange">£16,125</td><td class="orange">21.5%</td></tr>
+              <tr><td>£100,000</td><td>£25,000</td><td class="orange">–£2,250</td><td class="orange">£22,750</td><td class="orange">22.75%</td></tr>
+              <tr><td>£150,000</td><td>£37,500</td><td class="orange">–£1,500</td><td class="orange">£36,000</td><td class="orange">24.0%</td></tr>
+              <tr><td>£200,000</td><td>£50,000</td><td class="orange">–£750</td><td class="orange">£49,250</td><td class="orange">24.63%</td></tr>
+              <tr><td>£250,000</td><td>£62,500</td><td class="orange">–£0</td><td class="red">£62,500</td><td class="red">25.0%</td></tr>
+              <tr><td>£500,000</td><td>—</td><td>—</td><td class="red">£125,000</td><td class="red">25.0%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MARGINAL RESULTS -->
+      <div class="results-sticky">
+        <div class="result-card">
+          <div class="result-header">
+            <div class="result-header-title">📐 Marginal Relief Result</div>
+            <div class="result-header-sub" id="mr_res_sub">Step-by-step calculation</div>
+          </div>
+          <div class="result-body">
+            <div id="mr_empty" class="empty-state">
+              <div class="empty-state-icon">📐</div>
+              <div class="empty-state-text">Enter profits and click <strong style="color:var(--accent)">Calculate</strong>.</div>
+            </div>
+            <div id="mr_content" style="display:none">
+
+              <div class="result-hero">
+                <div class="result-hero-label">Corporation Tax Due</div>
+                <div class="result-hero-value" id="mrh_ct">£0</div>
+                <div class="result-hero-sub" id="mrh_sub">—</div>
+              </div>
+
+              <div class="result-section-title">Step-by-Step Working</div>
+              <div class="breakdown-box" id="mr_steps">
+              </div>
+
+              <div class="result-section-title">Key Figures</div>
+              <div class="result-row highlight">
+                <div class="result-label">Effective rate</div>
+                <div class="result-value" id="mrr_eff">0%</div>
+              </div>
+              <div class="result-row highlight">
+                <div class="result-label">Marginal relief claimed</div>
+                <div class="result-value" id="mrr_relief">£0</div>
+              </div>
+              <div class="result-row highlight">
+                <div class="result-label">Marginal rate on next £1</div>
+                <div class="result-value" id="mrr_marginal">—</div>
+              </div>
+              <div class="result-row">
+                <div class="result-label">Adjusted lower limit</div>
+                <div class="result-value" id="mrr_lower">£50,000</div>
+              </div>
+              <div class="result-row">
+                <div class="result-label">Adjusted upper limit</div>
+                <div class="result-value" id="mrr_upper">£250,000</div>
+              </div>
+              <div class="result-row">
+                <div class="result-label">Profit after CT</div>
+                <div class="result-value" id="mrr_pat">£0</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ TAB 3: PROFIT EXTRACTION ═══════════════════════ -->
+  <div id="tab_planning" class="tab-panel">
+    <div class="calc-layout">
+      <div>
+        <div class="card">
+          <div class="card-title"><span>💡</span> Profit Extraction Planning <small>— salary vs dividends</small></div>
+
+          <div class="info-box blue">
+            <strong>What this tool does</strong>
+            Models CT impact of paying salary vs dividends to the director/shareholder, including employer NI saving vs CT deductibility and the marginal relief effect.
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">Company Profit (before salary)</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Company profit before director salary (£)</label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="pe_profit" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Associated companies (total)</label>
+                <input type="number" id="pe_assoc" class="form-input" value="1" min="1">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">Director Extraction</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Director salary per year (£)
+                  <span class="hint">Deductible from CT profits (salary + Employer NI)</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="pe_salary" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Dividends paid from retained profit (£)
+                  <span class="hint">Not deductible for CT — paid from post-CT profit</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="pe_dividends" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Employer NI on salary (£)
+                  <span class="hint">Also CT deductible — 13.8% on salary above £9,100</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="pe_erni" class="form-input" placeholder="auto (13.8%)">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Auto-calculate Employer NI?</label>
+                <select id="pe_erni_auto" class="form-select">
+                  <option value="yes">Yes — calculate at 13.8%</option>
+                  <option value="no">No — use figure entered above</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <button class="calc-btn" onclick="calcPE()">💡 Run Extraction Analysis</button>
+        <button class="reset-btn" onclick="resetPE()">↺ Reset</button>
+      </div>
+
+      <!-- PE RESULTS -->
+      <div class="results-sticky">
+        <div class="result-card">
+          <div class="result-header">
+            <div class="result-header-title">💡 Extraction Analysis</div>
+            <div class="result-header-sub">CT impact of salary vs dividends</div>
+          </div>
+          <div class="result-body">
+            <div id="pe_empty" class="empty-state">
+              <div class="empty-state-icon">💡</div>
+              <div class="empty-state-text">Enter profit and extraction details and click <strong style="color:var(--accent)">Run Analysis</strong>.</div>
+            </div>
+            <div id="pe_content" style="display:none">
+
+              <div class="result-section-title">Without Salary (dividends only)</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row"><span>Gross company profit</span><span id="pe_no_sal_gross">£0</span></div>
+                <div class="breakdown-row red"><span>CT on full profit</span><span id="pe_no_sal_ct">£0</span></div>
+                <div class="breakdown-row hl"><span>Post-CT distributable profit</span><span id="pe_no_sal_pat">£0</span></div>
+              </div>
+
+              <div class="result-section-title">With Salary + Employer NI</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row"><span>Gross profit (before salary)</span><span id="pe_sal_gross">£0</span></div>
+                <div class="breakdown-row red"><span>Less: director salary</span><span id="pe_sal_salary">–£0</span></div>
+                <div class="breakdown-row red"><span>Less: employer NI on salary</span><span id="pe_sal_erni">–£0</span></div>
+                <div class="breakdown-row"><span>Revised taxable profit (TTP)</span><span id="pe_sal_ttp">£0</span></div>
+                <div class="breakdown-row red"><span>CT on revised profit</span><span id="pe_sal_ct">£0</span></div>
+                <div class="breakdown-row hl"><span>Post-CT profit</span><span id="pe_sal_pat">£0</span></div>
+              </div>
+
+              <div class="result-section-title">CT Saving from Salary Route</div>
+              <div class="result-row highlight">
+                <div class="result-label">CT saved by salary deduction</div>
+                <div class="result-value" id="pe_ct_saved">£0</div>
+              </div>
+              <div class="result-row orange">
+                <div class="result-label">Employer NI cost</div>
+                <div class="result-value" id="pe_erni_cost">£0</div>
+              </div>
+              <div class="result-row total">
+                <div class="result-label">Net benefit of salary route</div>
+                <div class="result-value" id="pe_net_benefit">£0</div>
+              </div>
+
+              <div id="pe_hint_box" class="info-box blue" style="margin-top:.8rem"></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ TAB 4: REFERENCE ═══════════════════════ -->
+  <div id="tab_ref" class="tab-panel">
+    <div class="card">
+      <div class="card-title"><span>📋</span> Corporation Tax Rates — History & Reference</div>
+
+      <div class="form-section-label" style="margin-bottom:.6rem">Rates from 1 April 2023 (current structure)</div>
+      <table class="band-table">
+        <thead><tr><th>Band</th><th>Annual Profits</th><th>Rate</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="hl">Small Profits</td><td>Up to £50,000</td><td class="hl">19%</td><td>Single company, full 12-month period</td></tr>
+          <tr><td class="orange">Marginal Band</td><td>£50,001 – £250,000</td><td class="orange">19–25%</td><td>Marginal relief applies; effective marginal rate = 26.5%</td></tr>
+          <tr><td class="red">Main Rate</td><td>Over £250,000</td><td class="red">25%</td><td>No marginal relief</td></tr>
+        </tbody>
+      </table>
+
+      <div class="form-section-label" style="margin:.9rem 0 .6rem">Historical CT rates (for reference)</div>
+      <table class="band-table">
+        <thead><tr><th>Period</th><th>Rate (all profits)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>1 Apr 2017 – 31 Mar 2023</td><td class="hl">19%</td><td>Single flat rate</td></tr>
+          <tr><td>1 Apr 2015 – 31 Mar 2017</td><td class="hl">20%</td><td>Single flat rate</td></tr>
+          <tr><td>1 Apr 2023 onwards</td><td class="orange">19% / 25%</td><td>Tiered with marginal relief</td></tr>
+        </tbody>
+      </table>
+
+      <div class="form-section-label" style="margin:.9rem 0 .6rem">Associated companies — threshold division</div>
+      <table class="band-table">
+        <thead><tr><th>Total associated companies</th><th>Lower limit</th><th>Upper limit</th></tr></thead>
+        <tbody>
+          <tr><td>1 (just this company)</td><td class="hl">£50,000</td><td class="hl">£250,000</td></tr>
+          <tr><td>2</td><td>£25,000</td><td>£125,000</td></tr>
+          <tr><td>3</td><td>£16,667</td><td>£83,333</td></tr>
+          <tr><td>4</td><td>£12,500</td><td>£62,500</td></tr>
+          <tr><td>5</td><td>£10,000</td><td>£50,000</td></tr>
+        </tbody>
+      </table>
+
+      <div class="form-section-label" style="margin:.9rem 0 .6rem">Short accounting periods (pro-rata)</div>
+      <table class="band-table">
+        <thead><tr><th>Period</th><th>Lower limit (÷ by assoc.)</th><th>Upper limit (÷ by assoc.)</th></tr></thead>
+        <tbody>
+          <tr><td>12 months</td><td class="hl">£50,000</td><td class="hl">£250,000</td></tr>
+          <tr><td>9 months</td><td>£37,500</td><td>£187,500</td></tr>
+          <tr><td>6 months</td><td>£25,000</td><td>£125,000</td></tr>
+          <tr><td>3 months</td><td>£12,500</td><td>£62,500</td></tr>
+        </tbody>
+      </table>
+
+      <div class="form-section-label" style="margin:.9rem 0 .6rem">CT payment & filing deadlines</div>
+      <table class="band-table">
+        <thead><tr><th>Company size</th><th>Payment due</th><th>CT600 filing</th></tr></thead>
+        <tbody>
+          <tr><td>Small / medium (profits ≤ £1.5m)</td><td class="hl">9 months + 1 day after AP end</td><td>12 months after AP end</td></tr>
+          <tr><td>Large (profits > £1.5m)</td><td class="orange">Quarterly instalments</td><td>12 months after AP end</td></tr>
+          <tr><td>Very large (profits > £20m)</td><td class="red">Earlier quarterly (month 3, 6, 9, 12)</td><td>12 months after AP end</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box yellow" style="margin-top:.8rem">
+        <strong>26.5% effective marginal rate — key planning point</strong>
+        In the marginal band (£50k–£250k), each additional £1 of profit costs 26.5p in effective CT (25p + 1.5p lost relief). This is higher than the 25p rate above £250k. Consider pension contributions, salary structuring, R&D claims, and capital allowances to manage profit levels within this band.
+      </div>
+
+      <div class="info-box purple" style="margin-top:.6rem">
+        <strong>Associated companies — key test</strong>
+        Companies are associated if one has control of the other, or both are under common control. This includes companies owned by family members or connected parties in many cases. From 1 April 2023, the rules were updated — a company is an associated company for the entire tax year even if it only became associated part-way through.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  ⚠️ Estimation only · Not professional tax advice · Verify with <a href="https://www.gov.uk/guidance/corporation-tax-marginal-relief" target="_blank" style="color:var(--accent)">GOV.UK</a> · © 2026 SAGAR DAS, ITP & Financial Advisor
+</div>
+
+<script>
+/* ===== MOBILE MENU START ===== */
+const ham=document.getElementById('ham'),mob=document.getElementById('mob');
+ham.addEventListener('click',()=>{
+  mob.classList.toggle('open');
+  const s=ham.querySelectorAll('span');
+  if(mob.classList.contains('open')){
+    s[0].style.transform='rotate(45deg) translate(6px,6px)';
+    s[1].style.opacity='0';
+    s[2].style.transform='rotate(-45deg) translate(6px,-6px)';
+  }else{
+    s[0].style.transform='';s[1].style.opacity='';s[2].style.transform='';
+  }
+});
+/* ===== MOBILE MENU END ===== */
+
+/* ===== CLICK DROPDOWN MENU SCRIPT START ===== */
+document.addEventListener('DOMContentLoaded', function () {
+  const dropdowns = document.querySelectorAll('.nav-links .dropdown');
+
+  function closeAll() {
+    dropdowns.forEach(function (d) {
+      d.classList.remove('open');
+      const btn = d.querySelector('.nav-drop-btn');
+      if (btn) {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  closeAll();
+
+  dropdowns.forEach(function (dropdown) {
+    const btn = dropdown.querySelector('.nav-drop-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const isOpen = dropdown.classList.contains('open');
+      closeAll();
+
+      if (!isOpen) {
+        dropdown.classList.add('open');
+        btn.classList.add('active');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.nav-links .dropdown')) {
+      closeAll();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAll();
+  });
+});
+/* ===== CLICK DROPDOWN MENU SCRIPT END ===== */
+
+/* ── UTILS ── */
+function f(n){return Number(n).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fv(id,val){const e=document.getElementById(id);if(e)e.textContent='£'+f(val);}
+function txt(id,val){const e=document.getElementById(id);if(e)e.textContent=val;}
+function showB(id,on){const e=document.getElementById(id);if(e)e.style.display=on?'block':'none';}
+function showFlex(id,on){const e=document.getElementById(id);if(e)e.style.display=on?'flex':'none';}
+function showR(id,on){const e=document.getElementById(id);if(e)e.style.display=on?'flex':'none';}
+
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.main-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── CT ENGINE ── */
+function calcCTEngine(ttp, fii, period, assoc){
+  // Limits
+  const periods = period||12;
+  const associates = Math.max(1,assoc||1);
+  const lowerBase = 50000;
+  const upperBase = 250000;
+  const lower = (lowerBase * periods / 12) / associates;
+  const upper = (upperBase * periods / 12) / associates;
+  const augmented = ttp + fii;
+
+  let ct=0, ctGross=0, relief=0, band='';
+
+  if(augmented <= lower){
+    // Small profits rate
+    ct = ttp * 0.19;
+    ctGross = ct;
+    band = 'small';
+  } else if(augmented >= upper){
+    // Main rate
+    ct = ttp * 0.25;
+    ctGross = ct;
+    band = 'main';
+  } else {
+    // Marginal relief band
+    ctGross = ttp * 0.25;
+    // Formula: 3/200 × (upper – augmented) × (TTP / augmented)
+    relief = (3/200) * (upper - augmented) * (ttp / augmented);
+    ct = ctGross - relief;
+    band = 'marginal';
+  }
+
+  const effRate = ttp>0 ? (ct/ttp)*100 : 0;
+  // Marginal rate on next £1
+  let nextMarginalRate;
+  if(band==='small'){ nextMarginalRate = augmented < lower ? 19 : 26.5; }
+  else if(band==='marginal'){ nextMarginalRate = 26.5; }
+  else { nextMarginalRate = 25; }
+
+  return {ct, ctGross, relief, band, effRate, lower, upper, augmented, nextMarginalRate, periods, associates};
+}
+
+/* ── LIVE UPDATE (bar + band highlight) ── */
+function ctLiveUpdate(){
+  const trading = parseFloat(document.getElementById('ct_trading').value)||0;
+  const nontrading = parseFloat(document.getElementById('ct_nontrading').value)||0;
+  const gains = parseFloat(document.getElementById('ct_gains').value)||0;
+  const deductions = parseFloat(document.getElementById('ct_deductions').value)||0;
+  const losses = parseFloat(document.getElementById('ct_losses').value)||0;
+  const rd = parseFloat(document.getElementById('ct_rd').value)||0;
+  const other = parseFloat(document.getElementById('ct_other_rel').value)||0;
+  const fii = parseFloat(document.getElementById('ct_fii').value)||0;
+  const period = parseInt(document.getElementById('ct_period').value)||12;
+  const assoc = parseInt(document.getElementById('ct_assoc').value)||1;
+
+  const ttp = Math.max(0, trading + nontrading + gains - deductions - losses - rd - other);
+  const {band, lower, upper} = calcCTEngine(ttp, fii, period, assoc);
+
+  // Highlight band boxes
+  ['band_small','band_marginal','band_main'].forEach(id=>document.getElementById(id).classList.remove('active-band'));
+  if(ttp>0) document.getElementById('band_'+band).classList.add('active-band');
+
+  // Update bar
+  const barFill = document.getElementById('ct_bar_fill');
+  const pct = Math.min(100, (ttp/upper)*100);
+  barFill.style.width = pct+'%';
+  barFill.className = 'ct-bar-fill '+(band==='main'?'main':(band==='marginal'?'marginal':'small'));
+  txt('ct_bar_label','Taxable profits: £'+f(ttp));
+  txt('ct_bar_lbl_lower','£'+Math.round(lower).toLocaleString());
+  txt('ct_bar_lbl_upper','£'+Math.round(upper).toLocaleString());
+}
+
+/* ── MAIN CT CALC ── */
+function calcCT(){
+  const trading = parseFloat(document.getElementById('ct_trading').value)||0;
+  const nontrading = parseFloat(document.getElementById('ct_nontrading').value)||0;
+  const gains = parseFloat(document.getElementById('ct_gains').value)||0;
+  const fii = parseFloat(document.getElementById('ct_fii').value)||0;
+  const deductions = parseFloat(document.getElementById('ct_deductions').value)||0;
+  const losses = parseFloat(document.getElementById('ct_losses').value)||0;
+  const rd = parseFloat(document.getElementById('ct_rd').value)||0;
+  const other = parseFloat(document.getElementById('ct_other_rel').value)||0;
+  const period = parseInt(document.getElementById('ct_period').value)||12;
+  const assoc = Math.max(1, parseInt(document.getElementById('ct_assoc').value)||1);
+  const year = document.getElementById('ct_year').value;
+
+  if(!trading && !nontrading && !gains){ alert('Please enter at least a trading profit.'); return; }
+
+  const ttp = Math.max(0, trading + nontrading + gains - deductions - losses - rd - other);
+  const {ct, ctGross, relief, band, effRate, lower, upper, augmented, nextMarginalRate} = calcCTEngine(ttp, fii, period, assoc);
+
+  const accountingProfit = trading + nontrading + gains;
+
+  showB('ct_empty',false);
+  showB('ct_content',true);
+  txt('ct_res_sub', (year==='2526'?'2025/26':(year==='2425'?'2024/25':'2023/24')) + ` · ${period}-month period`);
+
+  // Band badge
+  const badge = document.getElementById('ct_band_badge');
+  if(band==='small'){
+    badge.className='band-indicator small';
+    badge.textContent='✅ Small Profits Rate — 19%';
+  } else if(band==='marginal'){
+    badge.className='band-indicator marginal';
+    badge.textContent='⚠️ Marginal Relief Band — 19–25%';
+  } else {
+    badge.className='band-indicator main';
+    badge.textContent='🔴 Main Rate — 25%';
+  }
+
+  fv('cth_ct', ct);
+  txt('cth_rate', effRate.toFixed(2)+'%');
+
+  // Profit rows
+  fv('ctr_trading', trading);
+  showB('ctr_nontrading_row', nontrading>0);
+  if(nontrading>0) fv('ctr_nontrading', nontrading);
+  showB('ctr_gains_row', gains>0);
+  if(gains>0) fv('ctr_gains', gains);
+  showB('ctr_deduct_row', deductions>0);
+  if(deductions>0) txt('ctr_deduct','–£'+f(deductions));
+  showB('ctr_losses_row', losses>0);
+  if(losses>0) txt('ctr_losses','–£'+f(losses));
+  showB('ctr_rd_row', rd>0);
+  if(rd>0) txt('ctr_rd','–£'+f(rd));
+  showB('ctr_other_row', other>0);
+  if(other>0) txt('ctr_other','–£'+f(other));
+  fv('ctr_ttp', ttp);
+
+  // Augmented
+  fv('ctr_aug_ttp', ttp);
+  showB('ctr_fii_row', fii>0);
+  if(fii>0) fv('ctr_aug_fii', fii);
+  fv('ctr_aug_total', augmented);
+
+  // Limits
+  txt('ctr_period_out', period+' months');
+  txt('ctr_assoc_out', assoc+(assoc===1?' company':' companies'));
+  txt('ctr_lower_lim','£'+f(lower));
+  txt('ctr_upper_lim','£'+f(upper));
+
+  // CT calc
+  txt('ctr_ct_gross','£'+f(ctGross));
+  showB('ctr_mr_row', relief>0);
+  if(relief>0) txt('ctr_mr_val','–£'+f(relief));
+  txt('ctr_ct_net','£'+f(ct));
+
+  // Formula detail
+  showB('ctr_formula_section', band==='marginal');
+  if(band==='marginal'){
+    document.getElementById('ctr_formula_detail').innerHTML =
+      `3/200 × (£${f(upper)} – £${f(augmented)}) × (£${f(ttp)} ÷ £${f(augmented)})<br>
+       = 0.015 × £${f(upper - augmented)} × ${(ttp/augmented).toFixed(6)}<br>
+       = <strong>£${f(relief)}</strong>`;
+  }
+
+  // PAT
+  fv('ctr_pat_ttp', ttp);
+  txt('ctr_pat_ct','–£'+f(ct));
+  fv('ctr_pat', ttp - ct);
+
+  // Effective rates
+  txt('ctr_eff_rate', effRate.toFixed(2)+'%');
+  txt('ctr_marginal_next', nextMarginalRate+'%');
+  const ctPctAcc = accountingProfit>0 ? (ct/accountingProfit*100) : 0;
+  txt('ctr_ct_pct_acc', ctPctAcc.toFixed(2)+'%');
+
+  document.getElementById('ctr_eff_rate').style.color = band==='main'?'var(--red)':(band==='marginal'?'var(--orange)':'var(--accent)');
+}
+
+function resetCT(){
+  ['ct_trading','ct_nontrading','ct_gains','ct_fii','ct_deductions','ct_losses','ct_rd','ct_other_rel'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('ct_period').value='12';
+  document.getElementById('ct_assoc').value='1';
+  document.getElementById('ct_year').value='2526';
+  ['band_small','band_marginal','band_main'].forEach(id=>document.getElementById(id).classList.remove('active-band'));
+  document.getElementById('ct_bar_fill').style.width='0%';
+  txt('ct_bar_label','Taxable profits: £0');
+  showB('ct_empty',true); showB('ct_content',false);
+}
+
+/* ── MARGINAL CALC ── */
+function calcMarginal(){
+  const profit = parseFloat(document.getElementById('mr_profit').value)||0;
+  const fii = parseFloat(document.getElementById('mr_fii').value)||0;
+  const assoc = Math.max(1, parseInt(document.getElementById('mr_assoc').value)||1);
+  const period = parseInt(document.getElementById('mr_period').value)||12;
+
+  if(!profit){ alert('Please enter taxable profits.'); return; }
+
+  const {ct, ctGross, relief, band, effRate, lower, upper, augmented, nextMarginalRate} = calcCTEngine(profit, fii, period, assoc);
+
+  showB('mr_empty',false);
+  showB('mr_content',true);
+  txt('mr_res_sub', band==='marginal'?'Marginal relief applies':(band==='small'?'Small profits rate — 19%':'Main rate — 25%'));
+
+  fv('mrh_ct', ct);
+  txt('mrh_sub', `${band==='small'?'Small Profits Rate':band==='marginal'?'Marginal Relief Band':'Main Rate'} — effective rate ${effRate.toFixed(2)}%`);
+
+  // Steps
+  const stepsDiv = document.getElementById('mr_steps');
+  let stepsHtml='';
+  if(band==='small'){
+    stepsHtml=`
+      <div class="breakdown-row"><span>Profits (≤ adjusted lower limit £${f(lower)})</span><span>£${f(profit)}</span></div>
+      <div class="breakdown-row"><span>Step 1: Apply small profits rate (19%)</span><span></span></div>
+      <div class="breakdown-row hl"><span>CT = £${f(profit)} × 19%</span><span>£${f(ct)}</span></div>`;
+  } else if(band==='main'){
+    stepsHtml=`
+      <div class="breakdown-row"><span>Profits (≥ adjusted upper limit £${f(upper)})</span><span>£${f(profit)}</span></div>
+      <div class="breakdown-row"><span>Step 1: Apply main rate (25%)</span><span></span></div>
+      <div class="breakdown-row hl"><span>CT = £${f(profit)} × 25%</span><span>£${f(ct)}</span></div>`;
+  } else {
+    stepsHtml=`
+      <div class="breakdown-row"><span>Taxable profits (TTP)</span><span>£${f(profit)}</span></div>
+      <div class="breakdown-row"><span>FII</span><span>£${f(fii)}</span></div>
+      <div class="breakdown-row"><span>Augmented profits</span><span>£${f(augmented)}</span></div>
+      <div class="breakdown-row"><span>Adjusted lower limit</span><span>£${f(lower)}</span></div>
+      <div class="breakdown-row"><span>Adjusted upper limit</span><span>£${f(upper)}</span></div>
+      <div class="breakdown-row"><span>Step 1: CT at main rate 25%</span><span>£${f(ctGross)}</span></div>
+      <div class="breakdown-row"><span>Step 2: Relief = 3/200 × (£${f(upper)} – £${f(augmented)}) × (TTP/Aug)</span><span></span></div>
+      <div class="breakdown-row"><span>= 3/200 × £${f(upper-augmented)} × ${(profit/augmented).toFixed(4)}</span><span></span></div>
+      <div class="breakdown-row hl"><span>Marginal relief</span><span>–£${f(relief)}</span></div>
+      <div class="breakdown-row hl"><span>Step 3: CT = £${f(ctGross)} – £${f(relief)}</span><span>£${f(ct)}</span></div>`;
+  }
+  stepsDiv.innerHTML=stepsHtml;
+
+  txt('mrr_eff', effRate.toFixed(2)+'%');
+  fv('mrr_relief', relief);
+  txt('mrr_marginal', nextMarginalRate+'%');
+  txt('mrr_lower','£'+f(lower));
+  txt('mrr_upper','£'+f(upper));
+  fv('mrr_pat', profit - ct);
+  document.getElementById('mrr_eff').style.color=band==='main'?'var(--red)':(band==='marginal'?'var(--orange)':'var(--accent)');
+}
+
+function resetMarginal(){
+  ['mr_profit','mr_fii'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('mr_assoc').value='1';
+  document.getElementById('mr_period').value='12';
+  showB('mr_empty',true); showB('mr_content',false);
+}
+
+/* ── PROFIT EXTRACTION ── */
+function calcCTEngine_simple(ttp, assoc){
+  return calcCTEngine(ttp, 0, 12, assoc);
+}
+
+function calcPE(){
+  const profitBeforeSalary = parseFloat(document.getElementById('pe_profit').value)||0;
+  const salary = parseFloat(document.getElementById('pe_salary').value)||0;
+  const divs = parseFloat(document.getElementById('pe_dividends').value)||0;
+  const assoc = Math.max(1, parseInt(document.getElementById('pe_assoc').value)||1);
+  const erniAuto = document.getElementById('pe_erni_auto').value==='yes';
+
+  if(!profitBeforeSalary){ alert('Please enter company profit before salary.'); return; }
+
+  // Employer NI
+  const ST=9100;
+  let erni=0;
+  if(erniAuto){
+    erni = salary > ST ? (salary-ST)*0.138 : 0;
+  } else {
+    erni = parseFloat(document.getElementById('pe_erni').value)||0;
+  }
+
+  // CT without salary (dividends paid from post-CT)
+  const {ct: ctNoSal} = calcCTEngine_simple(profitBeforeSalary, assoc);
+  const patNoSal = profitBeforeSalary - ctNoSal;
+
+  // CT with salary + employer NI deducted
+  const ttpWithSal = Math.max(0, profitBeforeSalary - salary - erni);
+  const {ct: ctWithSal} = calcCTEngine_simple(ttpWithSal, assoc);
+  const patWithSal = ttpWithSal - ctWithSal;
+
+  const ctSaved = ctNoSal - ctWithSal;
+  const netBenefit = ctSaved - erni;
+
+  showB('pe_empty',false);
+  showB('pe_content',true);
+
+  fv('pe_no_sal_gross', profitBeforeSalary);
+  txt('pe_no_sal_ct','–£'+f(ctNoSal));
+  fv('pe_no_sal_pat', patNoSal);
+
+  fv('pe_sal_gross', profitBeforeSalary);
+  txt('pe_sal_salary','–£'+f(salary));
+  txt('pe_sal_erni','–£'+f(erni));
+  fv('pe_sal_ttp', ttpWithSal);
+  txt('pe_sal_ct','–£'+f(ctWithSal));
+  fv('pe_sal_pat', patWithSal);
+
+  fv('pe_ct_saved', ctSaved);
+  fv('pe_erni_cost', erni);
+  const netEl=document.getElementById('pe_net_benefit');
+  netEl.textContent='£'+f(Math.abs(netBenefit));
+  netEl.style.color=netBenefit>=0?'var(--accent)':'var(--red)';
+
+  const hintBox=document.getElementById('pe_hint_box');
+  if(netBenefit>0){
+    hintBox.className='info-box blue';
+    hintBox.innerHTML=`<strong>Salary is more tax efficient by £${f(netBenefit)}</strong>The CT saving from deducting the salary (£${f(ctSaved)}) exceeds the employer NI cost (£${f(erni)}). Paying salary reduces CT exposure.`;
+  } else if(netBenefit<0){
+    hintBox.className='info-box yellow';
+    hintBox.innerHTML=`<strong>Dividends may be more efficient (CT-only view)</strong>The employer NI cost (£${f(erni)}) exceeds the CT saving (£${f(ctSaved)}) by £${f(Math.abs(netBenefit))}. Consider a lower salary near the NI secondary threshold (£9,100). Note: this does not include income tax/NI on the director personally.`;
+  } else {
+    hintBox.className='info-box blue';
+    hintBox.innerHTML='<strong>Break-even</strong>CT saving equals employer NI cost.';
+  }
+}
+
+function resetPE(){
+  ['pe_profit','pe_salary','pe_dividends','pe_erni'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('pe_assoc').value='1';
+  document.getElementById('pe_erni_auto').value='yes';
+  showB('pe_empty',true); showB('pe_content',false);
+}
+</script>
+<script src="../theme.js"></script>\n</body>
+</html>

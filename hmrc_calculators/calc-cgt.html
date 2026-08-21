@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Capital Gains Tax Calculator | SAGAR DAS, ITP & Financial Advisor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050a14;--bg2:#0a1221;--bg3:#0f1a2e;
+  --accent:#00d4aa;--accent2:#00b894;--accent3:#00e6c3;
+  --accent-glow:rgba(0,212,170,.15);
+  --text:#8b9cb8;--textl:#e1e7f0;--white:#ffffff;
+  --card:rgba(15,26,46,.85);
+  --border:rgba(0,212,170,.12);--border2:rgba(0,212,170,.25);
+  --red:#ff6b6b;--orange:#ffa94d;--purple:#b197fc;--blue:#74c0fc;--green:#69db7c;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* NAVIGATION */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(5,10,20,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);letter-spacing:-.5px}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center}
+.nav-links a{color:var(--textl);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.5px;transition:all .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+
+/* DROPDOWN MENU CSS */
+.dropdown { position: relative; }
+.nav-drop-btn { background: transparent; border: none; font-family: inherit; font-size: .8rem; font-weight: 500; color: var(--textl); cursor: pointer; display: flex; align-items: center; gap: 4px; transition: color .3s; padding: 0; letter-spacing: .5px; outline: none; }
+.nav-drop-btn:hover { color: var(--accent); }
+.dropdown-menu { display: none; position: absolute; top: calc(100% + 15px); left: 0; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: .5rem 0; min-width: 220px; box-shadow: 0 10px 40px rgba(0,0,0,.6); flex-direction: column; gap: 0; }
+.dropdown-menu::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; } /* Bridges hover gap */
+.dropdown-menu li { width: 100%; list-style: none; }
+.dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu { display: flex; animation: slideUp .3s ease forwards; }
+.nav-links .dropdown-menu a { display: block; padding: .6rem 1.2rem; font-size: .8rem; color: var(--text); transition: all .2s; }
+.nav-links .dropdown-menu a::after { display: none; }
+.nav-links .dropdown-menu a:hover { color: var(--accent); background: var(--accent-glow); padding-left: 1.5rem; }
+.dd-icon { transition: transform .3s; }
+.dropdown:hover .dd-icon, .dropdown.open .dd-icon { transform: rotate(180deg); }
+
+.ham{display:none;flex-direction:column;gap:6px;cursor:pointer;padding:5px}
+.ham span{width:24px;height:2px;background:var(--accent);border-radius:2px;transition:all .3s}
+#mob{display:none;position:fixed;top:65px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);z-index:199;padding:1.5rem 2rem;max-height:calc(100vh - 65px);overflow-y:auto}
+#mob.open{display:block}
+#mob ul{list-style:none;display:flex;flex-direction:column;gap:1rem}
+#mob a{color:var(--textl);text-decoration:none;font-size:.95rem;transition:color .3s}
+#mob a:hover{color:var(--accent)}
+
+/* MOBILE DROPDOWN STYLES */
+details summary { list-style: none; cursor: pointer; color: var(--textl); font-size: .95rem; font-weight: 500; transition: color .3s; display: flex; justify-content: space-between; align-items: center; }
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: '▾'; transition: transform 0.3s; color: var(--text); }
+details[open] summary::after { transform: rotate(180deg); color: var(--accent); }
+details summary:hover { color: var(--accent); }
+details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
+.mob-sub { padding-left: 1rem; border-left: 1px dashed var(--border); margin-left: 0.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:1150px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  .ham{display:flex}
+}
+
+.page{padding:6.5rem 2rem 3rem;max-width:1200px;margin:0 auto}
+.page-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent-glow);border:1px solid var(--border2);border-radius:50px;padding:.35rem .9rem;font-size:.72rem;color:var(--accent);font-weight:600;margin-bottom:1rem}
+.page-title{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--white);margin-bottom:.5rem;letter-spacing:-.5px}
+.page-title span{color:var(--accent)}
+.page-sub{font-size:.88rem;color:var(--text);line-height:1.7;max-width:860px;margin-bottom:1.5rem}
+.page-sub a{color:var(--accent);text-decoration:none}
+.page-sub a:hover{text-decoration:underline}
+
+.main-tabs{display:flex;gap:.5rem;margin:0 0 2rem;background:var(--bg2);border-radius:12px;padding:.4rem;border:1px solid var(--border)}
+.main-tab{flex:1;text-align:center;padding:.6rem .5rem;font-size:.82rem;border-radius:9px;cursor:pointer;color:var(--text);transition:all .25s;border:none;background:transparent;font-family:'Inter',sans-serif;font-weight:500}
+.main-tab.active{background:var(--accent);color:var(--bg);font-weight:700}
+.main-tab:hover:not(.active){color:var(--accent)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+.calc-layout{display:grid;grid-template-columns:1fr 420px;gap:2rem;align-items:start}
+@media(max-width:1000px){.calc-layout{grid-template-columns:1fr}}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.6rem 1.8rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent3))}
+.card-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem}
+.card-title span{font-size:1.2rem}
+.card-title small{font-size:.72rem;color:var(--text);font-weight:400;margin-left:.3rem}
+
+.form-section{margin-bottom:1.4rem;padding-bottom:1.4rem;border-bottom:1px solid var(--border)}
+.form-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.form-section-label{font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.9rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.form-grid.col3{grid-template-columns:1fr 1fr 1fr}
+.form-grid.col1{grid-template-columns:1fr}
+@media(max-width:600px){.form-grid,.form-grid.col3{grid-template-columns:1fr}}
+
+.form-field{display:flex;flex-direction:column;gap:.3rem}
+.form-label{font-size:.78rem;color:var(--textl);font-weight:500}
+.form-label .hint{font-size:.7rem;color:var(--text);font-weight:400;display:block;margin-top:.1rem}
+.form-input,.form-select{padding:.6rem .85rem;border-radius:9px;border:1px solid var(--border2);background:var(--bg3);color:var(--textl);font-size:.85rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+.form-input:focus,.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,.12)}
+.form-input[type=number]::-webkit-inner-spin-button,.form-input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+.form-input[type=number]{-moz-appearance:textfield}
+.input-prefix-wrap{position:relative}
+.input-prefix{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:.85rem;color:var(--text);pointer-events:none}
+.input-prefix-wrap .form-input{padding-left:1.8rem}
+
+/* ASSET TYPE SELECTOR */
+.asset-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.4rem}
+@media(max-width:600px){.asset-type-grid{grid-template-columns:repeat(2,1fr)}}
+.asset-type-btn{border-radius:12px;padding:.75rem .6rem;text-align:center;border:2px solid var(--border);background:var(--bg2);cursor:pointer;transition:all .25s;font-family:'Inter',sans-serif}
+.asset-type-btn:hover{border-color:var(--accent);background:var(--accent-glow)}
+.asset-type-btn.active{border-color:var(--accent);background:rgba(0,212,170,.08)}
+.asset-type-icon{font-size:1.4rem;margin-bottom:.3rem}
+.asset-type-label{font-size:.72rem;color:var(--textl);font-weight:600}
+.asset-type-rate{font-size:.65rem;color:var(--accent);margin-top:.2rem}
+
+/* DISPOSAL LIST */
+.disposal-list{display:flex;flex-direction:column;gap:.7rem;margin-top:.5rem}
+.disposal-item{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;position:relative}
+.disposal-item.highlight{border-color:var(--accent)}
+.disposal-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem}
+.disposal-item-title{font-size:.8rem;font-weight:700;color:var(--white);display:flex;align-items:center;gap:.5rem}
+.disposal-item-gain{font-size:.82rem;font-weight:700}
+.disposal-item-gain.positive{color:var(--accent)}
+.disposal-item-gain.negative{color:var(--red)}
+.disposal-item-gain.zero{color:var(--text)}
+.disposal-remove{background:none;border:none;color:var(--text);cursor:pointer;font-size:1rem;padding:.1rem .3rem;border-radius:4px;transition:color .2s}
+.disposal-remove:hover{color:var(--red)}
+.disposal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem}
+@media(max-width:700px){.disposal-grid{grid-template-columns:1fr 1fr}}
+.disposal-field label{font-size:.68rem;color:var(--text);display:block;margin-bottom:.25rem}
+.disposal-field input,.disposal-field select{width:100%;padding:.45rem .65rem;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--textl);font-size:.8rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;-webkit-appearance:none;-moz-appearance:textfield}
+.disposal-field input::-webkit-inner-spin-button,.disposal-field input::-webkit-outer-spin-button{-webkit-appearance:none}
+.disposal-field input:focus,.disposal-field select:focus{border-color:var(--accent)}
+.add-disposal-btn{width:100%;padding:.65rem;border-radius:9px;border:1px dashed var(--border2);background:transparent;color:var(--accent);font-size:.82rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin-top:.5rem}
+.add-disposal-btn:hover{background:var(--accent-glow);border-color:var(--accent)}
+
+.calc-btn{width:100%;padding:.85rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg);font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;margin-top:.5rem;letter-spacing:.3px}
+.calc-btn:hover{background:linear-gradient(135deg,var(--accent3),var(--accent));transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,212,170,.3)}
+.calc-btn:active{transform:translateY(0)}
+.reset-btn{width:100%;padding:.65rem;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:.8rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;margin-top:.6rem}
+.reset-btn:hover{border-color:var(--red);color:var(--red)}
+
+.results-sticky{position:sticky;top:5.5rem}
+.result-card{background:var(--card);border:2px solid var(--accent);border-radius:20px;overflow:hidden}
+.result-header{background:linear-gradient(135deg,rgba(0,212,170,.12),rgba(0,212,170,.04));padding:1.3rem 1.5rem;border-bottom:1px solid var(--border2)}
+.result-header-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.result-header-sub{font-size:.75rem;color:var(--accent)}
+.result-body{padding:1.3rem 1.5rem;max-height:90vh;overflow-y:auto}
+.result-body::-webkit-scrollbar{width:4px}
+.result-body::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+
+.result-hero{text-align:center;padding:1rem 0 1.2rem;border-bottom:1px solid var(--border);margin-bottom:1.1rem}
+.result-hero-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text);margin-bottom:.3rem}
+.result-hero-value{font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;color:var(--accent);line-height:1}
+.result-hero-sub{font-size:.75rem;color:var(--text);margin-top:.4rem}
+
+.triple-hero{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.triple-box{text-align:center;background:var(--bg2);border-radius:10px;padding:.7rem .4rem;border:1px solid var(--border)}
+.triple-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.8px;color:var(--text);margin-bottom:.2rem}
+.triple-value{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;line-height:1}
+.triple-value.green{color:var(--accent)}
+.triple-value.orange{color:var(--orange)}
+.triple-value.red{color:var(--red)}
+.triple-value.purple{color:var(--purple)}
+
+.result-section-title{font-size:.67rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin:1rem 0 .45rem;padding-bottom:.3rem;border-bottom:1px solid var(--border)}
+.result-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid rgba(0,212,170,.05)}
+.result-row:last-child{border-bottom:none}
+.result-row.total{padding-top:.7rem;margin-top:.3rem;border-top:2px solid var(--border2);border-bottom:none}
+.result-label{font-size:.78rem;color:var(--text);flex:1;line-height:1.4;padding-right:.5rem}
+.result-label small{display:block;font-size:.67rem;color:var(--text);opacity:.7;margin-top:.1rem}
+.result-value{font-size:.82rem;color:var(--textl);font-weight:600;text-align:right;white-space:nowrap}
+.result-row.total .result-label{color:var(--textl);font-weight:700;font-size:.85rem}
+.result-row.total .result-value{color:var(--accent);font-size:.9rem}
+.result-row.negative .result-value{color:var(--red)}
+.result-row.highlight .result-value{color:var(--accent)}
+.result-row.orange-v .result-value{color:var(--orange)}
+
+.breakdown-box{background:rgba(0,212,170,.04);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;margin:.4rem 0}
+.breakdown-row{display:flex;justify-content:space-between;align-items:center;font-size:.76rem;padding:.28rem 0;border-bottom:1px solid rgba(0,212,170,.06)}
+.breakdown-row:last-child{border-bottom:none}
+.breakdown-row span:first-child{color:var(--text)}
+.breakdown-row span:last-child{color:var(--textl);font-weight:600}
+.breakdown-row.hl span:last-child{color:var(--accent)}
+.breakdown-row.orange span:last-child{color:var(--orange)}
+.breakdown-row.red span:last-child{color:var(--red)}
+.breakdown-row.purple span:last-child{color:var(--purple)}
+.breakdown-row.blue span:last-child{color:var(--blue)}
+.breakdown-row.green span:last-child{color:var(--green)}
+
+.info-box{border-radius:12px;padding:.9rem 1.1rem;font-size:.8rem;line-height:1.6;margin-top:.8rem}
+.info-box.blue{background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.2);color:var(--textl)}
+.info-box.yellow{background:rgba(255,169,77,.06);border:1px solid rgba(255,169,77,.2);color:#ffa94d}
+.info-box.red{background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.2);color:#ff6b6b}
+.info-box.purple{background:rgba(177,151,252,.06);border:1px solid rgba(177,151,252,.2);color:#b197fc}
+.info-box.green{background:rgba(105,219,124,.06);border:1px solid rgba(105,219,124,.2);color:#69db7c}
+.info-box strong{display:block;margin-bottom:.3rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.8px}
+.info-box a{color:inherit;text-decoration:underline}
+
+.band-table{width:100%;border-collapse:collapse;font-size:.77rem;margin-top:.4rem}
+.band-table th{text-align:left;color:var(--accent);font-size:.68rem;text-transform:uppercase;letter-spacing:.8px;padding:.35rem .5rem;border-bottom:1px solid var(--border2)}
+.band-table td{padding:.45rem .5rem;border-bottom:1px solid rgba(0,212,170,.05);color:var(--textl);vertical-align:top}
+.band-table tr:last-child td{border-bottom:none}
+.band-table .hl{color:var(--accent);font-weight:600}
+.band-table .orange{color:var(--orange);font-weight:600}
+.band-table .red{color:var(--red);font-weight:600}
+.band-table .dim{color:var(--text)}
+.band-table .green{color:var(--green);font-weight:600}
+.band-table .purple{color:var(--purple);font-weight:600}
+
+.empty-state{text-align:center;padding:2.5rem 1rem}
+.empty-state-icon{font-size:2.5rem;margin-bottom:.8rem}
+.empty-state-text{font-size:.84rem;color:var(--text);line-height:1.7}
+
+/* DISPOSAL RESULT TABLE */
+.disposal-result-table{width:100%;border-collapse:collapse;font-size:.74rem;margin:.3rem 0}
+.disposal-result-table th{text-align:left;color:var(--accent);font-size:.65rem;text-transform:uppercase;letter-spacing:.8px;padding:.3rem .4rem;border-bottom:1px solid var(--border2)}
+.disposal-result-table td{padding:.35rem .4rem;border-bottom:1px solid rgba(0,212,170,.05);color:var(--textl)}
+.disposal-result-table tr:last-child td{border-bottom:none}
+.disposal-result-table .gain{color:var(--accent)}
+.disposal-result-table .loss{color:var(--red)}
+.disposal-result-table .tax{color:var(--orange)}
+
+.deadline-box{border-radius:12px;padding:1rem 1.2rem;margin:.6rem 0}
+.deadline-box.orange{background:rgba(255,169,77,.07);border:1px solid rgba(255,169,77,.25)}
+.deadline-box.red{background:rgba(255,107,107,.07);border:1px solid rgba(255,107,107,.25)}
+.deadline-box.green{background:rgba(105,219,124,.07);border:1px solid rgba(105,219,124,.25)}
+.deadline-box-title{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:.5rem}
+.deadline-box.orange .deadline-box-title{color:var(--orange)}
+.deadline-box.red .deadline-box-title{color:var(--red)}
+.deadline-box.green .deadline-box-title{color:var(--green)}
+.deadline-row{font-size:.77rem;padding:.28rem 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between}
+.deadline-row:last-child{border-bottom:none}
+.deadline-row span:first-child{color:var(--text)}
+.deadline-box.orange .deadline-row span:last-child{color:var(--orange);font-weight:600}
+.deadline-box.red .deadline-row span:last-child{color:var(--red);font-weight:600}
+.deadline-box.green .deadline-row span:last-child{color:var(--green);font-weight:600}
+
+.disclaimer{background:rgba(255,169,77,.05);border:1px solid rgba(255,169,77,.15);border-radius:12px;padding:1rem 1.2rem;font-size:.75rem;color:var(--text);line-height:1.6;margin-top:1.5rem}
+.disclaimer strong{color:#ffa94d}
+.disclaimer a{color:#ffa94d}
+.page-footer{text-align:center;padding:2rem 2rem 1rem;font-size:.73rem;color:var(--text);opacity:.6;border-top:1px solid var(--border);margin-top:2rem}
+
+@media(max-width:700px){
+  .page{padding:6rem 1.2rem 2.5rem}
+  .page-title{font-size:1.6rem}
+  .card{padding:1.2rem 1.3rem}
+  .main-tabs{flex-direction:column}
+  .triple-hero{grid-template-columns:1fr 1fr}
+  .asset-type-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">SAGAR DAS <span> | ITP & Financial Advisor</span></div>
+  <ul class="nav-links">
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../index.html#experience">Experience</a></li>
+                <li><a href="../index.html#education">Education</a></li>
+                <li><a href="../index.html#certifications">Certifications</a></li>
+                <li><a href="../index.html#recommendations">Recommendations</a></li>
+                <li><a href="../dashboard.html">Dashboards</a></li>
+
+                <li class="dropdown" id="hmrcDropdown">
+                    <button type="button" class="nav-drop-btn" aria-expanded="false">HMRC Calculators <span class="dd-icon">▾</span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="calc-dividend-tax.html">Dividend Tax</a></li>
+                        <li><a href="calc-income-tax.html">Income Tax</a></li>
+                        <li><a href="calc-ni.html">National Insurance</a></li>
+                        <li><a href="calc-self-assessment.html">Self Assessment</a></li>
+                        <li><a href="calc-self-assessment-summary.html">Self Assessment Summary</a></li>
+                        <li><a href="calc-vat-reg.html">VAT Registration</a></li>
+                        <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
+                        <li><a href="calc-ct.html">Corporation Tax</a></li>
+                        <li><a href="calc-vat.html">VAT</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown" id="nbrDropdown">
+                    <button type="button" class="nav-drop-btn" aria-expanded="false">NBR Calculators <span class="dd-icon">▾</span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="../nbr_calculators/calc-bd-vds-tds-engine.html">BD VDS TDS Engine</a></li>
+                        <li><a href="../nbr_calculators/calc-nbr.html">NBR Calculator</a></li>
+                        <li><a href="../nbr_calculators/calculator.html">Calculator</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="../index.html#footer">Contact</a></li>
+            </ul>
+  <div class="ham" id="ham"><span></span><span></span><span></span></div>
+</nav>
+
+<div id="mob" class="mob">
+        <ul>
+            <li><a href="../index.html#skills">Skills</a></li>
+            <li><a href="../index.html#experience">Experience</a></li>
+            <li><a href="../index.html#education">Education</a></li>
+            <li><a href="../index.html#certifications">Certifications</a></li>
+            <li><a href="../index.html#recommendations">Recommendations</a></li>
+            <li><a href="../dashboard.html">Dashboards</a></li>
+
+            <li>
+                <details>
+                    <summary>HMRC Calculators</summary>
+                    <ul class="mob-sub">
+                        <li><a href="calc-dividend-tax.html">Dividend Tax</a></li>
+                        <li><a href="calc-income-tax.html">Income Tax</a></li>
+                        <li><a href="calc-ni.html">National Insurance</a></li>
+                        <li><a href="calc-self-assessment.html">Self Assessment</a></li>
+                        <li><a href="calc-self-assessment-summary.html">Self Assessment Summary</a></li>
+                        <li><a href="calc-vat-reg.html">VAT Registration</a></li>
+                        <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
+                        <li><a href="calc-ct.html">Corporation Tax</a></li>
+                        <li><a href="calc-vat.html">VAT</a></li>
+                    </ul>
+                </details>
+            </li>
+
+            <li>
+                <details>
+                    <summary>NBR Calculators</summary>
+                    <ul class="mob-sub">
+                        <li><a href="../nbr_calculators/calc-bd-vds-tds-engine.html">BD VDS TDS Engine</a></li>
+                        <li><a href="../nbr_calculators/calc-nbr.html">NBR Calculator</a></li>
+                        <li><a href="../nbr_calculators/calculator.html">Calculator</a></li>
+                    </ul>
+                </details>
+            </li>
+
+            <li><a href="../index.html#footer">Contact</a></li>
+        </ul>
+    </div>
+
+<div class="page">
+  <div class="page-badge">📈 Capital Gains Tax · 2025/26</div>
+  <h1 class="page-title">Capital Gains Tax <span>Calculator</span></h1>
+  <p class="page-sub">
+    Calculate UK CGT on shares, property, crypto, business assets and more — with multi-disposal support, loss offsetting, Annual Exempt Amount (£3,000), BADR (10%/14%), PPR relief, letting relief, band splitting, and 60-day property reporting.
+    Official rates: <a href="https://www.gov.uk/capital-gains-tax/rates" target="_blank">CGT rates – GOV.UK →</a>
+    &nbsp;|&nbsp;<a href="https://www.gov.uk/guidance/capital-gains-tax-rates-and-allowances" target="_blank">CGT allowances →</a>
+  </p>
+
+  <div class="main-tabs">
+    <button class="main-tab active" onclick="switchTab('tab_cgt',this)">📈 CGT Calculator</button>
+    <button class="main-tab"        onclick="switchTab('tab_property',this)">🏠 Property (PPR)</button>
+    <button class="main-tab"        onclick="switchTab('tab_badr',this)">💼 BADR / Business</button>
+    <button class="main-tab"        onclick="switchTab('tab_ref',this)">📋 Reference</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       TAB 1: MAIN CGT CALCULATOR
+  ══════════════════════════════════════ -->
+  <div id="tab_cgt" class="tab-panel active">
+    <div class="calc-layout">
+      <div>
+
+        <!-- INCOME CONTEXT -->
+        <div class="card">
+          <div class="card-title"><span>💼</span> Income Context <small>— determines which CGT rate applies</small></div>
+          <div class="form-section">
+            <div class="form-section-label">Your taxable income this year</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Taxable income (salary, pension, dividends, etc.)
+                  <span class="hint">After personal allowance — determines basic vs higher rate CGT</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="cg_income" class="form-input" placeholder="0.00" oninput="cgtLive()">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Capital losses brought forward (£)
+                  <span class="hint">Unused losses from prior tax years</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="cg_losses_bf" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Tax year</label>
+                <select id="cg_year" class="form-select">
+                  <option value="2526">2025/26</option>
+                  <option value="2425">2024/25</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Spouse / civil partner?
+                  <span class="hint">Can use their unused AEA via asset transfer before disposal</span>
+                </label>
+                <select id="cg_spouse" class="form-select">
+                  <option value="no">No</option>
+                  <option value="yes">Yes — consider spouse AEA transfer</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="form-section-label">Income Tax band (live)</div>
+            <div style="display:flex;gap:.7rem;margin-top:.2rem;flex-wrap:wrap">
+              <div id="band_indicator" style="display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1rem;border-radius:8px;font-size:.8rem;font-weight:700;background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.3);color:var(--accent)">📊 Basic rate taxpayer (CGT: 18%)</div>
+              <div id="band_remaining" style="font-size:.75rem;color:var(--text);align-self:center"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DISPOSALS -->
+        <div class="card">
+          <div class="card-title"><span>📋</span> Asset Disposals <small>— add one or more disposals</small></div>
+          <div class="disposal-list" id="disposal_list">
+            <!-- Added by JS -->
+          </div>
+          <button class="add-disposal-btn" onclick="addDisposal()">+ Add Disposal</button>
+        </div>
+
+        <button class="calc-btn" onclick="calcCGT()">📈 Calculate Capital Gains Tax</button>
+        <button class="reset-btn" onclick="resetCGT()">↺ Reset All</button>
+
+        <div class="disclaimer" style="margin-top:1.2rem">
+          <strong>⚠️ Disclaimer</strong>
+          Estimates only. Does not cover share pooling (Section 104 pool), bed-and-breakfast rules (30-day rule), EIS/SEIS/VCT reliefs, or complex part-disposal calculations.
+          <a href="https://www.gov.uk/capital-gains-tax" target="_blank">GOV.UK CGT →</a>
+        </div>
+      </div>
+
+      <!-- CGT RESULTS -->
+      <div class="results-sticky">
+        <div class="result-card">
+          <div class="result-header">
+            <div class="result-header-title">📈 CGT Result</div>
+            <div class="result-header-sub" id="cgt_res_sub">2025/26 · all assets</div>
+          </div>
+          <div class="result-body">
+            <div id="cgt_empty" class="empty-state">
+              <div class="empty-state-icon">📈</div>
+              <div class="empty-state-text">Add disposals and click <strong style="color:var(--accent)">Calculate CGT</strong>.</div>
+            </div>
+            <div id="cgt_content" style="display:none">
+
+              <div class="triple-hero">
+                <div class="triple-box">
+                  <div class="triple-label">Total Gain</div>
+                  <div class="triple-value green" id="cgh_gain">£0</div>
+                  <div style="font-size:.6rem;color:var(--text);margin-top:.2rem">net of losses</div>
+                </div>
+                <div class="triple-box">
+                  <div class="triple-label">Chargeable</div>
+                  <div class="triple-value orange" id="cgh_chargeable">£0</div>
+                  <div style="font-size:.6rem;color:var(--text);margin-top:.2rem">after AEA</div>
+                </div>
+                <div class="triple-box">
+                  <div class="triple-label">CGT Due</div>
+                  <div class="triple-value red" id="cgh_tax">£0</div>
+                  <div style="font-size:.6rem;color:var(--text);margin-top:.2rem">to HMRC</div>
+                </div>
+              </div>
+
+              <!-- DISPOSAL BREAKDOWN -->
+              <div class="result-section-title">Disposal Summary</div>
+              <div id="cgt_disposal_table_wrap"></div>
+
+              <!-- NET GAINS COMPUTATION -->
+              <div class="result-section-title">Net Gains Computation</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row"><span>Total gross gains</span><span id="cgr_gross_gains">£0</span></div>
+                <div class="breakdown-row red"><span>Less: in-year capital losses</span><span id="cgr_iy_losses">–£0</span></div>
+                <div class="breakdown-row"><span>Net gains before AEA</span><span id="cgr_net_before_aea">£0</span></div>
+                <div class="breakdown-row red"><span>Less: losses brought forward</span><span id="cgr_bf_losses">–£0</span></div>
+                <div class="breakdown-row hl"><span>Net gains after losses</span><span id="cgr_net_after_losses">£0</span></div>
+                <div class="breakdown-row green"><span>Annual Exempt Amount (AEA)</span><span id="cgr_aea">–£3,000</span></div>
+                <div class="breakdown-row orange"><span>Chargeable gain</span><span id="cgr_chargeable">£0</span></div>
+              </div>
+
+              <!-- BAND SPLIT -->
+              <div class="result-section-title">Band Split & CGT Rates</div>
+              <div class="breakdown-box" id="cgr_band_split_box">
+              </div>
+
+              <!-- CGT SUMMARY -->
+              <div class="result-section-title">CGT Payable</div>
+              <div class="result-row highlight">
+                <div class="result-label">Total CGT</div>
+                <div class="result-value" id="cgr_total_cgt">£0</div>
+              </div>
+              <div class="result-row highlight">
+                <div class="result-label">Effective CGT rate</div>
+                <div class="result-value" id="cgr_eff_rate">0%</div>
+              </div>
+              <div class="result-row">
+                <div class="result-label">Losses available to carry forward</div>
+                <div class="result-value" id="cgr_losses_cf">£0</div>
+              </div>
+              <div class="result-row">
+                <div class="result-label">Spouse AEA available (if applicable)</div>
+                <div class="result-value" id="cgr_spouse_aea">—</div>
+              </div>
+
+              <!-- REPORTING DEADLINES -->
+              <div class="result-section-title">Reporting & Payment</div>
+              <div id="cgr_property_deadline" class="deadline-box red" style="display:none">
+                <div class="deadline-box-title">🏠 Property: 60-Day Reporting Rule</div>
+                <div class="deadline-row"><span>UK residential property disposal</span><span>Report & pay within 60 days of completion</span></div>
+                <div class="deadline-row"><span>Via HMRC online CGT service</span><span>Before Self Assessment filing</span></div>
+                <div class="deadline-row"><span>Late filing penalty</span><span>£100+ / interest on unpaid CGT</span></div>
+              </div>
+              <div class="deadline-box orange">
+                <div class="deadline-box-title">📋 Self Assessment</div>
+                <div class="deadline-row"><span>Online SA return deadline</span><span>31 January (following tax year end)</span></div>
+                <div class="deadline-row"><span>CGT payment via SA</span><span>31 January</span></div>
+                <div class="deadline-row"><span>SA return required if CGT due</span><span>Yes — always report gains</span></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       TAB 2: PROPERTY / PPR
+  ══════════════════════════════════════ -->
+  <div id="tab_property" class="tab-panel">
+    <div class="calc-layout">
+      <div>
+        <div class="card">
+          <div class="card-title"><span>🏠</span> Property Gain with PPR Relief <small>— main residence / buy-to-let</small></div>
+
+          <div class="info-box blue">
+            <strong>Private Residence Relief (PPR)</strong>
+            If a property was your main home for part of its ownership, PPR exempts the gain during those periods. The final 9 months of ownership always qualify (reduced from 18 months). Letting relief (up to £40,000) may also apply if the property was let during periods of absence.
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">Property Details</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Disposal proceeds (£)</label>
+                <div class="input-prefix-wrap"><span class="input-prefix">£</span>
+                  <input type="number" id="pp_proceeds" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Acquisition cost (£)</label>
+                <div class="input-prefix-wrap"><span class="input-prefix">£</span>
+                  <input type="number" id="pp_cost" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Improvement costs (£)
+                  <span class="hint">Capital expenditure — not repairs/maintenance</span>
+                </label>
+                <div class="input-prefix-wrap"><span class="input-prefix">£</span>
+                  <input type="number" id="pp_improvements" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Disposal costs (£)
+                  <span class="hint">Solicitor, estate agent fees at sale</span>
+                </label>
+                <div class="input-prefix-wrap"><span class="input-prefix">£</span>
+                  <input type="number" id="pp_disp_costs" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Acquisition costs (£)
+                  <span class="hint">Solicitor, SDLT, survey at purchase</span>
+                </label>
+                <div class="input-prefix-wrap"><span class="input-prefix">£</span>
+                  <input type="number" id="pp_acq_costs" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Taxable income this year (£)</label>
+                <div class="input-prefix-wrap"><span class="input-prefix">£</span>
+                  <input type="number" id="pp_income" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">PPR Relief</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Total ownership period (months)</label>
+                <input type="number" id="pp_total_months" class="form-input" placeholder="e.g. 120">
+              </div>
+              <div class="form-field">
+                <label class="form-label">Months as main residence</label>
+                <input type="number" id="pp_res_months" class="form-input" placeholder="e.g. 60">
+              </div>
+              <div class="form-field">
+                <label class="form-label">Final 9 months qualifying?</label>
+                <select id="pp_final9" class="form-select">
+                  <option value="yes">Yes — property was at some point main home</option>
+                  <option value="no">No — never main residence</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Letting relief applicable?
+                  <span class="hint">Only if you lived in the property AND let part of it</span>
+                </label>
+                <select id="pp_letting" class="form-select">
+                  <option value="no">No</option>
+                  <option value="yes">Yes — claim letting relief (up to £40,000)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcPPR()">🏠 Calculate Property CGT</button>
+        <button class="reset-btn" onclick="resetPPR()">↺ Reset</button>
+      </div>
+
+      <!-- PROPERTY RESULTS -->
+      <div class="results-sticky">
+        <div class="result-card">
+          <div class="result-header">
+            <div class="result-header-title">🏠 Property CGT</div>
+            <div class="result-header-sub">With PPR & Letting Relief</div>
+          </div>
+          <div class="result-body">
+            <div id="pp_empty" class="empty-state">
+              <div class="empty-state-icon">🏠</div>
+              <div class="empty-state-text">Enter property details and click <strong style="color:var(--accent)">Calculate</strong>.</div>
+            </div>
+            <div id="pp_content" style="display:none">
+
+              <div class="result-hero">
+                <div class="result-hero-label">CGT Due on Property</div>
+                <div class="result-hero-value" id="pph_tax">£0</div>
+                <div class="result-hero-sub" id="pph_sub">residential property rates 18%/24%</div>
+              </div>
+
+              <div class="result-section-title">Gain Computation</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row"><span>Disposal proceeds</span><span id="ppr_proceeds">£0</span></div>
+                <div class="breakdown-row red"><span>Acquisition cost</span><span id="ppr_cost">–£0</span></div>
+                <div class="breakdown-row red"><span>Improvement costs</span><span id="ppr_improvements">–£0</span></div>
+                <div class="breakdown-row red"><span>Acquisition + disposal costs</span><span id="ppr_costs">–£0</span></div>
+                <div class="breakdown-row hl"><span>Gross gain</span><span id="ppr_gross_gain">£0</span></div>
+              </div>
+
+              <div class="result-section-title">PPR Relief</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row"><span>Total ownership (months)</span><span id="ppr_total_months">0</span></div>
+                <div class="breakdown-row"><span>Qualifying residence months</span><span id="ppr_qualifying_months">0</span></div>
+                <div class="breakdown-row"><span>PPR fraction</span><span id="ppr_fraction">0/0</span></div>
+                <div class="breakdown-row green"><span>PPR relief amount</span><span id="ppr_relief">–£0</span></div>
+                <div class="breakdown-row" id="ppr_letting_row"><span>Letting relief</span><span id="ppr_letting_val">–£0</span></div>
+                <div class="breakdown-row hl"><span>Gain after PPR (+ letting)</span><span id="ppr_after_ppr">£0</span></div>
+              </div>
+
+              <div class="result-section-title">CGT Computation</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row green"><span>Annual Exempt Amount</span><span>–£3,000</span></div>
+                <div class="breakdown-row orange"><span>Chargeable gain</span><span id="ppr_chargeable">£0</span></div>
+                <div class="breakdown-row blue"><span>Basic rate portion (18%)</span><span id="ppr_basic_cgt">£0</span></div>
+                <div class="breakdown-row orange"><span>Higher rate portion (24%)</span><span id="ppr_higher_cgt">£0</span></div>
+                <div class="breakdown-row red"><span>Total CGT</span><span id="ppr_total_cgt">£0</span></div>
+              </div>
+
+              <div class="deadline-box red" style="margin-top:.8rem">
+                <div class="deadline-box-title">⏰ 60-Day Reporting Rule</div>
+                <div class="deadline-row"><span>Report & pay CGT within</span><span>60 days of completion date</span></div>
+                <div class="deadline-row"><span>Via</span><span>HMRC online CGT on UK property service</span></div>
+                <div class="deadline-row"><span>Also include in</span><span>Self Assessment return</span></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       TAB 3: BADR / BUSINESS ASSETS
+  ══════════════════════════════════════ -->
+  <div id="tab_badr" class="tab-panel">
+    <div class="calc-layout">
+      <div>
+        <div class="card">
+          <div class="card-title"><span>💼</span> Business Asset Disposal Relief (BADR) <small>formerly Entrepreneurs' Relief</small></div>
+
+          <div class="info-box blue">
+            <strong>Business Asset Disposal Relief (BADR)</strong>
+            Reduces CGT to 10% (14% from 6 April 2025 on gains above the £1m lifetime limit transition) on qualifying business disposals. Applies to sole trader / partnership businesses, shares in a trading company (holding ≥5%, director/employee ≥2 years), and disposal of business assets after cessation. Lifetime limit: £1,000,000.
+          </div>
+
+          <div class="info-box yellow" style="margin-top:.6rem">
+            <strong>⚠️ BADR Rate Change — April 2025</strong>
+            From 6 April 2025, gains qualifying for BADR are taxed at <strong>14%</strong> (was 10% before 6 April 2025). Gains qualifying under Investors' Relief are taxed at 14% (was 20%). The lifetime allowance remains £1,000,000.
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">BADR Qualifying Disposal</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Qualifying gain (after costs) (£)</label>
+                <div class="input-prefix-wrap"><span class="input-prefix">£</span>
+                  <input type="number" id="badr_gain" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">BADR lifetime limit used to date (£)
+                  <span class="hint">Cumulative gains already claimed under BADR</span>
+                </label>
+                <div class="input-prefix-wrap"><span class="input-prefix">£</span>
+                  <input type="number" id="badr_used" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Non-BADR gains this year (£)
+                  <span class="hint">Other capital gains — taxed at standard rates</span>
+                </label>
+                <div class="input-prefix-wrap"><span class="input-prefix">£</span>
+                  <input type="number" id="badr_other_gains" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Taxable income this year (£)</label>
+                <div class="input-prefix-wrap"><span class="input-prefix">£</span>
+                  <input type="number" id="badr_income" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Disposal date (BADR rate)</label>
+                <select id="badr_rate_sel" class="form-select">
+                  <option value="14">From 6 April 2025 — 14%</option>
+                  <option value="10">Before 6 April 2025 — 10%</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Asset type</label>
+                <select id="badr_asset_type" class="form-select">
+                  <option value="business">Business / shares (non-residential)</option>
+                  <option value="property">Residential property</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcBADR()">💼 Calculate BADR CGT</button>
+        <button class="reset-btn" onclick="resetBADR()">↺ Reset</button>
+      </div>
+
+      <!-- BADR RESULTS -->
+      <div class="results-sticky">
+        <div class="result-card">
+          <div class="result-header">
+            <div class="result-header-title">💼 BADR Result</div>
+            <div class="result-header-sub">Business Asset Disposal Relief</div>
+          </div>
+          <div class="result-body">
+            <div id="badr_empty" class="empty-state">
+              <div class="empty-state-icon">💼</div>
+              <div class="empty-state-text">Enter BADR disposal details and click <strong style="color:var(--accent)">Calculate</strong>.</div>
+            </div>
+            <div id="badr_content" style="display:none">
+
+              <div class="result-hero">
+                <div class="result-hero-label">Total CGT Due</div>
+                <div class="result-hero-value" id="badrh_tax">£0</div>
+                <div class="result-hero-sub" id="badrh_sub">BADR + standard rate</div>
+              </div>
+
+              <div class="result-section-title">BADR Lifetime Limit</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row"><span>Lifetime limit</span><span>£1,000,000</span></div>
+                <div class="breakdown-row red"><span>Used to date (before this disposal)</span><span id="badrl_used">£0</span></div>
+                <div class="breakdown-row hl"><span>Remaining BADR allowance</span><span id="badrl_remaining">£0</span></div>
+                <div class="breakdown-row"><span>This disposal (qualifying gain)</span><span id="badrl_gain">£0</span></div>
+                <div class="breakdown-row orange"><span>Gain eligible for BADR</span><span id="badrl_badr_gain">£0</span></div>
+                <div class="breakdown-row red"><span>Excess (standard CGT rates)</span><span id="badrl_excess">£0</span></div>
+              </div>
+
+              <div class="result-section-title">CGT Calculation</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row green"><span>Annual Exempt Amount</span><span>–£3,000</span></div>
+                <div class="breakdown-row hl"><span>BADR gain × rate</span><span id="badrc_badr_tax">£0</span></div>
+                <div class="breakdown-row orange"><span>Excess gain (standard rates)</span><span id="badrc_std_tax">£0</span></div>
+                <div class="breakdown-row orange"><span>Other gains (standard rates)</span><span id="badrc_other_tax">£0</span></div>
+                <div class="breakdown-row red"><span>Total CGT</span><span id="badrc_total">£0</span></div>
+              </div>
+
+              <div class="result-section-title">Savings vs No Relief</div>
+              <div class="result-row highlight">
+                <div class="result-label">CGT at standard rate (no BADR)</div>
+                <div class="result-value" id="badr_no_relief">£0</div>
+              </div>
+              <div class="result-row highlight">
+                <div class="result-label">CGT with BADR</div>
+                <div class="result-value" id="badr_with_relief">£0</div>
+              </div>
+              <div class="result-row total">
+                <div class="result-label">Tax saving from BADR</div>
+                <div class="result-value" id="badr_saving">£0</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       TAB 4: REFERENCE
+  ══════════════════════════════════════ -->
+  <div id="tab_ref" class="tab-panel">
+    <div class="card">
+      <div class="card-title"><span>📋</span> CGT Reference — 2025/26</div>
+
+      <div class="form-section-label" style="margin-bottom:.6rem">CGT rates (from 30 October 2024)</div>
+      <table class="band-table">
+        <thead><tr><th>Asset type</th><th>Basic rate</th><th>Higher/Additional rate</th></tr></thead>
+        <tbody>
+          <tr><td>Residential property</td><td class="hl">18%</td><td class="orange">24%</td></tr>
+          <tr><td>Shares, crypto, collectibles</td><td class="hl">18%</td><td class="orange">24%</td></tr>
+          <tr><td>Business assets (BADR)</td><td class="green">14%</td><td class="green">14%</td></tr>
+          <tr><td>Investors' Relief</td><td class="green">14%</td><td class="green">14%</td></tr>
+          <tr><td>Carried interest</td><td class="red">32%</td><td class="red">32%</td></tr>
+          <tr><td>Trustees (non-residential)</td><td class="hl">20%</td><td class="hl">20%</td></tr>
+          <tr><td>Trustees (residential)</td><td class="orange">24%</td><td class="orange">24%</td></tr>
+        </tbody>
+      </table>
+
+      <div class="form-section-label" style="margin:.9rem 0 .6rem">Annual Exempt Amount history</div>
+      <table class="band-table">
+        <thead><tr><th>Tax year</th><th>AEA (individuals)</th><th>AEA (trustees)</th></tr></thead>
+        <tbody>
+          <tr><td>2022/23</td><td class="hl">£12,300</td><td class="dim">£6,150</td></tr>
+          <tr><td>2023/24</td><td class="orange">£6,000</td><td class="dim">£3,000</td></tr>
+          <tr><td>2024/25</td><td class="red">£3,000</td><td class="dim">£1,500</td></tr>
+          <tr><td>2025/26</td><td class="red">£3,000</td><td class="dim">£1,500</td></tr>
+        </tbody>
+      </table>
+
+      <div class="form-section-label" style="margin:.9rem 0 .6rem">BADR / ER history</div>
+      <table class="band-table">
+        <thead><tr><th>Period</th><th>Rate</th><th>Lifetime limit</th></tr></thead>
+        <tbody>
+          <tr><td>Pre 6 April 2025</td><td class="hl">10%</td><td>£1,000,000</td></tr>
+          <tr><td>6 Apr 2025 – 5 Apr 2026</td><td class="orange">14%</td><td>£1,000,000</td></tr>
+          <tr><td>From 6 April 2026</td><td class="red">18%</td><td>£1,000,000</td></tr>
+        </tbody>
+      </table>
+
+      <div class="form-section-label" style="margin:.9rem 0 .6rem">Key exemptions & reliefs</div>
+      <table class="band-table">
+        <thead><tr><th>Relief / Exemption</th><th>Amount / Condition</th></tr></thead>
+        <tbody>
+          <tr><td>Annual Exempt Amount</td><td class="hl">£3,000 per individual — use it or lose it</td></tr>
+          <tr><td>Private Residence Relief</td><td class="hl">Full gain exempt during periods as main home + final 9 months</td></tr>
+          <tr><td>Letting Relief</td><td class="hl">Up to £40,000 (must occupy with tenant)</td></tr>
+          <tr><td>BADR / ER</td><td class="hl">14% rate, £1m lifetime limit</td></tr>
+          <tr><td>ISA / pension gains</td><td class="hl">Fully exempt — no CGT</td></tr>
+          <tr><td>Spouse / civil partner transfers</td><td class="hl">No gain / no loss — no CGT at transfer</td></tr>
+          <tr><td>Chattels (single item &lt; £6,000)</td><td class="hl">Exempt if gross proceeds &lt; £6,000</td></tr>
+          <tr><td>Wasting assets (&lt;50yr life)</td><td class="hl">Generally exempt (e.g. cars)</td></tr>
+          <tr><td>EIS/SEIS deferral/disposal</td><td class="dim">CGT deferral / exemption on qualifying investments</td></tr>
+          <tr><td>Gift Hold-Over Relief</td><td class="dim">Defer gain on gift of business assets / unlisted shares</td></tr>
+        </tbody>
+      </table>
+
+      <div class="form-section-label" style="margin:.9rem 0 .6rem">Reporting requirements</div>
+      <table class="band-table">
+        <thead><tr><th>Situation</th><th>How to report</th><th>Deadline</th></tr></thead>
+        <tbody>
+          <tr><td>UK residential property disposal</td><td class="red">HMRC CGT on UK property service</td><td class="red">60 days from completion</td></tr>
+          <tr><td>Other chargeable assets</td><td class="hl">Self Assessment tax return</td><td class="hl">31 January following tax year end</td></tr>
+          <tr><td>Gains within AEA only</td><td class="dim">SA return still needed if total proceeds &gt; £50,000</td><td class="dim">31 January</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box yellow" style="margin-top:.8rem">
+        <strong>Band splitting — how CGT rates work</strong>
+        CGT is charged on top of income. First, add your net chargeable gain to your taxable income. The portion of the gain that falls within the basic rate band (up to £50,270 combined) is taxed at the lower CGT rate (18%). Any gain above £50,270 is taxed at the higher rate (24%). This means even a higher rate income taxpayer may pay some CGT at 18% if gains are large enough to have a portion below the band threshold.
+      </div>
+
+      <div class="info-box purple" style="margin-top:.6rem">
+        <strong>Bed &amp; Breakfast / 30-day rule</strong>
+        If you sell shares and buy back the same shares within 30 days, the disposal is matched against the repurchased shares (not the pool). This prevents artificial loss creation. After 30 days, the new shares form part of the Section 104 pool at the new cost.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  ⚠️ Estimation only · Not professional tax advice · Verify with <a href="https://www.gov.uk/capital-gains-tax" target="_blank" style="color:var(--accent)">GOV.UK</a> · © 2026 SAGAR DAS, ITP & Financial Advisor
+</div>
+
+<script>
+/* ===== MOBILE MENU START ===== */
+const ham=document.getElementById('ham'),mob=document.getElementById('mob');
+ham.addEventListener('click',()=>{
+  mob.classList.toggle('open');
+  const s=ham.querySelectorAll('span');
+  if(mob.classList.contains('open')){
+    s[0].style.transform='rotate(45deg) translate(6px,6px)';
+    s[1].style.opacity='0';
+    s[2].style.transform='rotate(-45deg) translate(6px,-6px)';
+  }else{
+    s[0].style.transform='';s[1].style.opacity='';s[2].style.transform='';
+  }
+});
+/* ===== MOBILE MENU END ===== */
+
+/* ===== CLICK DROPDOWN MENU SCRIPT START ===== */
+document.addEventListener('DOMContentLoaded', function () {
+  const dropdowns = document.querySelectorAll('.nav-links .dropdown');
+
+  function closeAll() {
+    dropdowns.forEach(function (d) {
+      d.classList.remove('open');
+      const btn = d.querySelector('.nav-drop-btn');
+      if (btn) {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  closeAll();
+
+  dropdowns.forEach(function (dropdown) {
+    const btn = dropdown.querySelector('.nav-drop-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const isOpen = dropdown.classList.contains('open');
+      closeAll();
+
+      if (!isOpen) {
+        dropdown.classList.add('open');
+        btn.classList.add('active');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.nav-links .dropdown')) {
+      closeAll();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAll();
+  });
+});
+/* ===== CLICK DROPDOWN MENU SCRIPT END ===== */
+
+/* ── UTILS ── */
+const f = n => Number(n).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fv = (id,v) => { const e=document.getElementById(id); if(e) e.textContent='£'+f(v); };
+const txt = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+const showB = (id,on) => { const e=document.getElementById(id); if(e) e.style.display=on?'block':'none'; };
+
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.main-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── ASSET TYPES ── */
+const ASSET_TYPES = [
+  {id:'shares',   icon:'📊', label:'Shares / ETFs',     rate:'18/24%', isProperty:false},
+  {id:'property', icon:'🏠', label:'Residential Property', rate:'18/24%', isProperty:true},
+  {id:'crypto',   icon:'₿',  label:'Crypto / NFT',      rate:'18/24%', isProperty:false},
+  {id:'commercial',icon:'🏢',label:'Commercial Property',rate:'18/24%', isProperty:false},
+  {id:'badr',     icon:'💼', label:'BADR Business',     rate:'14%',    isProperty:false},
+  {id:'other',    icon:'📦', label:'Other Asset',       rate:'18/24%', isProperty:false},
+];
+
+/* ── DISPOSAL LIST ── */
+let disposalCount=0;
+
+function addDisposal(){
+  disposalCount++;
+  const id=disposalCount;
+  const container=document.getElementById('disposal_list');
+  const div=document.createElement('div');
+  div.className='disposal-item';
+  div.id='disposal_'+id;
+  div.innerHTML=`
+    <div class="disposal-item-header">
+      <div class="disposal-item-title">
+        <span id="di_icon_${id}">📊</span>
+        <span id="di_title_${id}">Disposal ${id}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.6rem">
+        <span class="disposal-item-gain zero" id="di_gain_${id}">£0</span>
+        <button class="disposal-remove" onclick="removeDisposal(${id})" title="Remove">✕</button>
+      </div>
+    </div>
+    <div class="disposal-grid">
+      <div class="disposal-field">
+        <label>Asset type</label>
+        <select id="di_type_${id}" onchange="updateDisposalType(${id})">
+          ${ASSET_TYPES.map(a=>`<option value="${a.id}">${a.icon} ${a.label}</option>`).join('')}
+        </select>
+      </div>
+      <div class="disposal-field">
+        <label>Description (optional)</label>
+        <input type="text" id="di_desc_${id}" placeholder="e.g. Apple shares, 25 The Street">
+      </div>
+      <div class="disposal-field">
+        <label>Proceeds (£)</label>
+        <input type="number" id="di_proceeds_${id}" placeholder="0.00" oninput="updateDisposalGain(${id})">
+      </div>
+      <div class="disposal-field">
+        <label>Cost + expenses (£)</label>
+        <input type="number" id="di_cost_${id}" placeholder="0.00" oninput="updateDisposalGain(${id})">
+      </div>
+    </div>`;
+  container.appendChild(div);
+}
+
+function removeDisposal(id){
+  const el=document.getElementById('disposal_'+id);
+  if(el) el.remove();
+}
+
+function updateDisposalType(id){
+  const typeVal=document.getElementById('di_type_'+id).value;
+  const asset=ASSET_TYPES.find(a=>a.id===typeVal);
+  if(asset){
+    document.getElementById('di_icon_'+id).textContent=asset.icon;
+    document.getElementById('di_title_'+id).textContent=asset.label;
+  }
+}
+
+function updateDisposalGain(id){
+  const proc=parseFloat(document.getElementById('di_proceeds_'+id)?.value)||0;
+  const cost=parseFloat(document.getElementById('di_cost_'+id)?.value)||0;
+  const gain=proc-cost;
+  const el=document.getElementById('di_gain_'+id);
+  if(el){
+    el.textContent=(gain>=0?'':'–')+'£'+f(Math.abs(gain));
+    el.className='disposal-item-gain '+(gain>0?'positive':gain<0?'negative':'zero');
+  }
+}
+
+/* ── BAND SPLIT ENGINE ── */
+/*
+  income: taxable income (after PA)
+  netGain: chargeable gain (after AEA, losses)
+  isProperty: if true, res property rates 18/24
+  hasBadr: if true, BADR portion taxed at 14%
+  Returns: { basicCGT, higherCGT, totalCGT }
+*/
+function bandSplitCGT(income, netGain, isProperty, hasBadr, badrGain){
+  const BASIC_TOP = 37700; // Basic rate band = £12,570 + £37,700 = £50,270
+  const R_LOW  = isProperty ? 0.18 : 0.18; // basic rate — same for all assets in 2025/26
+  const R_HIGH = isProperty ? 0.24 : 0.24;
+  const R_BADR = 0.14;
+
+  if(netGain<=0) return {basicCGT:0,higherCGT:0,totalCGT:0,basicPortion:0,higherPortion:0};
+
+  // Income already uses some of basic band
+  const basicRemaining = Math.max(0, BASIC_TOP - income);
+  const basicPortion   = Math.min(netGain, basicRemaining);
+  const higherPortion  = Math.max(0, netGain - basicPortion);
+
+  let totalCGT=0, basicCGT=0, higherCGT=0;
+
+  if(hasBadr && badrGain>0){
+    // BADR gains taxed at 14% always; non-BADR in band
+    const nonBadrGain = Math.max(0, netGain - badrGain);
+    const badrCGT     = badrGain * R_BADR;
+    const nonBasic    = Math.min(nonBadrGain, basicRemaining);
+    const nonHigher   = Math.max(0, nonBadrGain - nonBasic);
+    basicCGT  = badrCGT + nonBasic  * R_LOW;
+    higherCGT = nonHigher * R_HIGH;
+    totalCGT  = basicCGT + higherCGT;
+  } else {
+    basicCGT  = basicPortion  * R_LOW;
+    higherCGT = higherPortion * R_HIGH;
+    totalCGT  = basicCGT + higherCGT;
+  }
+
+  return {basicCGT, higherCGT, totalCGT, basicPortion, higherPortion};
+}
+
+/* ── LIVE BAND INDICATOR ── */
+function cgtLive(){
+  const income=parseFloat(document.getElementById('cg_income').value)||0;
+  const BASIC_TOP=50270;
+  const ind=document.getElementById('band_indicator');
+  const rem=document.getElementById('band_remaining');
+  if(income >= BASIC_TOP){
+    ind.style.background='rgba(255,107,107,.1)';
+    ind.style.borderColor='rgba(255,107,107,.3)';
+    ind.style.color='var(--red)';
+    ind.textContent='🔴 Higher/Additional rate taxpayer (CGT: 24%)';
+    rem.textContent='';
+  } else {
+    ind.style.background='rgba(0,212,170,.1)';
+    ind.style.borderColor='rgba(0,212,170,.3)';
+    ind.style.color='var(--accent)';
+    ind.textContent='📊 Basic rate taxpayer (CGT: 18%)';
+    const bRemain = BASIC_TOP - income;
+    rem.textContent='£'+f(bRemain)+' of basic rate band remaining for gains';
+  }
+}
+
+/* ── MAIN CGT CALC ── */
+function calcCGT(){
+  const income    = parseFloat(document.getElementById('cg_income').value)||0;
+  const lossesBF  = parseFloat(document.getElementById('cg_losses_bf').value)||0;
+  const year      = document.getElementById('cg_year').value;
+  const spouse    = document.getElementById('cg_spouse').value==='yes';
+  const AEA       = year==='2526'||year==='2425' ? 3000 : 3000;
+
+  // Collect disposals
+  const items = document.querySelectorAll('.disposal-item');
+  if(items.length===0){alert('Please add at least one disposal.');return;}
+
+  let totalGains=0, totalLosses=0, hasProperty=false;
+  let dispRows='';
+
+  items.forEach(item=>{
+    const sid=item.id.replace('disposal_','');
+    const proc=parseFloat(document.getElementById('di_proceeds_'+sid)?.value)||0;
+    const cost=parseFloat(document.getElementById('di_cost_'+sid)?.value)||0;
+    const type=document.getElementById('di_type_'+sid)?.value||'shares';
+    const desc=document.getElementById('di_desc_'+sid)?.value||type;
+    const gain=proc-cost;
+    if(gain>0) totalGains+=gain;
+    else totalLosses+=Math.abs(gain);
+    if(type==='property') hasProperty=true;
+    const asset=ASSET_TYPES.find(a=>a.id===type);
+    dispRows+=`<tr>
+      <td>${asset?.icon||''} ${desc}</td>
+      <td>£${f(proc)}</td>
+      <td>£${f(cost)}</td>
+      <td class="${gain>=0?'gain':'loss'}">${gain>=0?'£'+f(gain):'–£'+f(Math.abs(gain))}</td>
+    </tr>`;
+  });
+
+  const netBeforeAEA     = Math.max(0, totalGains - totalLosses);
+  const lossesBFApplied  = Math.min(lossesBF, Math.max(0, netBeforeAEA - AEA));
+  const netAfterLosses   = Math.max(0, netBeforeAEA - lossesBFApplied);
+  const aeaApplied       = Math.min(netAfterLosses, AEA);
+  const chargeableGain   = Math.max(0, netAfterLosses - aeaApplied);
+  const lossesCF         = Math.max(0, lossesBF - lossesBFApplied);
+
+  // Band split — treat all as standard for main calc
+  const BASIC_TOP=37700; // above PA
+  const basicRem  = Math.max(0, BASIC_TOP - income);
+  const basicPortion  = Math.min(chargeableGain, basicRem);
+  const higherPortion = Math.max(0, chargeableGain - basicPortion);
+  const basicCGT  = basicPortion  * 0.18;
+  const higherCGT = higherPortion * 0.24;
+  const totalCGT  = basicCGT + higherCGT;
+  const effRate   = chargeableGain>0?(totalCGT/chargeableGain*100):0;
+
+  showB('cgt_empty',false);
+  showB('cgt_content',true);
+  txt('cgt_res_sub',(year==='2526'?'2025/26':'2024/25')+' · '+items.length+' disposal'+(items.length>1?'s':''));
+
+  fv('cgh_gain',       netAfterLosses);
+  fv('cgh_chargeable', chargeableGain);
+  fv('cgh_tax',        totalCGT);
+
+  // Disposal table
+  document.getElementById('cgt_disposal_table_wrap').innerHTML=`
+    <table class="disposal-result-table">
+      <thead><tr><th>Asset</th><th>Proceeds</th><th>Cost</th><th>Gain/Loss</th></tr></thead>
+      <tbody>${dispRows}</tbody>
+    </table>`;
+
+  fv('cgr_gross_gains',      totalGains);
+  txt('cgr_iy_losses',       '–£'+f(totalLosses));
+  fv('cgr_net_before_aea',   netBeforeAEA);
+  txt('cgr_bf_losses',       '–£'+f(lossesBFApplied));
+  fv('cgr_net_after_losses', netAfterLosses);
+  txt('cgr_aea',             '–£'+f(aeaApplied));
+  fv('cgr_chargeable',       chargeableGain);
+
+  // Band split box
+  let bandHtml='';
+  if(chargeableGain>0){
+    bandHtml+=`<div class="breakdown-row"><span>Taxable income (used in basic band)</span><span>£${f(income)}</span></div>`;
+    bandHtml+=`<div class="breakdown-row"><span>Basic rate band remaining</span><span>£${f(basicRem)}</span></div>`;
+    if(basicPortion>0) bandHtml+=`<div class="breakdown-row blue"><span>Gain at 18% (£${f(basicPortion)})</span><span>£${f(basicCGT)}</span></div>`;
+    if(higherPortion>0) bandHtml+=`<div class="breakdown-row orange"><span>Gain at 24% (£${f(higherPortion)})</span><span>£${f(higherCGT)}</span></div>`;
+    if(chargeableGain===0) bandHtml+=`<div class="breakdown-row hl"><span>No chargeable gain — no CGT due</span><span>£0</span></div>`;
+  } else {
+    bandHtml=`<div class="breakdown-row hl"><span>No chargeable gain — no CGT due</span><span>£0.00</span></div>`;
+  }
+  document.getElementById('cgr_band_split_box').innerHTML=bandHtml;
+
+  fv('cgr_total_cgt',    totalCGT);
+  txt('cgr_eff_rate',    effRate.toFixed(2)+'%');
+  fv('cgr_losses_cf',    lossesCF);
+  txt('cgr_spouse_aea',  spouse ? '£3,000 (spouse/CP unused AEA)' : '—');
+  document.getElementById('cgr_property_deadline').style.display = hasProperty?'block':'none';
+}
+
+function resetCGT(){
+  ['cg_income','cg_losses_bf'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('disposal_list').innerHTML='';
+  disposalCount=0;
+  showB('cgt_empty',true);showB('cgt_content',false);
+  cgtLive();
+}
+
+/* ── PPR CALC ── */
+function calcPPR(){
+  const proceeds  = parseFloat(document.getElementById('pp_proceeds').value)||0;
+  const cost      = parseFloat(document.getElementById('pp_cost').value)||0;
+  const improvements = parseFloat(document.getElementById('pp_improvements').value)||0;
+  const dispCosts = parseFloat(document.getElementById('pp_disp_costs').value)||0;
+  const acqCosts  = parseFloat(document.getElementById('pp_acq_costs').value)||0;
+  const income    = parseFloat(document.getElementById('pp_income').value)||0;
+  const total_m   = parseInt(document.getElementById('pp_total_months').value)||0;
+  const res_m     = parseInt(document.getElementById('pp_res_months').value)||0;
+  const final9    = document.getElementById('pp_final9').value==='yes';
+  const letting   = document.getElementById('pp_letting').value==='yes';
+
+  if(!proceeds || !cost){alert('Please enter proceeds and acquisition cost.');return;}
+
+  const totalCosts = cost + improvements + dispCosts + acqCosts;
+  const grossGain  = Math.max(0, proceeds - totalCosts);
+
+  // PPR qualifying months
+  const final9m = final9 ? 9 : 0;
+  const qualMonths = final9 ?
+    Math.min(total_m, res_m + Math.max(0, 9 - (total_m - res_m))) :
+    res_m;
+  const qualFraction = total_m>0 ? Math.min(1, qualMonths/total_m) : 0;
+  const pprRelief = grossGain * qualFraction;
+  const gainAfterPPR = Math.max(0, grossGain - pprRelief);
+
+  // Letting relief
+  let lettingRelief=0;
+  if(letting){
+    lettingRelief = Math.min(pprRelief, gainAfterPPR, 40000);
+  }
+  const gainAfterLetting = Math.max(0, gainAfterPPR - lettingRelief);
+  const aeaApplied = Math.min(gainAfterLetting, 3000);
+  const chargeable = Math.max(0, gainAfterLetting - aeaApplied);
+
+  // Band split at residential rates
+  const BASIC_TOP=37700;
+  const basicRem  = Math.max(0, BASIC_TOP - income);
+  const basicPortion  = Math.min(chargeable, basicRem);
+  const higherPortion = Math.max(0, chargeable - basicPortion);
+  const basicCGT  = basicPortion  * 0.18;
+  const higherCGT = higherPortion * 0.24;
+  const totalCGT  = basicCGT + higherCGT;
+
+  showB('pp_empty',false);showB('pp_content',true);
+
+  fv('pph_tax', totalCGT);
+  txt('pph_sub', totalCGT===0?'No CGT due':'18%/24% residential property rates');
+
+  fv('ppr_proceeds', proceeds);
+  txt('ppr_cost','–£'+f(cost));
+  txt('ppr_improvements','–£'+f(improvements));
+  txt('ppr_costs','–£'+f(dispCosts+acqCosts));
+  fv('ppr_gross_gain', grossGain);
+
+  txt('ppr_total_months', total_m+' months');
+  txt('ppr_qualifying_months', qualMonths+' months');
+  txt('ppr_fraction', qualMonths+'/'+total_m+' = '+((qualFraction*100).toFixed(1))+'%');
+  txt('ppr_relief','–£'+f(pprRelief));
+
+  document.getElementById('ppr_letting_row').style.display = letting?'flex':'none';
+  if(letting) txt('ppr_letting_val','–£'+f(lettingRelief));
+
+  fv('ppr_after_ppr',  gainAfterLetting);
+  fv('ppr_chargeable', chargeable);
+  fv('ppr_basic_cgt',  basicCGT);
+  fv('ppr_higher_cgt', higherCGT);
+  fv('ppr_total_cgt',  totalCGT);
+}
+
+function resetPPR(){
+  ['pp_proceeds','pp_cost','pp_improvements','pp_disp_costs','pp_acq_costs','pp_income','pp_total_months','pp_res_months'].forEach(id=>document.getElementById(id).value='');
+  showB('pp_empty',true);showB('pp_content',false);
+}
+
+/* ── BADR CALC ── */
+function calcBADR(){
+  const gain       = parseFloat(document.getElementById('badr_gain').value)||0;
+  const used       = parseFloat(document.getElementById('badr_used').value)||0;
+  const otherGains = parseFloat(document.getElementById('badr_other_gains').value)||0;
+  const income     = parseFloat(document.getElementById('badr_income').value)||0;
+  const rateVal    = parseInt(document.getElementById('badr_rate_sel').value)||14;
+  const isProperty = document.getElementById('badr_asset_type').value==='property';
+  const BADR_RATE  = rateVal/100;
+
+  if(!gain){alert('Please enter qualifying gain.');return;}
+
+  const remaining = Math.max(0, 1000000 - used);
+  const badrGain  = Math.min(gain, remaining);
+  const excess    = Math.max(0, gain - badrGain);
+
+  const AEA = 3000;
+  const totalGain = gain + otherGains;
+  const aeaApplied = Math.min(totalGain, AEA);
+
+  // AEA first against non-BADR gains if possible (beneficial)
+  const aeaForOther = Math.min(aeaApplied, otherGains+excess);
+  const aeaForBadr  = Math.max(0, aeaApplied - aeaForOther);
+  const netBadr     = Math.max(0, badrGain - aeaForBadr);
+  const netOther    = Math.max(0, (otherGains + excess) - aeaForOther);
+
+  const badrTax = netBadr * BADR_RATE;
+
+  const BASIC_TOP=37700;
+  const basicRem  = Math.max(0, BASIC_TOP - income);
+  const basicPortion  = Math.min(netOther, basicRem);
+  const higherPortion = Math.max(0, netOther - basicPortion);
+  const stdRate_low  = isProperty ? 0.18 : 0.18;
+  const stdRate_high = isProperty ? 0.24 : 0.24;
+  const stdTax = basicPortion*stdRate_low + higherPortion*stdRate_high;
+
+  const totalCGT = badrTax + stdTax;
+
+  // Comparison: without BADR
+  const noReliefGain = Math.max(0, totalGain - AEA);
+  const nrBasic  = Math.min(noReliefGain, basicRem);
+  const nrHigher = Math.max(0, noReliefGain - nrBasic);
+  const nrCGT    = nrBasic*stdRate_low + nrHigher*stdRate_high;
+  const saving   = nrCGT - totalCGT;
+
+  showB('badr_empty',false);showB('badr_content',true);
+  fv('badrh_tax', totalCGT);
+  txt('badrh_sub',`BADR at ${rateVal}% + standard rates`);
+
+  fv('badrl_used',      used);
+  fv('badrl_remaining', remaining);
+  fv('badrl_gain',      gain);
+  fv('badrl_badr_gain', badrGain);
+  fv('badrl_excess',    excess);
+
+  txt('badrc_badr_tax', '£'+f(badrTax)+' (£'+f(netBadr)+' × '+rateVal+'%)');
+  txt('badrc_std_tax',  '£'+f(stdTax > 0 ? stdTax : 0)+' (£'+f(netOther)+' × 18/24%)');
+  txt('badrc_other_tax','£'+f(0)); // included above
+  txt('badrc_total',    '£'+f(totalCGT));
+
+  fv('badr_no_relief',   nrCGT);
+  fv('badr_with_relief', totalCGT);
+  fv('badr_saving',      Math.max(0,saving));
+  document.getElementById('badr_saving').style.color='var(--accent)';
+}
+
+function resetBADR(){
+  ['badr_gain','badr_used','badr_other_gains','badr_income'].forEach(id=>document.getElementById(id).value='');
+  showB('badr_empty',true);showB('badr_content',false);
+}
+
+// Init — add first disposal
+addDisposal();
+</script>
+<script src="../theme.js"></script>\n</body>
+</html>

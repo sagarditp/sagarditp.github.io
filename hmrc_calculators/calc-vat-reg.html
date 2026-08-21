@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VAT Registration Threshold Checker | SAGAR DAS, ITP & Financial Advisor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050a14;--bg2:#0a1221;--bg3:#0f1a2e;
+  --accent:#00d4aa;--accent2:#00b894;--accent3:#00e6c3;
+  --accent-glow:rgba(0,212,170,.15);
+  --text:#8b9cb8;--textl:#e1e7f0;--white:#ffffff;
+  --card:rgba(15,26,46,.85);
+  --border:rgba(0,212,170,.12);--border2:rgba(0,212,170,.25);
+  --red:#ff6b6b;--orange:#ffa94d;--yellow:#ffd43b;--purple:#b197fc;
+  --reg-threshold:90000;
+  --dereg-threshold:88000;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* NAVIGATION */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(5,10,20,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);letter-spacing:-.5px}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center}
+.nav-links a{color:var(--textl);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.5px;transition:all .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+
+/* DROPDOWN MENU CSS */
+.dropdown { position: relative; }
+.nav-drop-btn { background: transparent; border: none; font-family: inherit; font-size: .8rem; font-weight: 500; color: var(--textl); cursor: pointer; display: flex; align-items: center; gap: 4px; transition: color .3s; padding: 0; letter-spacing: .5px; outline: none; }
+.nav-drop-btn:hover { color: var(--accent); }
+.dropdown-menu { display: none; position: absolute; top: calc(100% + 15px); left: 0; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: .5rem 0; min-width: 220px; box-shadow: 0 10px 40px rgba(0,0,0,.6); flex-direction: column; gap: 0; }
+.dropdown-menu::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; } 
+.dropdown-menu li { width: 100%; list-style: none; }
+.dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu { display: flex; animation: slideUp .3s ease forwards; }
+.nav-links .dropdown-menu a { display: block; padding: .6rem 1.2rem; font-size: .8rem; color: var(--text); transition: all .2s; }
+.nav-links .dropdown-menu a::after { display: none; }
+.nav-links .dropdown-menu a:hover { color: var(--accent); background: var(--accent-glow); padding-left: 1.5rem; }
+.dd-icon { transition: transform .3s; }
+.dropdown:hover .dd-icon, .dropdown.open .dd-icon { transform: rotate(180deg); }
+
+.ham{display:none;flex-direction:column;gap:6px;cursor:pointer;padding:5px}
+.ham span{width:24px;height:2px;background:var(--accent);border-radius:2px;transition:all .3s}
+#mob{display:none;position:fixed;top:65px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);z-index:199;padding:1.5rem 2rem;max-height:calc(100vh - 65px);overflow-y:auto}
+#mob.open{display:block}
+#mob ul{list-style:none;display:flex;flex-direction:column;gap:1rem}
+#mob a{color:var(--textl);text-decoration:none;font-size:.95rem;transition:color .3s}
+#mob a:hover{color:var(--accent)}
+
+/* MOBILE DROPDOWN STYLES */
+details summary { list-style: none; cursor: pointer; color: var(--textl); font-size: .95rem; font-weight: 500; transition: color .3s; display: flex; justify-content: space-between; align-items: center; }
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: '▾'; transition: transform 0.3s; color: var(--text); }
+details[open] summary::after { transform: rotate(180deg); color: var(--accent); }
+details summary:hover { color: var(--accent); }
+details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
+.mob-sub { padding-left: 1rem; border-left: 1px dashed var(--border); margin-left: 0.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:1150px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  .ham{display:flex}
+}
+
+/* PAGE */
+.page{padding:6.5rem 2rem 3rem;max-width:1200px;margin:0 auto}
+.page-hero{margin-bottom:2rem}
+.page-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent-glow);border:1px solid var(--border2);border-radius:50px;padding:.35rem .9rem;font-size:.72rem;color:var(--accent);font-weight:600;margin-bottom:1rem}
+.page-title{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--white);margin-bottom:.5rem;letter-spacing:-.5px}
+.page-title span{color:var(--accent)}
+.page-sub{font-size:.88rem;color:var(--text);line-height:1.7;max-width:820px}
+.page-sub a{color:var(--accent);text-decoration:none}
+.page-sub a:hover{text-decoration:underline}
+
+/* LAYOUT */
+.calc-layout{display:grid;grid-template-columns:1fr 420px;gap:2rem;align-items:start}
+@media(max-width:1000px){.calc-layout{grid-template-columns:1fr}}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.6rem 1.8rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent3))}
+.card-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem}
+.card-title span{font-size:1.2rem}
+.card-title small{font-size:.72rem;color:var(--text);font-weight:400;margin-left:.3rem}
+
+/* FORM */
+.form-section{margin-bottom:1.4rem;padding-bottom:1.4rem;border-bottom:1px solid var(--border)}
+.form-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.form-section-label{font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.9rem;display:flex;align-items:center;gap:.6rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.form-grid.col3{grid-template-columns:1fr 1fr 1fr}
+.form-grid.col4{grid-template-columns:repeat(4,1fr)}
+.form-grid.col1{grid-template-columns:1fr}
+@media(max-width:700px){.form-grid,.form-grid.col3,.form-grid.col4{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.form-grid,.form-grid.col3,.form-grid.col4{grid-template-columns:1fr}}
+
+.form-field{display:flex;flex-direction:column;gap:.3rem}
+.form-label{font-size:.78rem;color:var(--textl);font-weight:500}
+.form-label .hint{font-size:.7rem;color:var(--text);font-weight:400;display:block;margin-top:.1rem}
+.form-input,.form-select{padding:.6rem .85rem;border-radius:9px;border:1px solid var(--border2);background:var(--bg3);color:var(--textl);font-size:.85rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+.form-input:focus,.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,.12)}
+.form-input[type=number]::-webkit-inner-spin-button,
+.form-input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+.form-input[type=number]{-moz-appearance:textfield}
+
+.input-prefix-wrap{position:relative}
+.input-prefix{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:.85rem;color:var(--text);pointer-events:none}
+.input-prefix-wrap .form-input{padding-left:1.8rem}
+
+/* MONTH GRID */
+.month-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin-top:.5rem}
+@media(max-width:900px){.month-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:600px){.month-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:420px){.month-grid{grid-template-columns:repeat(2,1fr)}}
+
+.month-cell{position:relative;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:.75rem .7rem;transition:border-color .2s,background .2s}
+.month-cell.active{border-color:var(--accent);background:rgba(0,212,170,.05)}
+.month-cell.exceeded{border-color:var(--red);background:rgba(255,107,107,.06)}
+.month-cell.warning{border-color:var(--orange);background:rgba(255,169,77,.06)}
+.month-cell-label{font-size:.7rem;font-weight:700;color:var(--textl);margin-bottom:.4rem;display:flex;justify-content:space-between;align-items:center}
+.month-cell-num{font-size:.62rem;color:var(--text)}
+.month-cell-input{width:100%;padding:.45rem .55rem;border-radius:7px;border:1px solid var(--border);background:var(--bg3);color:var(--textl);font-size:.82rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;-webkit-appearance:none;-moz-appearance:textfield}
+.month-cell-input::-webkit-inner-spin-button,.month-cell-input::-webkit-outer-spin-button{-webkit-appearance:none}
+.month-cell-input:focus{border-color:var(--accent)}
+.month-cell-running{font-size:.64rem;margin-top:.35rem;font-weight:600;text-align:right}
+.month-cell-running.ok{color:var(--accent)}
+.month-cell-running.warn{color:var(--orange)}
+.month-cell-running.over{color:var(--red)}
+
+/* PROGRESS BAR */
+.threshold-bar-wrap{margin:1.2rem 0}
+.threshold-bar-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:.5rem;font-size:.78rem}
+.threshold-bar-header span:first-child{color:var(--textl);font-weight:600}
+.threshold-bar-header span:last-child{color:var(--text);font-size:.72rem}
+.threshold-bar-track{height:14px;background:var(--bg3);border-radius:99px;overflow:hidden;border:1px solid var(--border);position:relative}
+.threshold-bar-fill{height:100%;border-radius:99px;transition:width .5s ease,background .4s;min-width:2px}
+.threshold-bar-fill.ok{background:linear-gradient(90deg,var(--accent2),var(--accent))}
+.threshold-bar-fill.warn{background:linear-gradient(90deg,var(--orange),#ffda4d)}
+.threshold-bar-fill.over{background:linear-gradient(90deg,var(--red),#ff9f43)}
+.threshold-bar-marker{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,255,255,.25)}
+.threshold-bar-labels{display:flex;justify-content:space-between;font-size:.66rem;color:var(--text);margin-top:.3rem}
+
+/* TOGGLE GROUP */
+.toggle-group{display:flex;gap:.5rem;flex-wrap:wrap}
+.toggle-btn{padding:.45rem .9rem;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--textl);font-size:.78rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.toggle-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
+.toggle-btn:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+
+/* CALC BUTTONS */
+.calc-btn{width:100%;padding:.85rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg);font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;margin-top:.5rem;letter-spacing:.3px}
+.calc-btn:hover{background:linear-gradient(135deg,var(--accent3),var(--accent));transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,212,170,.3)}
+.calc-btn:active{transform:translateY(0)}
+.reset-btn{width:100%;padding:.65rem;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:.8rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;margin-top:.6rem}
+.reset-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* RESULTS */
+.results-sticky{position:sticky;top:5.5rem}
+.result-card{background:var(--card);border:2px solid var(--accent);border-radius:20px;overflow:hidden}
+.result-card.alert-red{border-color:var(--red)}
+.result-card.alert-orange{border-color:var(--orange)}
+.result-header{background:linear-gradient(135deg,rgba(0,212,170,.12),rgba(0,212,170,.04));padding:1.3rem 1.5rem;border-bottom:1px solid var(--border2)}
+.result-header.red{background:linear-gradient(135deg,rgba(255,107,107,.12),rgba(255,107,107,.04))}
+.result-header.orange{background:linear-gradient(135deg,rgba(255,169,77,.12),rgba(255,169,77,.04))}
+.result-header-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.result-header-sub{font-size:.75rem;color:var(--accent)}
+.result-body{padding:1.3rem 1.5rem;max-height:90vh;overflow-y:auto}
+.result-body::-webkit-scrollbar{width:4px}
+.result-body::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+
+/* STATUS BADGE */
+.status-badge{display:inline-flex;align-items:center;gap:.5rem;border-radius:12px;padding:.8rem 1.1rem;font-size:.85rem;font-weight:700;margin-bottom:1rem;width:100%}
+.status-badge.green{background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.3);color:var(--accent)}
+.status-badge.orange{background:rgba(255,169,77,.1);border:1px solid rgba(255,169,77,.3);color:var(--orange)}
+.status-badge.red{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);color:var(--red)}
+
+.result-hero{text-align:center;padding:1rem 0 1.2rem;border-bottom:1px solid var(--border);margin-bottom:1.1rem}
+.result-hero-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text);margin-bottom:.3rem}
+.result-hero-value{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;color:var(--accent);line-height:1}
+.result-hero-sub{font-size:.75rem;color:var(--text);margin-top:.4rem}
+
+.result-section-title{font-size:.67rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin:1rem 0 .45rem;padding-bottom:.3rem;border-bottom:1px solid var(--border)}
+.result-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid rgba(0,212,170,.05)}
+.result-row:last-child{border-bottom:none}
+.result-row.total{padding-top:.7rem;margin-top:.3rem;border-top:2px solid var(--border2);border-bottom:none}
+.result-label{font-size:.78rem;color:var(--text);flex:1;line-height:1.4;padding-right:.5rem}
+.result-label small{display:block;font-size:.67rem;color:var(--text);opacity:.7;margin-top:.1rem}
+.result-value{font-size:.82rem;color:var(--textl);font-weight:600;text-align:right;white-space:nowrap}
+.result-row.total .result-label{color:var(--textl);font-weight:700;font-size:.85rem}
+.result-row.total .result-value{color:var(--accent);font-size:.9rem}
+
+.breakdown-box{background:rgba(0,212,170,.04);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;margin:.5rem 0}
+.breakdown-title{font-size:.7rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem}
+.breakdown-row{display:flex;justify-content:space-between;align-items:center;font-size:.76rem;padding:.25rem 0;border-bottom:1px solid rgba(0,212,170,.06)}
+.breakdown-row:last-child{border-bottom:none}
+.breakdown-row span:first-child{color:var(--text)}
+.breakdown-row span:last-child{color:var(--textl);font-weight:600}
+.breakdown-row.hl span:last-child{color:var(--accent)}
+.breakdown-row.red-hl span:last-child{color:var(--red);font-weight:700}
+.breakdown-row.orange-hl span:last-child{color:var(--orange);font-weight:700}
+
+/* MONTH RESULTS TABLE */
+.month-result-table{width:100%;border-collapse:collapse;font-size:.74rem;margin:.4rem 0}
+.month-result-table th{text-align:left;color:var(--accent);font-size:.66rem;text-transform:uppercase;letter-spacing:.8px;padding:.35rem .45rem;border-bottom:1px solid var(--border2)}
+.month-result-table td{padding:.38rem .45rem;border-bottom:1px solid rgba(0,212,170,.05);color:var(--textl)}
+.month-result-table tr:last-child td{border-bottom:none}
+.month-result-table .exceeded td{background:rgba(255,107,107,.06)}
+.month-result-table .exceeded td:nth-child(3){color:var(--red);font-weight:700}
+.month-result-table .warning td{background:rgba(255,169,77,.05)}
+.month-result-table .warning td:nth-child(3){color:var(--orange);font-weight:700}
+.month-result-table .ok td:nth-child(3){color:var(--accent)}
+
+/* DEADLINE BOX */
+.deadline-box{border-radius:12px;padding:1rem 1.2rem;margin:.6rem 0}
+.deadline-box.green{background:rgba(0,212,170,.07);border:1px solid rgba(0,212,170,.25)}
+.deadline-box.red{background:rgba(255,107,107,.07);border:1px solid rgba(255,107,107,.25)}
+.deadline-box.orange{background:rgba(255,169,77,.07);border:1px solid rgba(255,169,77,.25)}
+.deadline-box-title{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
+.deadline-box.green .deadline-box-title{color:var(--accent)}
+.deadline-box.red .deadline-box-title{color:var(--red)}
+.deadline-box.orange .deadline-box-title{color:var(--orange)}
+.deadline-item{display:flex;justify-content:space-between;font-size:.77rem;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.deadline-item:last-child{border-bottom:none}
+.deadline-item span:first-child{color:var(--text)}
+.deadline-item span:last-child{font-weight:600}
+.deadline-box.red .deadline-item span:last-child{color:var(--red)}
+.deadline-box.orange .deadline-item span:last-child{color:var(--orange)}
+.deadline-box.green .deadline-item span:last-child{color:var(--accent)}
+
+/* INFO BOX */
+.info-box{border-radius:12px;padding:.9rem 1.1rem;font-size:.8rem;line-height:1.6;margin-top:.8rem}
+.info-box.blue{background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.2);color:var(--textl)}
+.info-box.yellow{background:rgba(255,169,77,.06);border:1px solid rgba(255,169,77,.2);color:#ffa94d}
+.info-box.red{background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.2);color:#ff6b6b}
+.info-box.purple{background:rgba(177,151,252,.06);border:1px solid rgba(177,151,252,.2);color:#b197fc}
+.info-box strong{display:block;margin-bottom:.3rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.8px}
+.info-box a{color:inherit;text-decoration:underline}
+
+.band-table{width:100%;border-collapse:collapse;font-size:.77rem;margin-top:.4rem}
+.band-table th{text-align:left;color:var(--accent);font-size:.68rem;text-transform:uppercase;letter-spacing:.8px;padding:.35rem .5rem;border-bottom:1px solid var(--border2)}
+.band-table td{padding:.45rem .5rem;border-bottom:1px solid rgba(0,212,170,.05);color:var(--textl);vertical-align:top}
+.band-table tr:last-child td{border-bottom:none}
+.band-table .hl{color:var(--accent);font-weight:600}
+.band-table .dim{color:var(--text)}
+
+.empty-state{text-align:center;padding:2.5rem 1rem}
+.empty-state-icon{font-size:2.5rem;margin-bottom:.8rem}
+.empty-state-text{font-size:.84rem;color:var(--text);line-height:1.7}
+
+.disclaimer{background:rgba(255,169,77,.05);border:1px solid rgba(255,169,77,.15);border-radius:12px;padding:1rem 1.2rem;font-size:.75rem;color:var(--text);line-height:1.6;margin-top:1.5rem}
+.disclaimer strong{color:#ffa94d}
+.disclaimer a{color:#ffa94d}
+
+.page-footer{text-align:center;padding:2rem 2rem 1rem;font-size:.73rem;color:var(--text);opacity:.6;border-top:1px solid var(--border);margin-top:2rem}
+
+@media(max-width:700px){
+  .page{padding:6rem 1.2rem 2.5rem}
+  .page-title{font-size:1.6rem}
+  .card{padding:1.2rem 1.3rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">SAGAR DAS <span> | ITP & Financial Advisor</span></div>
+  <ul class="nav-links">
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../index.html#experience">Experience</a></li>
+                <li><a href="../index.html#education">Education</a></li>
+                <li><a href="../index.html#certifications">Certifications</a></li>
+                <li><a href="../index.html#recommendations">Recommendations</a></li>
+                <li><a href="../dashboard.html">Dashboards</a></li>
+
+                <li class="dropdown" id="hmrcDropdown">
+                    <button type="button" class="nav-drop-btn" aria-expanded="false">HMRC Calculators <span class="dd-icon">▾</span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="calc-dividend-tax.html">Dividend Tax</a></li>
+                        <li><a href="calc-income-tax.html">Income Tax</a></li>
+                        <li><a href="calc-ni.html">National Insurance</a></li>
+                        <li><a href="calc-self-assessment.html">Self Assessment</a></li>
+                        <li><a href="calc-self-assessment-summary.html">Self Assessment Summary</a></li>
+                        <li><a href="calc-vat-reg.html">VAT Registration</a></li>
+                        <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
+                        <li><a href="calc-ct.html">Corporation Tax</a></li>
+                        <li><a href="calc-vat.html">VAT</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown" id="nbrDropdown">
+                    <button type="button" class="nav-drop-btn" aria-expanded="false">NBR Calculators <span class="dd-icon">▾</span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="../nbr_calculators/calc-bd-vds-tds-engine.html">BD VDS TDS Engine</a></li>
+                        <li><a href="../nbr_calculators/calc-nbr.html">NBR Calculator</a></li>
+                        <li><a href="../nbr_calculators/calculator.html">Calculator</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="../index.html#footer">Contact</a></li>
+            </ul>
+  <div class="ham" id="ham"><span></span><span></span><span></span></div>
+</nav>
+
+<div id="mob" class="mob">
+        <ul>
+            <li><a href="../index.html#skills">Skills</a></li>
+            <li><a href="../index.html#experience">Experience</a></li>
+            <li><a href="../index.html#education">Education</a></li>
+            <li><a href="../index.html#certifications">Certifications</a></li>
+            <li><a href="../index.html#recommendations">Recommendations</a></li>
+            <li><a href="../dashboard.html">Dashboards</a></li>
+
+            <li>
+                <details>
+                    <summary>HMRC Calculators</summary>
+                    <ul class="mob-sub">
+                        <li><a href="calc-dividend-tax.html">Dividend Tax</a></li>
+                        <li><a href="calc-income-tax.html">Income Tax</a></li>
+                        <li><a href="calc-ni.html">National Insurance</a></li>
+                        <li><a href="calc-self-assessment.html">Self Assessment</a></li>
+                        <li><a href="calc-self-assessment-summary.html">Self Assessment Summary</a></li>
+                        <li><a href="calc-vat-reg.html">VAT Registration</a></li>
+                        <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
+                        <li><a href="calc-ct.html">Corporation Tax</a></li>
+                        <li><a href="calc-vat.html">VAT</a></li>
+                    </ul>
+                </details>
+            </li>
+
+            <li>
+                <details>
+                    <summary>NBR Calculators</summary>
+                    <ul class="mob-sub">
+                        <li><a href="../nbr_calculators/calc-bd-vds-tds-engine.html">BD VDS TDS Engine</a></li>
+                        <li><a href="../nbr_calculators/calc-nbr.html">NBR Calculator</a></li>
+                        <li><a href="../nbr_calculators/calculator.html">Calculator</a></li>
+                    </ul>
+                </details>
+            </li>
+
+            <li><a href="../index.html#footer">Contact</a></li>
+        </ul>
+    </div>
+
+<div class="page">
+
+  <div class="page-hero">
+    <div class="page-badge">📊 VAT Registration · Rolling 12-Month Checker</div>
+    <h1 class="page-title">VAT Registration <span>Threshold Checker</span></h1>
+    <p class="page-sub">
+      Enter your taxable turnover for each month over a 12-month rolling period. The calculator automatically identifies when you breach the
+      <strong style="color:var(--accent)">£90,000</strong> registration threshold, calculates your registration and effective dates, deadline to notify HMRC, and tells you exactly which month triggered it.
+      Official guidance: <a href="https://www.gov.uk/vat-registration" target="_blank">VAT Registration – GOV.UK →</a>
+    </p>
+  </div>
+
+  <div class="calc-layout">
+
+    <!-- LEFT: FORM -->
+    <div>
+
+      <!-- SECTION 1: SETTINGS -->
+      <div class="card">
+        <div class="card-title"><span>⚙️</span> Settings</div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="form-label">Period start month</label>
+            <select id="s_start_month" class="form-select" onchange="buildMonthGrid()">
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4" selected>April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Period start year</label>
+            <select id="s_start_year" class="form-select" onchange="buildMonthGrid()">
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025" selected>2025</option>
+              <option value="2026">2026</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Already VAT registered?</label>
+            <select id="s_registered" class="form-select">
+              <option value="no">No — checking if I need to register</option>
+              <option value="yes">Yes — checking deregistration eligibility</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Type of turnover to include?</label>
+            <select id="s_scope" class="form-select">
+              <option value="taxable">Taxable supplies only (std, reduced, zero-rated)</option>
+              <option value="all">All business income (conservative check)</option>
+            </select>
+          </div>
+        </div>
+        <div class="info-box blue" style="margin-top:1rem">
+          <strong>What counts as taxable turnover?</strong>
+          Include standard-rated (20%), reduced-rated (5%) and zero-rated (0%) sales. Do NOT include exempt supplies (insurance, education, most property letting, finance), outside-scope income (salary, dividends), or VAT itself.
+        </div>
+      </div>
+
+      <!-- SECTION 2: MONTH INPUTS -->
+      <div class="card">
+        <div class="card-title"><span>📅</span> Monthly Taxable Turnover <small>— enter each month's net sales</small></div>
+
+        <div class="form-section">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem;flex-wrap:wrap;gap:.5rem">
+            <div class="form-section-label" style="margin-bottom:0">12-month period</div>
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+              <button onclick="fillSample()" style="padding:.35rem .85rem;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-size:.75rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s" onmouseover="this.style.background='var(--accent-glow)'" onmouseout="this.style.background='transparent'">📋 Load sample data</button>
+              <button onclick="clearAll()" style="padding:.35rem .85rem;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:.75rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s" onmouseover="this.style.background='rgba(255,107,107,.06)'" onmouseout="this.style.background='transparent'">✕ Clear all</button>
+            </div>
+          </div>
+          <div class="month-grid" id="month_grid">
+            <!-- Built by JS -->
+          </div>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div class="form-section">
+          <div class="form-section-label">Live threshold tracker</div>
+          <div class="threshold-bar-wrap">
+            <div class="threshold-bar-header">
+              <span id="bar_label">Total so far: £0</span>
+              <span>Threshold: £90,000</span>
+            </div>
+            <div class="threshold-bar-track">
+              <div class="threshold-bar-fill ok" id="bar_fill" style="width:0%"></div>
+              <div class="threshold-bar-marker" style="left:97.8%"></div><!-- 88k/90k -->
+            </div>
+            <div class="threshold-bar-labels">
+              <span>£0</span>
+              <span>£45,000 (50%)</span>
+              <span>£90,000 (100%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADDITIONAL TESTS -->
+        <div class="form-section">
+          <div class="form-section-label">Prospective (next 30 days) test</div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label">Expected turnover — next 30 days (£)
+                <span class="hint">If this alone will exceed £90,000 you must register immediately</span>
+              </label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">£</span>
+                <input type="number" id="s_next30" class="form-input" placeholder="0.00">
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Reason for temporary high turnover?
+                <span class="hint">You may be able to claim exception if temporary</span>
+              </label>
+              <select id="s_exception" class="form-select">
+                <option value="no">No — ongoing business</option>
+                <option value="onetime">Yes — one-off contract / unusual event</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- VOLUNTARY REGISTRATION -->
+        <div class="form-section">
+          <div class="form-section-label">Voluntary registration</div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label">Considering voluntary registration?</label>
+              <select id="s_voluntary" class="form-select">
+                <option value="no">No</option>
+                <option value="yes">Yes — I want to register below threshold</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Main VAT rate on your sales</label>
+              <select id="s_main_rate" class="form-select">
+                <option value="20">20% Standard</option>
+                <option value="5">5% Reduced</option>
+                <option value="0">0% Zero-rated</option>
+              </select>
+            </div>
+          </div>
+          <div class="info-box purple" style="margin-top:.8rem">
+            <strong>Benefits of voluntary registration (below threshold)</strong>
+            Reclaim input VAT on purchases, appear more established to clients, prepare for growth. Main downside: admin burden, quarterly returns, charging VAT may put off non-VAT-registered customers.
+          </div>
+        </div>
+
+      </div>
+
+      <button class="calc-btn" onclick="runCheck()">📊 Run Full Registration Check</button>
+      <button class="reset-btn" onclick="resetAll()">↺ Reset Everything</button>
+
+      <!-- REFERENCE -->
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-title"><span>📋</span> Registration Rules Reference</div>
+
+        <div class="form-section-label" style="margin-bottom:.6rem">Thresholds (from 1 April 2024)</div>
+        <table class="band-table">
+          <thead><tr><th>Test</th><th>Threshold</th><th>What to do</th></tr></thead>
+          <tbody>
+            <tr><td>Registration (historic)</td><td class="hl">£90,000</td><td>Notify HMRC within 30 days of month end</td></tr>
+            <tr><td>Registration (prospective)</td><td class="hl">£90,000 in next 30 days</td><td>Notify HMRC immediately (day of realisation)</td></tr>
+            <tr><td>Deregistration</td><td class="hl">£88,000</td><td>Can apply to cancel if expect below £88k</td></tr>
+            <tr><td>Voluntary registration</td><td class="dim">Any level</td><td>Can register any time if making taxable supplies</td></tr>
+          </tbody>
+        </table>
+
+        <div class="form-section-label" style="margin:.9rem 0 .6rem">Registration timeline — historic test</div>
+        <table class="band-table">
+          <thead><tr><th>Step</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td>Threshold exceeded in rolling 12 months</td><td class="hl">End of the trigger month</td></tr>
+            <tr><td>Deadline to notify HMRC</td><td class="hl">30 days after trigger month end</td></tr>
+            <tr><td>Effective date of registration</td><td class="hl">1st day of the month after the 30-day notification period</td></tr>
+            <tr><td>Late registration penalty risk</td><td class="dim">If notification is after 30-day deadline</td></tr>
+          </tbody>
+        </table>
+
+        <div class="form-section-label" style="margin:.9rem 0 .6rem">Supplies that DON'T count toward the threshold</div>
+        <table class="band-table">
+          <thead><tr><th>Type</th><th>Threshold?</th><th>Examples</th></tr></thead>
+          <tbody>
+            <tr><td>Exempt supplies</td><td class="dim">Excluded</td><td>Insurance, most financial services, education, land/property letting</td></tr>
+            <tr><td>Outside scope</td><td class="dim">Excluded</td><td>Salary, dividend income, non-business income</td></tr>
+            <tr><td>Disbursements</td><td class="dim">Excluded</td><td>Costs reimbursed as true disbursements</td></tr>
+            <tr><td>Capital asset disposals</td><td class="dim">Usually excluded</td><td>Sale of business assets (depends on whether in course of business)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box yellow" style="margin-top:.8rem">
+          <strong>Exception to registration</strong>
+          If you exceed the threshold only because of an unusual one-off event and you can show HMRC that taxable turnover in the next 12 months will fall below £90,000, you may be able to apply for an exception. This must be requested within 30 days of exceeding the threshold.
+          <a href="https://www.gov.uk/vat-registration/when-to-register" target="_blank">When to register – GOV.UK →</a>
+        </div>
+      </div>
+
+      <div class="disclaimer">
+        <strong>⚠️ Disclaimer</strong>
+        This calculator is a guide only. VAT registration rules can be complex, especially for businesses with multiple income types, partial exemption, groups, or overseas supplies. Always confirm registration requirements using official HMRC guidance or a qualified VAT adviser.
+        <a href="https://www.gov.uk/vat-registration" target="_blank">VAT Registration – GOV.UK →</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS -->
+    <div class="results-sticky">
+      <div class="result-card" id="result_card">
+        <div class="result-header" id="result_header">
+          <div class="result-header-title">📊 Registration Check Result</div>
+          <div class="result-header-sub" id="result_sub">Enter turnover figures and click Run Check</div>
+        </div>
+        <div class="result-body">
+
+          <div id="res_empty" class="empty-state">
+            <div class="empty-state-icon">📊</div>
+            <div class="empty-state-text">
+              Fill in your monthly taxable turnover above and click <strong style="color:var(--accent)">Run Full Registration Check</strong>.
+            </div>
+          </div>
+
+          <div id="res_content" style="display:none">
+
+            <!-- STATUS BADGE -->
+            <div class="status-badge" id="status_badge">
+              <span id="status_icon">✅</span>
+              <span id="status_text">Below threshold</span>
+            </div>
+
+            <!-- TOTAL HERO -->
+            <div class="result-hero">
+              <div class="result-hero-label">12-Month Rolling Turnover</div>
+              <div class="result-hero-value" id="hero_total">£0</div>
+              <div class="result-hero-sub" id="hero_sub">across the 12 months entered</div>
+            </div>
+
+            <!-- THRESHOLD PROGRESS -->
+            <div class="result-section-title">Threshold Progress</div>
+            <div class="breakdown-box">
+              <div class="breakdown-row"><span>Registration threshold</span><span>£90,000</span></div>
+              <div class="breakdown-row"><span>Your 12-month turnover</span><span id="r_turnover_val">£0</span></div>
+              <div class="breakdown-row"><span>Remaining to threshold</span><span id="r_remaining">£0</span></div>
+              <div class="breakdown-row hl"><span>% of threshold used</span><span id="r_pct_used">0%</span></div>
+            </div>
+
+            <!-- MONTH BY MONTH -->
+            <div class="result-section-title">Month-by-Month Cumulative</div>
+            <div style="overflow-x:auto">
+              <table class="month-result-table" id="month_result_table">
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>Sales</th>
+                    <th>Running 12m</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="month_result_tbody"></tbody>
+              </table>
+            </div>
+
+            <!-- BREACH DETAILS -->
+            <div id="breach_section" style="display:none">
+              <div class="result-section-title">Threshold Breach Details</div>
+              <div class="deadline-box red" id="deadline_box">
+                <div class="deadline-box-title">🚨 Registration Required</div>
+                <div class="deadline-item">
+                  <span>Threshold breached in</span>
+                  <span id="d_breach_month">—</span>
+                </div>
+                <div class="deadline-item">
+                  <span>End of trigger month</span>
+                  <span id="d_trigger_end">—</span>
+                </div>
+                <div class="deadline-item">
+                  <span>Notify HMRC by</span>
+                  <span id="d_notify_by">—</span>
+                </div>
+                <div class="deadline-item">
+                  <span>Effective registration date</span>
+                  <span id="d_effective">—</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- NOT EXCEEDED -->
+            <div id="no_breach_section" style="display:none">
+              <div class="result-section-title">Registration Not Required Yet</div>
+              <div class="deadline-box green">
+                <div class="deadline-box-title">✅ Below Threshold</div>
+                <div class="deadline-item">
+                  <span>Current rolling turnover</span>
+                  <span id="d_current_turnover">£0</span>
+                </div>
+                <div class="deadline-item">
+                  <span>Headroom remaining</span>
+                  <span id="d_headroom">£0</span>
+                </div>
+                <div class="deadline-item">
+                  <span>Average monthly turnover</span>
+                  <span id="d_avg_monthly">£0</span>
+                </div>
+                <div class="deadline-item">
+                  <span>Est. months to threshold (at avg)</span>
+                  <span id="d_months_to">—</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- NEXT 30 DAYS -->
+            <div id="next30_section" style="display:none">
+              <div class="result-section-title">Prospective (Next 30 Days) Test</div>
+              <div class="deadline-box" id="next30_box">
+                <div class="deadline-box-title" id="next30_title">—</div>
+                <div class="deadline-item">
+                  <span>Expected next 30 days</span>
+                  <span id="d_next30_val">£0</span>
+                </div>
+                <div class="deadline-item">
+                  <span>Would exceed £90,000?</span>
+                  <span id="d_next30_flag">—</span>
+                </div>
+                <div class="deadline-item" id="d_next30_deadline_row" style="display:none">
+                  <span>Register by (prospective)</span>
+                  <span id="d_next30_deadline">—</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- DEREGISTRATION -->
+            <div id="dereg_section" style="display:none">
+              <div class="result-section-title">Deregistration Eligibility</div>
+              <div class="deadline-box" id="dereg_box">
+                <div class="deadline-box-title" id="dereg_title">—</div>
+                <div class="deadline-item">
+                  <span>Deregistration threshold</span>
+                  <span>£88,000</span>
+                </div>
+                <div class="deadline-item">
+                  <span>Your rolling 12-month turnover</span>
+                  <span id="d_dereg_turnover">£0</span>
+                </div>
+                <div class="deadline-item">
+                  <span>Eligible to deregister?</span>
+                  <span id="d_dereg_eligible">—</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- EXCEPTION -->
+            <div id="exception_section" style="display:none">
+              <div class="result-section-title">Exception to Registration</div>
+              <div class="deadline-box orange">
+                <div class="deadline-box-title">⚠️ You may qualify for an exception</div>
+                <div class="deadline-item"><span>Reason stated</span><span id="d_exception_reason">One-off event</span></div>
+                <div class="deadline-item"><span>Apply within</span><span>30 days of breaching threshold</span></div>
+                <div class="deadline-item"><span>Condition</span><span>Next 12 months turnover expected below £90,000</span></div>
+              </div>
+            </div>
+
+            <!-- VOLUNTARY -->
+            <div id="voluntary_section" style="display:none">
+              <div class="result-section-title">Voluntary Registration Analysis</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row"><span>Current rolling turnover</span><span id="v_turnover">£0</span></div>
+                <div class="breakdown-row hl"><span>VAT you would charge (output)</span><span id="v_output_vat">£0</span></div>
+                <div class="breakdown-row"><span>Main rate on your sales</span><span id="v_rate">0%</span></div>
+              </div>
+              <div class="info-box blue" style="margin-top:.6rem">
+                <strong>Should you register voluntarily?</strong>
+                Voluntary registration is beneficial if most of your customers are VAT-registered (they reclaim the VAT you charge) and you have significant VATable input costs to reclaim. If you sell mainly to non-VAT consumers, charging 20% VAT will reduce competitiveness.
+              </div>
+            </div>
+
+            <!-- SUMMARY STATS -->
+            <div class="result-section-title">12-Month Summary Statistics</div>
+            <div class="breakdown-box">
+              <div class="breakdown-row"><span>Total months entered</span><span id="s_months_entered">0</span></div>
+              <div class="breakdown-row hl"><span>Total taxable turnover</span><span id="s_total">£0</span></div>
+              <div class="breakdown-row"><span>Highest single month</span><span id="s_highest">£0</span></div>
+              <div class="breakdown-row"><span>Lowest single month (non-zero)</span><span id="s_lowest">£0</span></div>
+              <div class="breakdown-row"><span>Average per entered month</span><span id="s_avg">£0</span></div>
+              <div class="breakdown-row"><span>Months above £7,500 (avg)</span><span id="s_above_avg">0</span></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="page-footer">
+  ⚠️ Estimation only · Not professional tax advice · Verify with <a href="https://www.gov.uk/vat-registration" target="_blank" style="color:var(--accent)">GOV.UK VAT Registration</a> · © 2026 SAGAR DAS, ITP & Financial Advisor
+</div>
+
+<script>
+/* ===== MOBILE MENU START ===== */
+const ham=document.getElementById('ham'),mob=document.getElementById('mob');
+ham.addEventListener('click',()=>{
+  mob.classList.toggle('open');
+  const s=ham.querySelectorAll('span');
+  if(mob.classList.contains('open')){
+    s[0].style.transform='rotate(45deg) translate(6px,6px)';
+    s[1].style.opacity='0';
+    s[2].style.transform='rotate(-45deg) translate(6px,-6px)';
+  }else{
+    s[0].style.transform='';s[1].style.opacity='';s[2].style.transform='';
+  }
+});
+/* ===== MOBILE MENU END ===== */
+
+/* ===== CLICK DROPDOWN MENU SCRIPT START ===== */
+document.addEventListener('DOMContentLoaded', function () {
+  const dropdowns = document.querySelectorAll('.nav-links .dropdown');
+
+  function closeAll() {
+    dropdowns.forEach(function (d) {
+      d.classList.remove('open');
+      const btn = d.querySelector('.nav-drop-btn');
+      if (btn) {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  closeAll();
+
+  dropdowns.forEach(function (dropdown) {
+    const btn = dropdown.querySelector('.nav-drop-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const isOpen = dropdown.classList.contains('open');
+      closeAll();
+
+      if (!isOpen) {
+        dropdown.classList.add('open');
+        btn.classList.add('active');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.nav-links .dropdown')) {
+      closeAll();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAll();
+  });
+});
+/* ===== CLICK DROPDOWN MENU SCRIPT END ===== */
+
+/* ═══════════════════════════════
+   DATA & UTILS
+═══════════════════════════════ */
+const MONTH_NAMES=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTH_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const REG=90000, DEREG=88000;
+
+function f(n){return Number(n).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fv(id,val){const e=document.getElementById(id);if(e)e.textContent='£'+f(val);}
+function txt(id,val){const e=document.getElementById(id);if(e)e.textContent=val;}
+function showB(id,on){const e=document.getElementById(id);if(e)e.style.display=on?'block':'none';}
+function showFlex(id,on){const e=document.getElementById(id);if(e)e.style.display=on?'flex':'none';}
+
+// Add months to a {month,year} object
+function addMonths(m,y,count){
+  let month=m,year=y;
+  for(let i=0;i<count;i++){
+    month++;
+    if(month>12){month=1;year++;}
+  }
+  return {month,year};
+}
+
+function dateLabel(m,y){return MONTH_SHORT[m-1]+' '+y;}
+
+function formatDate(m,y){
+  const days=[31,28,31,30,31,30,31,31,30,31,30,31];
+  // last day of month m/y
+  let d=days[m-1];
+  if(m===2&&((y%4===0&&y%100!==0)||(y%400===0))) d=29;
+  return `${d} ${MONTH_NAMES[m-1]} ${y}`;
+}
+
+function addDays(date,days){
+  // date = "DD Month YYYY" -> parse and add
+  const parts=date.split(' ');
+  const d=new Date(parseInt(parts[2]),MONTH_NAMES.indexOf(parts[1]),parseInt(parts[0]));
+  d.setDate(d.getDate()+days);
+  return `${d.getDate()} ${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function firstOfNextMonth(m,y){
+  let nm=m+1,ny=y;
+  if(nm>12){nm=1;ny++;}
+  return `1 ${MONTH_NAMES[nm-1]} ${ny}`;
+}
+
+/* ═══════════════════════════════
+   BUILD MONTH GRID
+═══════════════════════════════ */
+function buildMonthGrid(){
+  const startMonth=parseInt(document.getElementById('s_start_month').value);
+  const startYear=parseInt(document.getElementById('s_start_year').value);
+  const grid=document.getElementById('month_grid');
+  grid.innerHTML='';
+
+  for(let i=0;i<12;i++){
+    let m=startMonth+i,y=startYear;
+    while(m>12){m-=12;y++;}
+    const cell=document.createElement('div');
+    cell.className='month-cell';
+    cell.id=`cell_${i}`;
+    cell.innerHTML=`
+      <div class="month-cell-label">
+        <span>${MONTH_SHORT[m-1]}</span>
+        <span class="month-cell-num">${y}</span>
+      </div>
+      <input type="number"
+             class="month-cell-input"
+             id="m_${i}"
+             placeholder="0"
+             oninput="liveUpdate()"
+             onfocus="this.closest('.month-cell').classList.add('active')"
+             onblur="this.closest('.month-cell').classList.remove('active')">
+      <div class="month-cell-running" id="run_${i}"></div>
+    `;
+    grid.appendChild(cell);
+  }
+}
+
+/* ═══════════════════════════════
+   LIVE UPDATE (progress bar)
+═══════════════════════════════ */
+function liveUpdate(){
+  const vals=getMonthValues();
+  const total=vals.reduce((a,b)=>a+b,0);
+  const pct=Math.min(100,(total/REG)*100);
+
+  const fill=document.getElementById('bar_fill');
+  fill.style.width=pct+'%';
+  fill.className='threshold-bar-fill '+(total>=REG?'over':(total>=REG*0.85?'warn':'ok'));
+  txt('bar_label',`Total so far: £${f(total)}`);
+
+  // Rolling sums on cells
+  for(let i=0;i<12;i++){
+    const running=vals.slice(0,i+1).reduce((a,b)=>a+b,0);
+    const el=document.getElementById(`run_${i}`);
+    const cell=document.getElementById(`cell_${i}`);
+    if(el){
+      if(vals[i]>0){
+        el.textContent='£'+f(running);
+        el.className='month-cell-running '+(running>=REG?'over':(running>=REG*0.85?'warn':'ok'));
+        cell.classList.toggle('exceeded',running>=REG);
+        cell.classList.toggle('warning',running>=REG*0.85&&running<REG);
+      } else {
+        el.textContent='';
+        cell.classList.remove('exceeded','warning');
+      }
+    }
+  }
+}
+
+function getMonthValues(){
+  const vals=[];
+  for(let i=0;i<12;i++){
+    const el=document.getElementById(`m_${i}`);
+    vals.push(el?parseFloat(el.value)||0:0);
+  }
+  return vals;
+}
+
+function getMonthMeta(i){
+  let m=parseInt(document.getElementById('s_start_month').value)+i;
+  let y=parseInt(document.getElementById('s_start_year').value);
+  while(m>12){m-=12;y++;}
+  return {m,y};
+}
+
+/* ═══════════════════════════════
+   SAMPLE DATA
+═══════════════════════════════ */
+function fillSample(){
+  const samples=[5200,6100,7000,6500,7800,8200,8900,9100,9400,7500,8000,8700];
+  for(let i=0;i<12;i++){
+    const el=document.getElementById(`m_${i}`);
+    if(el) el.value=samples[i];
+  }
+  liveUpdate();
+}
+
+function clearAll(){
+  for(let i=0;i<12;i++){
+    const el=document.getElementById(`m_${i}`);
+    if(el) el.value='';
+  }
+  liveUpdate();
+}
+
+/* ═══════════════════════════════
+   MAIN CHECK
+═══════════════════════════════ */
+function runCheck(){
+  const vals=getMonthValues();
+  const registered=document.getElementById('s_registered').value==='yes';
+  const next30=parseFloat(document.getElementById('s_next30').value)||0;
+  const exception=document.getElementById('s_exception').value==='onetime';
+  const voluntary=document.getElementById('s_voluntary').value==='yes';
+  const mainRate=parseInt(document.getElementById('s_main_rate').value)||20;
+
+  const total=vals.reduce((a,b)=>a+b,0);
+  const nonZero=vals.filter(v=>v>0);
+  const highest=nonZero.length?Math.max(...nonZero):0;
+  const lowest=nonZero.length?Math.min(...nonZero):0;
+  const avg=nonZero.length?total/nonZero.length:0;
+  const aboveAvg=vals.filter(v=>v>7500).length;
+
+  // Find first month where rolling 12m exceeds REG
+  let breachIdx=-1;
+  for(let i=0;i<12;i++){
+    const run=vals.slice(0,i+1).reduce((a,b)=>a+b,0);
+    if(run>=REG&&breachIdx===-1) breachIdx=i;
+  }
+
+  const exceeded=total>=REG;
+  const exceeded30=next30>=REG;
+
+  showB('res_empty',false);
+  showB('res_content',true);
+
+  // Status badge
+  const badge=document.getElementById('status_badge');
+  const hdr=document.getElementById('result_header');
+  const card=document.getElementById('result_card');
+
+  if(exceeded){
+    badge.className='status-badge red';
+    txt('status_icon','🚨');
+    txt('status_text','Threshold exceeded — registration required');
+    hdr.className='result-header red';
+    card.className='result-card alert-red';
+    txt('result_sub','Breach detected in this 12-month window');
+  } else if(total>=REG*0.85){
+    badge.className='status-badge orange';
+    txt('status_icon','⚠️');
+    txt('status_text','Approaching threshold — monitor closely');
+    hdr.className='result-header orange';
+    card.className='result-card alert-orange';
+    txt('result_sub','£'+f(REG-total)+' away from £90,000');
+  } else {
+    badge.className='status-badge green';
+    txt('status_icon','✅');
+    txt('status_text','Below threshold — not required to register');
+    hdr.className='result-header';
+    card.className='result-card';
+    txt('result_sub','Rolling 12-month total: £'+f(total));
+  }
+
+  // Hero
+  const heroVal=document.getElementById('hero_total');
+  heroVal.textContent='£'+f(total);
+  heroVal.style.color=exceeded?'var(--red)':(total>=REG*0.85?'var(--orange)':'var(--accent)');
+  txt('hero_sub','Rolling 12-month taxable turnover');
+
+  // Threshold progress
+  fv('r_turnover_val',total);
+  const remaining=Math.max(0,REG-total);
+  fv('r_remaining',remaining);
+  txt('r_pct_used',(Math.min((total/REG)*100,100)).toFixed(1)+'%');
+  document.getElementById('r_pct_used').style.color=exceeded?'var(--red)':(total>=REG*0.85?'var(--orange)':'var(--accent)');
+
+  // Month result table
+  const tbody=document.getElementById('month_result_tbody');
+  tbody.innerHTML='';
+  let cumul=0;
+  for(let i=0;i<12;i++){
+    const {m,y}=getMonthMeta(i);
+    cumul+=vals[i];
+    const tr=document.createElement('tr');
+    let status='',statusColor='var(--text)';
+    if(cumul>=REG){status='Over £90k';statusColor='var(--red)';tr.className='exceeded';}
+    else if(cumul>=REG*0.9){status='Warning';statusColor='var(--orange)';tr.className='warning';}
+    else if(vals[i]>0){status='OK';statusColor='var(--accent)';tr.className='ok';}
+    else{status='–';tr.className='';}
+    tr.innerHTML=`
+      <td>${MONTH_SHORT[m-1]} ${y}</td>
+      <td>£${f(vals[i])}</td>
+      <td style="color:${statusColor};font-weight:600">£${f(cumul)}</td>
+      <td style="color:${statusColor};font-size:.68rem">${status}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  // Breach section
+  showB('breach_section',exceeded);
+  showB('no_breach_section',!exceeded);
+
+  if(exceeded&&breachIdx>-1){
+    const {m,y}=getMonthMeta(breachIdx);
+    const triggerEnd=formatDate(m,y);
+    const notifyBy=addDays(triggerEnd,30);
+    const effectiveDate=firstOfNextMonth(m+1>12?1:m+1,m+1>12?y+1:y);
+
+    txt('d_breach_month',dateLabel(m,y)+` (month ${breachIdx+1})`);
+    txt('d_trigger_end',triggerEnd);
+    txt('d_notify_by',notifyBy);
+    txt('d_effective',effectiveDate);
+  }
+
+  if(!exceeded){
+    fv('d_current_turnover',total);
+    fv('d_headroom',remaining);
+    txt('d_avg_monthly',avg>0?'£'+f(avg):'N/A');
+    if(avg>0){
+      const mths=Math.ceil(remaining/avg);
+      txt('d_months_to',mths+' month'+(mths!==1?'s':''));
+    } else {
+      txt('d_months_to','N/A');
+    }
+  }
+
+  // Next 30 days
+  showB('next30_section',next30>0);
+  if(next30>0){
+    fv('d_next30_val',next30);
+    const prospective=next30>=REG;
+    txt('d_next30_flag',prospective?'YES — register immediately':'No');
+    document.getElementById('d_next30_flag').style.color=prospective?'var(--red)':'var(--accent)';
+    const n30box=document.getElementById('next30_box');
+    const n30title=document.getElementById('next30_title');
+    if(prospective){
+      n30box.className='deadline-box red';
+      n30title.textContent='🚨 Prospective test triggered';
+      const today=new Date();
+      showFlex('d_next30_deadline_row',true);
+      txt('d_next30_deadline','Immediately — notify HMRC today');
+    } else {
+      n30box.className='deadline-box green';
+      n30title.textContent='✅ Prospective test: not triggered';
+      showFlex('d_next30_deadline_row',false);
+    }
+  }
+
+  // Deregistration
+  showB('dereg_section',registered);
+  if(registered){
+    const eligible=total<DEREG;
+    const deregBox=document.getElementById('dereg_box');
+    const deregTitle=document.getElementById('dereg_title');
+    deregBox.className='deadline-box '+(eligible?'green':'orange');
+    deregTitle.textContent=eligible?'✅ May be eligible to deregister':'⚠️ Cannot deregister (above £88,000)';
+    fv('d_dereg_turnover',total);
+    txt('d_dereg_eligible',eligible?'Yes — apply to HMRC to cancel registration':'No — above £88,000 threshold');
+    document.getElementById('d_dereg_eligible').style.color=eligible?'var(--accent)':'var(--orange)';
+  }
+
+  // Exception
+  showB('exception_section',exceeded&&exception);
+  if(exceeded&&exception){
+    txt('d_exception_reason','One-off / unusual event declared');
+  }
+
+  // Voluntary
+  showB('voluntary_section',!exceeded&&voluntary);
+  if(!exceeded&&voluntary){
+    fv('v_turnover',total);
+    const outputVAT=total*(mainRate/100);
+    fv('v_output_vat',outputVAT);
+    txt('v_rate',mainRate+'%');
+  }
+
+  // Stats
+  txt('s_months_entered',nonZero.length+' of 12');
+  fv('s_total',total);
+  fv('s_highest',highest);
+  fv('s_lowest',nonZero.length?lowest:0);
+  fv('s_avg',avg);
+  txt('s_above_avg',aboveAvg);
+}
+
+function resetAll(){
+  clearAll();
+  document.getElementById('s_start_month').value='4';
+  document.getElementById('s_start_year').value='2025';
+  document.getElementById('s_registered').value='no';
+  document.getElementById('s_scope').value='taxable';
+  document.getElementById('s_next30').value='';
+  document.getElementById('s_exception').value='no';
+  document.getElementById('s_voluntary').value='no';
+  document.getElementById('s_main_rate').value='20';
+  showB('res_empty',true);
+  showB('res_content',false);
+  buildMonthGrid();
+}
+
+/* ═══════════════════════════════
+   INIT
+═══════════════════════════════ */
+(function init(){
+  buildMonthGrid();
+})();
+</script>
+<script src="../theme.js"></script>\n</body>
+</html>
