@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>National Insurance Calculator | SAGAR DAS, ITP & Financial Advisor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050a14;--bg2:#0a1221;--bg3:#0f1a2e;
+  --accent:#00d4aa;--accent2:#00b894;--accent3:#00e6c3;
+  --accent-glow:rgba(0,212,170,.15);
+  --text:#8b9cb8;--textl:#e1e7f0;--white:#ffffff;
+  --card:rgba(15,26,46,.85);
+  --border:rgba(0,212,170,.12);--border2:rgba(0,212,170,.25);
+  --red:#ff6b6b;--orange:#ffa94d;--green:#00d4aa;--purple:#b197fc;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* NAVIGATION */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(5,10,20,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);letter-spacing:-.5px}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center}
+.nav-links a{color:var(--textl);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.5px;transition:all .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+
+/* DROPDOWN MENU CSS */
+.dropdown { position: relative; }
+.nav-drop-btn { background: transparent; border: none; font-family: inherit; font-size: .8rem; font-weight: 500; color: var(--textl); cursor: pointer; display: flex; align-items: center; gap: 4px; transition: color .3s; padding: 0; letter-spacing: .5px; outline: none; }
+.nav-drop-btn:hover { color: var(--accent); }
+.dropdown-menu { display: none; position: absolute; top: calc(100% + 15px); left: 0; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: .5rem 0; min-width: 220px; box-shadow: 0 10px 40px rgba(0,0,0,.6); flex-direction: column; gap: 0; }
+.dropdown-menu::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; } 
+.dropdown-menu li { width: 100%; list-style: none; }
+.dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu { display: flex; animation: slideUp .3s ease forwards; }
+.nav-links .dropdown-menu a { display: block; padding: .6rem 1.2rem; font-size: .8rem; color: var(--text); transition: all .2s; }
+.nav-links .dropdown-menu a::after { display: none; }
+.nav-links .dropdown-menu a:hover { color: var(--accent); background: var(--accent-glow); padding-left: 1.5rem; }
+.dd-icon { transition: transform .3s; }
+.dropdown:hover .dd-icon, .dropdown.open .dd-icon { transform: rotate(180deg); }
+
+.ham{display:none;flex-direction:column;gap:6px;cursor:pointer;padding:5px}
+.ham span{width:24px;height:2px;background:var(--accent);border-radius:2px;transition:all .3s}
+#mob{display:none;position:fixed;top:65px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);z-index:199;padding:1.5rem 2rem;max-height:calc(100vh - 65px);overflow-y:auto}
+#mob.open{display:block}
+#mob ul{list-style:none;display:flex;flex-direction:column;gap:1rem}
+#mob a{color:var(--textl);text-decoration:none;font-size:.95rem;transition:color .3s}
+#mob a:hover{color:var(--accent)}
+
+/* MOBILE DROPDOWN STYLES */
+details summary { list-style: none; cursor: pointer; color: var(--textl); font-size: .95rem; font-weight: 500; transition: color .3s; display: flex; justify-content: space-between; align-items: center; }
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: '▾'; transition: transform 0.3s; color: var(--text); }
+details[open] summary::after { transform: rotate(180deg); color: var(--accent); }
+details summary:hover { color: var(--accent); }
+details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
+.mob-sub { padding-left: 1rem; border-left: 1px dashed var(--border); margin-left: 0.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:1150px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  .ham{display:flex}
+}
+
+/* PAGE */
+.page{padding:6.5rem 2rem 3rem;max-width:1100px;margin:0 auto}
+.page-hero{margin-bottom:2.5rem}
+.page-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent-glow);border:1px solid var(--border2);border-radius:50px;padding:.35rem .9rem;font-size:.72rem;color:var(--accent);font-weight:600;margin-bottom:1rem}
+.page-title{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--white);margin-bottom:.5rem;letter-spacing:-.5px}
+.page-title span{color:var(--accent)}
+.page-sub{font-size:.88rem;color:var(--text);line-height:1.7;max-width:750px}
+.page-sub a{color:var(--accent);text-decoration:none}
+.page-sub a:hover{text-decoration:underline}
+
+/* TABS */
+.main-tabs{display:flex;gap:.5rem;margin-bottom:2rem;background:var(--bg2);border-radius:12px;padding:.4rem;border:1px solid var(--border)}
+.main-tab{flex:1;text-align:center;padding:.6rem .5rem;font-size:.82rem;border-radius:9px;cursor:pointer;color:var(--text);transition:all .25s;border:none;background:transparent;font-family:'Inter',sans-serif;font-weight:500}
+.main-tab.active{background:var(--accent);color:var(--bg);font-weight:700}
+.main-tab:hover:not(.active){color:var(--accent)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* LAYOUT */
+.calc-layout{display:grid;grid-template-columns:1fr 390px;gap:2rem;align-items:start}
+@media(max-width:980px){.calc-layout{grid-template-columns:1fr}}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.6rem 1.8rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent3))}
+.card-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:1.3rem;display:flex;align-items:center;gap:.6rem}
+.card-title span{font-size:1.2rem}
+.card-title small{font-size:.72rem;color:var(--text);font-weight:400;margin-left:.3rem}
+
+/* FORM */
+.form-section{margin-bottom:1.4rem;padding-bottom:1.4rem;border-bottom:1px solid var(--border)}
+.form-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.form-section-label{font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.9rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.form-grid.col3{grid-template-columns:1fr 1fr 1fr}
+.form-grid.col1{grid-template-columns:1fr}
+@media(max-width:600px){.form-grid,.form-grid.col3{grid-template-columns:1fr}}
+
+.form-field{display:flex;flex-direction:column;gap:.3rem}
+.form-label{font-size:.78rem;color:var(--textl);font-weight:500}
+.form-label .hint{font-size:.7rem;color:var(--text);font-weight:400;display:block;margin-top:.1rem}
+.form-input,.form-select{
+  padding:.6rem .85rem;border-radius:9px;
+  border:1px solid var(--border2);background:var(--bg3);
+  color:var(--textl);font-size:.85rem;
+  font-family:'Inter',sans-serif;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  -webkit-appearance:none;
+}
+.form-input:focus,.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,.12)}
+.form-input[type=number]::-webkit-inner-spin-button,
+.form-input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+.form-input[type=number]{-moz-appearance:textfield}
+.form-input:disabled,.form-select:disabled{opacity:.45;cursor:not-allowed}
+
+.input-prefix-wrap{position:relative}
+.input-prefix{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:.85rem;color:var(--text);pointer-events:none}
+.input-prefix-wrap .form-input{padding-left:1.8rem}
+.input-suffix-wrap{position:relative}
+.input-suffix{position:absolute;right:.85rem;top:50%;transform:translateY(-50%);font-size:.85rem;color:var(--text);pointer-events:none}
+.input-suffix-wrap .form-input{padding-right:2.5rem}
+
+.toggle-group{display:flex;gap:.5rem;flex-wrap:wrap}
+.toggle-btn{padding:.45rem .9rem;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--textl);font-size:.78rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.toggle-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
+.toggle-btn:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+
+/* CALC BUTTONS */
+.calc-btn{width:100%;padding:.85rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg);font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;margin-top:.5rem;letter-spacing:.3px}
+.calc-btn:hover{background:linear-gradient(135deg,var(--accent3),var(--accent));transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,212,170,.3)}
+.calc-btn:active{transform:translateY(0)}
+.reset-btn{width:100%;padding:.65rem;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:.8rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;margin-top:.6rem}
+.reset-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* RESULTS PANEL */
+.results-sticky{position:sticky;top:5.5rem}
+.result-card{background:var(--card);border:2px solid var(--accent);border-radius:20px;overflow:hidden}
+.result-header{background:linear-gradient(135deg,rgba(0,212,170,.12),rgba(0,212,170,.04));padding:1.3rem 1.5rem;border-bottom:1px solid var(--border2)}
+.result-header-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.result-header-sub{font-size:.75rem;color:var(--accent)}
+.result-body{padding:1.3rem 1.5rem;max-height:88vh;overflow-y:auto}
+.result-body::-webkit-scrollbar{width:4px}
+.result-body::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+
+.result-hero{text-align:center;padding:1rem 0 1.2rem;border-bottom:1px solid var(--border);margin-bottom:1.1rem}
+.result-hero-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text);margin-bottom:.3rem}
+.result-hero-value{font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;color:var(--accent);line-height:1}
+.result-hero-sub{font-size:.75rem;color:var(--text);margin-top:.4rem}
+
+/* DUAL HERO */
+.dual-hero{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.dual-hero-box{text-align:center;background:var(--bg2);border-radius:12px;padding:.8rem .5rem;border:1px solid var(--border)}
+.dual-hero-label{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--text);margin-bottom:.25rem}
+.dual-hero-value{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;line-height:1}
+.dual-hero-value.green{color:var(--accent)}
+.dual-hero-value.orange{color:var(--orange)}
+.dual-hero-value.red{color:var(--red)}
+
+.result-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid rgba(0,212,170,.05)}
+.result-row:last-child{border-bottom:none}
+.result-row.total{padding-top:.7rem;margin-top:.3rem;border-top:2px solid var(--border2);border-bottom:none}
+.result-row.highlight .result-value{color:var(--accent)}
+.result-row.negative .result-value{color:var(--red)}
+.result-label{font-size:.78rem;color:var(--text);flex:1;line-height:1.4;padding-right:.5rem}
+.result-label small{display:block;font-size:.67rem;color:var(--text);opacity:.7;margin-top:.1rem}
+.result-label.bold{color:var(--textl);font-weight:600}
+.result-value{font-size:.82rem;color:var(--textl);font-weight:600;text-align:right;white-space:nowrap}
+.result-row.total .result-label{color:var(--textl);font-weight:700;font-size:.85rem}
+.result-row.total .result-value{color:var(--accent);font-size:.9rem}
+.result-section-title{font-size:.67rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin:1rem 0 .45rem;padding-bottom:.3rem;border-bottom:1px solid var(--border)}
+
+/* BREAKDOWN BOX */
+.breakdown-box{background:rgba(0,212,170,.04);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;margin:.5rem 0}
+.breakdown-title{font-size:.7rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem}
+.breakdown-row{display:flex;justify-content:space-between;align-items:center;font-size:.76rem;padding:.25rem 0;border-bottom:1px solid rgba(0,212,170,.06)}
+.breakdown-row:last-child{border-bottom:none}
+.breakdown-row span:first-child{color:var(--text)}
+.breakdown-row span:last-child{color:var(--textl);font-weight:600}
+.breakdown-row.hl span:last-child{color:var(--accent)}
+
+/* PERIOD TABLE */
+.period-table{width:100%;border-collapse:collapse;font-size:.76rem;margin-top:.5rem}
+.period-table th{text-align:left;color:var(--accent);font-size:.68rem;text-transform:uppercase;letter-spacing:.8px;padding:.4rem .5rem;border-bottom:1px solid var(--border2);white-space:nowrap}
+.period-table td{padding:.4rem .5rem;border-bottom:1px solid rgba(0,212,170,.05);color:var(--textl)}
+.period-table tr:last-child td{border-bottom:none}
+.period-table .hl{color:var(--accent);font-weight:600}
+
+/* EMPLOYER MULTI TABLE */
+.emp-table{width:100%;border-collapse:collapse;font-size:.76rem;margin-top:.5rem}
+.emp-table th{text-align:left;color:var(--accent);font-size:.68rem;text-transform:uppercase;letter-spacing:.8px;padding:.4rem .5rem;border-bottom:1px solid var(--border2)}
+.emp-table td{padding:.5rem .5rem;border-bottom:1px solid rgba(0,212,170,.05);color:var(--textl);vertical-align:top}
+.emp-table tr:last-child td{border-bottom:none}
+.emp-table .hl{color:var(--accent);font-weight:600}
+
+/* NI CATEGORY BADGE */
+.cat-badge{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--accent-glow);border:1px solid var(--accent);font-size:.75rem;font-weight:700;color:var(--accent);margin-right:.4rem}
+
+/* INFO BOXES */
+.info-box{border-radius:12px;padding:.9rem 1.1rem;font-size:.8rem;line-height:1.6;margin-top:.8rem}
+.info-box.blue{background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.2);color:var(--textl)}
+.info-box.yellow{background:rgba(255,169,77,.06);border:1px solid rgba(255,169,77,.2);color:#ffa94d}
+.info-box.red{background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.2);color:#ff6b6b}
+.info-box.purple{background:rgba(177,151,252,.06);border:1px solid rgba(177,151,252,.2);color:#b197fc}
+.info-box strong{display:block;margin-bottom:.3rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.8px}
+
+/* BAND TABLE */
+.band-table{width:100%;border-collapse:collapse;font-size:.77rem;margin-top:.4rem}
+.band-table th{text-align:left;color:var(--accent);font-size:.68rem;text-transform:uppercase;letter-spacing:.8px;padding:.35rem .5rem;border-bottom:1px solid var(--border2)}
+.band-table td{padding:.45rem .5rem;border-bottom:1px solid rgba(0,212,170,.05);color:var(--textl)}
+.band-table tr:last-child td{border-bottom:none}
+.band-table .hl{color:var(--accent);font-weight:600}
+.band-table .dim{color:var(--text)}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:2.5rem 1rem}
+.empty-state-icon{font-size:2.5rem;margin-bottom:.8rem}
+.empty-state-text{font-size:.84rem;color:var(--text);line-height:1.7}
+
+/* DISCLAIMER */
+.disclaimer{background:rgba(255,169,77,.05);border:1px solid rgba(255,169,77,.15);border-radius:12px;padding:1rem 1.2rem;font-size:.75rem;color:var(--text);line-height:1.6;margin-top:1.5rem}
+.disclaimer strong{color:#ffa94d}
+
+/* FOOTER */
+.page-footer{text-align:center;padding:2rem 2rem 1rem;font-size:.73rem;color:var(--text);opacity:.6;border-top:1px solid var(--border);margin-top:2rem}
+
+@media(max-width:700px){
+  .page{padding:6rem 1.2rem 2.5rem}
+  .page-title{font-size:1.6rem}
+  .card{padding:1.2rem 1.3rem}
+  .main-tabs{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="logo">SAGAR DAS <span> | ITP & Financial Advisor</span></div>
+  <ul class="nav-links">
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../index.html#experience">Experience</a></li>
+                <li><a href="../index.html#education">Education</a></li>
+                <li><a href="../index.html#certifications">Certifications</a></li>
+                <li><a href="../index.html#recommendations">Recommendations</a></li>
+                <li><a href="../dashboard.html">Dashboards</a></li>
+
+                <li class="dropdown" id="hmrcDropdown">
+                    <button type="button" class="nav-drop-btn" aria-expanded="false">HMRC Calculators <span class="dd-icon">▾</span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="calc-dividend-tax.html">Dividend Tax</a></li>
+                        <li><a href="calc-income-tax.html">Income Tax</a></li>
+                        <li><a href="calc-ni.html">National Insurance</a></li>
+                        <li><a href="calc-self-assessment.html">Self Assessment</a></li>
+                        <li><a href="calc-self-assessment-summary.html">Self Assessment Summary</a></li>
+                        <li><a href="calc-vat-reg.html">VAT Registration</a></li>
+                        <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
+                        <li><a href="calc-ct.html">Corporation Tax</a></li>
+                        <li><a href="calc-vat.html">VAT</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown" id="nbrDropdown">
+                    <button type="button" class="nav-drop-btn" aria-expanded="false">NBR Calculators <span class="dd-icon">▾</span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="../nbr_calculators/calc-bd-vds-tds-engine.html">BD VDS TDS Engine</a></li>
+                        <li><a href="../nbr_calculators/calc-nbr.html">NBR Calculator</a></li>
+                        <li><a href="../nbr_calculators/calculator.html">Calculator</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="../index.html#footer">Contact</a></li>
+            </ul>
+  <div class="ham" id="ham"><span></span><span></span><span></span></div>
+</nav>
+
+<div id="mob" class="mob">
+        <ul>
+            <li><a href="../index.html#skills">Skills</a></li>
+            <li><a href="../index.html#experience">Experience</a></li>
+            <li><a href="../index.html#education">Education</a></li>
+            <li><a href="../index.html#certifications">Certifications</a></li>
+            <li><a href="../index.html#recommendations">Recommendations</a></li>
+            <li><a href="../dashboard.html">Dashboards</a></li>
+
+            <li>
+                <details>
+                    <summary>HMRC Calculators</summary>
+                    <ul class="mob-sub">
+                        <li><a href="calc-dividend-tax.html">Dividend Tax</a></li>
+                        <li><a href="calc-income-tax.html">Income Tax</a></li>
+                        <li><a href="calc-ni.html">National Insurance</a></li>
+                        <li><a href="calc-self-assessment.html">Self Assessment</a></li>
+                        <li><a href="calc-self-assessment-summary.html">Self Assessment Summary</a></li>
+                        <li><a href="calc-vat-reg.html">VAT Registration</a></li>
+                        <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
+                        <li><a href="calc-ct.html">Corporation Tax</a></li>
+                        <li><a href="calc-vat.html">VAT</a></li>
+                    </ul>
+                </details>
+            </li>
+
+            <li>
+                <details>
+                    <summary>NBR Calculators</summary>
+                    <ul class="mob-sub">
+                        <li><a href="../nbr_calculators/calc-bd-vds-tds-engine.html">BD VDS TDS Engine</a></li>
+                        <li><a href="../nbr_calculators/calc-nbr.html">NBR Calculator</a></li>
+                        <li><a href="../nbr_calculators/calculator.html">Calculator</a></li>
+                    </ul>
+                </details>
+            </li>
+
+            <li><a href="../index.html#footer">Contact</a></li>
+        </ul>
+    </div>
+
+<div class="page">
+
+  <div class="page-hero">
+    <div class="page-badge">🩺 National Insurance · 2025/26</div>
+    <h1 class="page-title">National Insurance <span>Calculator</span></h1>
+    <p class="page-sub">
+      Calculate Class 1 employee & employer NI, Class 1A on benefits, Class 4 self-employed NI, and employer costs with Employment Allowance.
+      Covers all NI category letters, directors, multiple employees, and pay period breakdown.
+      Official guidance: <a href="https://www.gov.uk/national-insurance" target="_blank">National Insurance – GOV.UK →</a>
+    </p>
+  </div>
+
+  <!-- MAIN TABS -->
+  <div class="main-tabs">
+    <button class="main-tab active" onclick="switchTab('tab_class1',this)">🏢 Class 1 (Employee & Employer)</button>
+    <button class="main-tab" onclick="switchTab('tab_employer',this)">👥 Multi-Employee / Employer</button>
+    <button class="main-tab" onclick="switchTab('tab_class4',this)">🧑‍💼 Class 4 (Self-Employed)</button>
+    <button class="main-tab" onclick="switchTab('tab_class1a',this)">🚗 Class 1A (Benefits in Kind)</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       TAB 1: CLASS 1
+  ════════════════════════════════════════ -->
+  <div id="tab_class1" class="tab-panel active">
+    <div class="calc-layout">
+      <div>
+
+        <!-- EMPLOYEE DETAILS -->
+        <div class="card">
+          <div class="card-title"><span>👤</span> Employee Details</div>
+
+          <div class="form-section">
+            <div class="form-section-label">Pay & Frequency</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Gross pay amount
+                  <span class="hint">Before any deductions — exclude pension salary sacrifice</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="c1_pay" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Pay frequency</label>
+                <select id="c1_freq" class="form-select" onchange="updateC1Freq()">
+                  <option value="annual">Annual</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="fortnightly">Fortnightly (2-weekly)</option>
+                  <option value="4weekly">4-Weekly</option>
+                  <option value="daily">Daily</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">NI Category Letter</div>
+            <div class="toggle-group" id="c1_cat_group">
+              <button class="toggle-btn active" onclick="setC1Cat('A',this)" title="Standard">A</button>
+              <button class="toggle-btn" onclick="setC1Cat('B',this)" title="Married woman/widow reduced rate">B</button>
+              <button class="toggle-btn" onclick="setC1Cat('C',this)" title="Over State Pension Age">C</button>
+              <button class="toggle-btn" onclick="setC1Cat('F',this)" title="Freeport — standard">F</button>
+              <button class="toggle-btn" onclick="setC1Cat('H',this)" title="Apprentice under 25">H</button>
+              <button class="toggle-btn" onclick="setC1Cat('I',this)" title="Freeport — married woman">I</button>
+              <button class="toggle-btn" onclick="setC1Cat('J',this)" title="Deferred NI">J</button>
+              <button class="toggle-btn" onclick="setC1Cat('L',this)" title="Freeport — deferred">L</button>
+              <button class="toggle-btn" onclick="setC1Cat('M',this)" title="Under 21">M</button>
+              <button class="toggle-btn" onclick="setC1Cat('S',this)" title="Freeport — over SPa">S</button>
+              <button class="toggle-btn" onclick="setC1Cat('V',this)" title="Veterans — first year">V</button>
+              <button class="toggle-btn" onclick="setC1Cat('Z',this)" title="Under 21 — deferred">Z</button>
+            </div>
+            <div id="c1_cat_desc" class="info-box blue" style="margin-top:.8rem">
+              <strong>Category A — Standard Employee</strong>
+              The most common category. Applies to employees who do not fall into any other special category. Employee pays 8% between PT and UEL, 2% above UEL.
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">Employee Options</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Is this employee a director?
+                  <span class="hint">Directors use the annual earnings period method</span>
+                </label>
+                <select id="c1_director" class="form-select">
+                  <option value="no">No — regular employee</option>
+                  <option value="yes">Yes — annual earnings method</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Salary sacrifice pension (£/yr)
+                  <span class="hint">Reduces both employee and employer NI</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="c1_sacrifice" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Week 1 / Month 1 basis?
+                  <span class="hint">Non-cumulative — each period calculated independently</span>
+                </label>
+                <select id="c1_wk1" class="form-select">
+                  <option value="no">No — cumulative</option>
+                  <option value="yes">Yes — Week 1/Month 1</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">Employer Options</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Employment Allowance?
+                  <span class="hint">Up to £10,500 off employer NI (eligible businesses)</span>
+                </label>
+                <select id="c1_ea" class="form-select">
+                  <option value="no">No</option>
+                  <option value="yes">Yes — claim up to £10,500</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label">EA already used this year (£)
+                  <span class="hint">If Employment Allowance is shared across employees</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="c1_ea_used" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcClass1()">🧮 Calculate NI</button>
+        <button class="reset-btn" onclick="resetC1()">↺ Reset</button>
+
+        <!-- REFERENCE TABLE -->
+        <div class="card" style="margin-top:1.5rem">
+          <div class="card-title"><span>📊</span> Class 1 NI Thresholds 2025/26</div>
+          <table class="band-table">
+            <thead><tr><th>Threshold</th><th>Annual</th><th>Monthly</th><th>Weekly</th></tr></thead>
+            <tbody>
+              <tr><td>Lower Earnings Limit (LEL)</td><td class="hl">£6,396</td><td class="dim">£533</td><td class="dim">£123</td></tr>
+              <tr><td>Primary Threshold (PT) — Employee</td><td class="hl">£12,570</td><td class="dim">£1,048</td><td class="dim">£242</td></tr>
+              <tr><td>Secondary Threshold (ST) — Employer</td><td class="hl">£9,100</td><td class="dim">£758</td><td class="dim">£175</td></tr>
+              <tr><td>Upper Earnings Limit (UEL)</td><td class="hl">£50,270</td><td class="dim">£4,189</td><td class="dim">£967</td></tr>
+              <tr><td>Upper Secondary Threshold (UST)<br><small style="color:var(--text)">Under 21 / Apprentice</small></td><td class="hl">£50,270</td><td class="dim">£4,189</td><td class="dim">£967</td></tr>
+            </tbody>
+          </table>
+
+          <div class="card-title" style="margin-top:1.3rem"><span>📊</span> Class 1 Rates by Category 2025/26</div>
+          <table class="band-table">
+            <thead><tr><th>Cat</th><th>Description</th><th>Employee Rate</th><th>Employer Rate</th></tr></thead>
+            <tbody>
+              <tr><td class="hl">A</td><td>Standard</td><td>8% / 2%</td><td>13.8%</td></tr>
+              <tr><td class="hl">B</td><td>Married woman / widow</td><td>3.85% / 2%</td><td>13.8%</td></tr>
+              <tr><td class="hl">C</td><td>Over State Pension Age</td><td>0%</td><td>13.8%</td></tr>
+              <tr><td class="hl">F</td><td>Freeport — standard</td><td>8% / 2%</td><td>0% up to FUST*</td></tr>
+              <tr><td class="hl">H</td><td>Apprentice under 25</td><td>8% / 2%</td><td>0% up to UST</td></tr>
+              <tr><td class="hl">I</td><td>Freeport — married woman</td><td>3.85% / 2%</td><td>0% up to FUST*</td></tr>
+              <tr><td class="hl">J</td><td>Deferred NI</td><td>2%</td><td>13.8%</td></tr>
+              <tr><td class="hl">L</td><td>Freeport — deferred</td><td>2%</td><td>0% up to FUST*</td></tr>
+              <tr><td class="hl">M</td><td>Under 21</td><td>8% / 2%</td><td>0% up to UST</td></tr>
+              <tr><td class="hl">S</td><td>Freeport — over SPa</td><td>0%</td><td>0% up to FUST*</td></tr>
+              <tr><td class="hl">V</td><td>Veteran — first year</td><td>8% / 2%</td><td>0% up to UST</td></tr>
+              <tr><td class="hl">Z</td><td>Under 21 — deferred</td><td>2%</td><td>0% up to UST</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:.7rem;color:var(--text);margin-top:.5rem">* FUST = Freeport Upper Secondary Threshold £25,000. All rates above UEL: employee 2%, employer 13.8%.</p>
+
+          <div class="info-box yellow" style="margin-top:.8rem">
+            <strong>⚠️ Employment Allowance 2025/26</strong>
+            Up to £10,500 off employer Class 1 NI per year. Not available if sole director with no other employees, or if employer NI liability was £100,000+ in the previous tax year.
+          </div>
+        </div>
+
+        <div class="disclaimer">
+          <strong>⚠️ Disclaimer</strong>
+          This calculator provides estimates. Actual NI is calculated on a period-by-period basis by payroll software using HMRC tables.
+          Results may differ slightly from payroll software due to rounding and period-specific thresholds.
+          Official tool: <a href="https://www.gov.uk/calculate-employee-ni" target="_blank" style="color:#ffa94d">HMRC NI Calculator – GOV.UK</a>
+        </div>
+      </div>
+
+      <!-- CLASS 1 RESULTS -->
+      <div class="results-sticky">
+        <div class="result-card">
+          <div class="result-header">
+            <div class="result-header-title">🩺 Class 1 NI Result</div>
+            <div class="result-header-sub" id="c1_res_sub">Employee & Employer · 2025/26</div>
+          </div>
+          <div class="result-body">
+            <div id="c1_empty" class="empty-state">
+              <div class="empty-state-icon">🩺</div>
+              <div class="empty-state-text">Enter gross pay and click <strong style="color:var(--accent)">Calculate NI</strong> to see your NI breakdown.</div>
+            </div>
+            <div id="c1_content" style="display:none">
+
+              <!-- DUAL HERO -->
+              <div class="dual-hero">
+                <div class="dual-hero-box">
+                  <div class="dual-hero-label">Employee NI</div>
+                  <div class="dual-hero-value green" id="c1h_emp">£0</div>
+                  <div style="font-size:.68rem;color:var(--text);margin-top:.3rem">deducted from pay</div>
+                </div>
+                <div class="dual-hero-box">
+                  <div class="dual-hero-label">Employer NI</div>
+                  <div class="dual-hero-value orange" id="c1h_er">£0</div>
+                  <div style="font-size:.68rem;color:var(--text);margin-top:.3rem">on top of wage cost</div>
+                </div>
+              </div>
+
+              <div class="result-section-title">Annual Summary</div>
+              <div class="result-row">
+                <div class="result-label">Annual gross pay<small id="c1r_freq_note">before deductions</small></div>
+                <div class="result-value" id="c1r_annual_gross">£0</div>
+              </div>
+              <div class="result-row" id="c1r_sacrifice_row" style="display:none">
+                <div class="result-label">Less: Salary sacrifice pension</div>
+                <div class="result-value" id="c1r_sacrifice">–£0</div>
+              </div>
+              <div class="result-row">
+                <div class="result-label">NI-able pay (after sacrifice)</div>
+                <div class="result-value" id="c1r_niable">£0</div>
+              </div>
+
+              <div class="result-section-title">Employee Class 1 NI</div>
+              <div class="breakdown-box">
+                <div id="c1r_emp_rows"></div>
+              </div>
+              <div class="result-row total">
+                <div class="result-label">Total Employee NI</div>
+                <div class="result-value" id="c1r_emp_total">£0</div>
+              </div>
+
+              <div class="result-section-title">Employer Class 1 NI</div>
+              <div class="breakdown-box">
+                <div id="c1r_er_rows"></div>
+              </div>
+              <div class="result-row" id="c1r_ea_row" style="display:none">
+                <div class="result-label">Less: Employment Allowance<small id="c1r_ea_note">up to £10,500</small></div>
+                <div class="result-value" id="c1r_ea_val" style="color:var(--red)">–£0</div>
+              </div>
+              <div class="result-row total">
+                <div class="result-label">Net Employer NI (after EA)</div>
+                <div class="result-value" id="c1r_er_total">£0</div>
+              </div>
+
+              <div class="result-section-title">Total Employment Cost</div>
+              <div class="result-row">
+                <div class="result-label">Gross salary</div>
+                <div class="result-value" id="c1r_cost_gross">£0</div>
+              </div>
+              <div class="result-row">
+                <div class="result-label">Employer NI (net)</div>
+                <div class="result-value" id="c1r_cost_erni">£0</div>
+              </div>
+              <div class="result-row total">
+                <div class="result-label">Total employer cost</div>
+                <div class="result-value" id="c1r_cost_total">£0</div>
+              </div>
+
+              <div class="result-section-title">Pay Period Breakdown</div>
+              <div style="overflow-x:auto">
+                <table class="period-table" id="c1r_period_table">
+                  <thead><tr><th>Period</th><th>Gross</th><th>Emp NI</th><th>Er NI</th></tr></thead>
+                  <tbody id="c1r_period_body"></tbody>
+                </table>
+              </div>
+
+              <div class="result-section-title">Effective Rates</div>
+              <div class="result-row highlight">
+                <div class="result-label">Employee NI effective rate</div>
+                <div class="result-value" id="c1r_eff_emp">0%</div>
+              </div>
+              <div class="result-row highlight">
+                <div class="result-label">Employer NI effective rate</div>
+                <div class="result-value" id="c1r_eff_er">0%</div>
+              </div>
+              <div class="result-row highlight">
+                <div class="result-label">NI as % of total employer cost</div>
+                <div class="result-value" id="c1r_eff_total">0%</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       TAB 2: MULTI-EMPLOYEE / EMPLOYER
+  ════════════════════════════════════════ -->
+  <div id="tab_employer" class="tab-panel">
+    <div class="calc-layout">
+      <div>
+        <div class="card">
+          <div class="card-title"><span>👥</span> Employer NI Cost Calculator <small>— up to 8 employees</small></div>
+
+          <div class="form-section">
+            <div class="form-section-label">Employment Allowance</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Claim Employment Allowance?</label>
+                <select id="me_ea" class="form-select">
+                  <option value="no">No</option>
+                  <option value="yes">Yes — up to £10,500</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">Employee Salaries (Annual)</div>
+            <div id="me_employees">
+              <!-- Rows added dynamically -->
+            </div>
+            <button onclick="addEmployeeRow()" style="margin-top:.8rem;padding:.5rem 1.1rem;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-size:.8rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s" onmouseover="this.style.background='var(--accent-glow)'" onmouseout="this.style.background='transparent'">+ Add Employee</button>
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcMultiEmployee()">🧮 Calculate Employer NI Costs</button>
+        <button class="reset-btn" onclick="resetMultiEmployee()">↺ Reset</button>
+
+        <div class="disclaimer" style="margin-top:1.5rem">
+          <strong>⚠️ Note</strong>
+          Employer NI figures are approximate annual estimates. Actual payroll will vary by period. Employment Allowance is applied to total employer NI bill up to £10,500.
+          <a href="https://www.gov.uk/employment-allowance-eligibility" target="_blank" style="color:#ffa94d">Employment Allowance eligibility – GOV.UK →</a>
+        </div>
+      </div>
+
+      <!-- MULTI RESULTS -->
+      <div class="results-sticky">
+        <div class="result-card">
+          <div class="result-header">
+            <div class="result-header-title">👥 Employer NI Summary</div>
+            <div class="result-header-sub">All Employees · 2025/26</div>
+          </div>
+          <div class="result-body">
+            <div id="me_empty" class="empty-state">
+              <div class="empty-state-icon">👥</div>
+              <div class="empty-state-text">Enter employee salaries and click <strong style="color:var(--accent)">Calculate</strong> to see total NI cost.</div>
+            </div>
+            <div id="me_content" style="display:none">
+
+              <div class="result-hero">
+                <div class="result-hero-label">Total Employer NI (Net)</div>
+                <div class="result-hero-value" id="meh_total">£0</div>
+                <div class="result-hero-sub">after Employment Allowance</div>
+              </div>
+
+              <div class="result-section-title">Employee-by-Employee Breakdown</div>
+              <div style="overflow-x:auto">
+                <table class="emp-table" id="me_table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Salary</th>
+                      <th>Cat</th>
+                      <th>Er NI</th>
+                      <th>Total Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody id="me_tbody"></tbody>
+                </table>
+              </div>
+
+              <div class="result-section-title">Totals</div>
+              <div class="result-row">
+                <div class="result-label">Total gross payroll</div>
+                <div class="result-value" id="me_total_payroll">£0</div>
+              </div>
+              <div class="result-row">
+                <div class="result-label">Total employer NI (gross)</div>
+                <div class="result-value" id="me_total_erni_gross">£0</div>
+              </div>
+              <div class="result-row" id="me_ea_row" style="display:none">
+                <div class="result-label">Less: Employment Allowance<small>Up to £10,500</small></div>
+                <div class="result-value" id="me_ea_val" style="color:var(--red)">–£0</div>
+              </div>
+              <div class="result-row total">
+                <div class="result-label">Net employer NI</div>
+                <div class="result-value" id="me_total_erni_net">£0</div>
+              </div>
+              <div class="result-row total">
+                <div class="result-label">Total employer cost (payroll + NI)</div>
+                <div class="result-value" id="me_total_cost">£0</div>
+              </div>
+              <div class="result-row highlight">
+                <div class="result-label">Employer NI as % of payroll</div>
+                <div class="result-value" id="me_erni_pct">0%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       TAB 3: CLASS 4 SELF-EMPLOYED
+  ════════════════════════════════════════ -->
+  <div id="tab_class4" class="tab-panel">
+    <div class="calc-layout">
+      <div>
+        <div class="card">
+          <div class="card-title"><span>🧑‍💼</span> Class 4 NI — Self-Employed</div>
+
+          <div class="form-section">
+            <div class="form-section-label">Self-Employment Details</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Self-employment profits (£)
+                  <span class="hint">Net profit after allowable business expenses</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="c4_profit" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Partnership profits (£)
+                  <span class="hint">Your share of partnership profits (also Class 4)</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="c4_partner" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Tax year</label>
+                <select id="c4_year" class="form-select">
+                  <option value="2526">2025/26</option>
+                  <option value="2425">2024/25</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Also employed (affects deferment)?</label>
+                <select id="c4_employed" class="form-select">
+                  <option value="no">No — only self-employed</option>
+                  <option value="yes">Yes — also PAYE employee</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div id="c4_employed_fields" style="display:none">
+            <div class="form-section">
+              <div class="form-section-label">Employment NI Already Paid</div>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label class="form-label">Employment gross pay (£/yr)
+                    <span class="hint">To check if NI deferment applies</span>
+                  </label>
+                  <div class="input-prefix-wrap">
+                    <span class="input-prefix">£</span>
+                    <input type="number" id="c4_emp_pay" class="form-input" placeholder="0.00">
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label class="form-label">Employee NI already paid (£)
+                    <span class="hint">From P60 — used to check overpayment</span>
+                  </label>
+                  <div class="input-prefix-wrap">
+                    <span class="input-prefix">£</span>
+                    <input type="number" id="c4_emp_ni_paid" class="form-input" placeholder="0.00">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">Losses & Adjustments</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label">Trading losses to carry forward (£)
+                  <span class="hint">Losses from prior years reduce taxable profits</span>
+                </label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">£</span>
+                  <input type="number" id="c4_losses" class="form-input" placeholder="0.00">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcClass4()">🧮 Calculate Class 4 NI</button>
+        <button class="reset-btn" onclick="resetC4()">↺ Reset</button>
+
+        <div class="card" style="margin-top:1.5rem">
+          <div class="card-title"><span>📊</span> Class 4 NI Reference 2025/26</div>
+          <table class="band-table">
+            <thead><tr><th>Profits Band</th><th>Annual</th><th>Rate</th></tr></thead>
+            <tbody>
+              <tr><td>Below Lower Profits Limit</td><td>Below £12,570</td><td class="hl">0%</td></tr>
+              <tr><td>Main Rate</td><td>£12,570 – £50,270</td><td class="hl">6%</td></tr>
+              <tr><td>Above Upper Profits Limit</td><td>Above £50,270</td><td class="hl">2%</td></tr>
+            </tbody>
+          </table>
+
+          <div class="info-box blue" style="margin-top:.8rem">
+            <strong>📌 Class 2 NI — Abolished from 6 April 2024</strong>
+            Class 2 NI contributions (previously £3.45/week) were abolished from 6 April 2024. Self-employed individuals with profits above the Small Profits Threshold (£12,570) automatically receive NI credit for State Pension purposes without paying Class 2.
+          </div>
+
+          <div class="info-box yellow" style="margin-top:.6rem">
+            <strong>📌 Low Profits — Under £12,570</strong>
+            If your profits are between £6,725 and £12,570, you are treated as having paid Class 2 NI (NI credit given) — protecting your State Pension entitlement at no cost. Below £6,725 you can make voluntary Class 3 contributions (£17.75/week in 2025/26) to fill gaps.
+          </div>
+
+          <div class="info-box purple" style="margin-top:.6rem">
+            <strong>📌 Both Employed & Self-Employed?</strong>
+            If you are both employed and self-employed you may be able to defer Class 4 NI to avoid overpaying. You can apply to HMRC for deferment if your combined NI liability exceeds the maximum annual NI amount.
+          </div>
+        </div>
+
+        <div class="disclaimer">
+          <strong>⚠️ Disclaimer</strong>
+          Class 4 NI is assessed through Self Assessment. This is an estimate only.
+          <a href="https://www.gov.uk/self-employed-national-insurance-rates" target="_blank" style="color:#ffa94d">Self-employed NI rates – GOV.UK →</a>
+        </div>
+      </div>
+
+      <!-- CLASS 4 RESULTS -->
+      <div class="results-sticky">
+        <div class="result-card">
+          <div class="result-header">
+            <div class="result-header-title">🧑‍💼 Class 4 NI Result</div>
+            <div class="result-header-sub" id="c4_res_sub">Self-Employed · 2025/26</div>
+          </div>
+          <div class="result-body">
+            <div id="c4_empty" class="empty-state">
+              <div class="empty-state-icon">🧑‍💼</div>
+              <div class="empty-state-text">Enter your self-employment profits and click <strong style="color:var(--accent)">Calculate</strong>.</div>
+            </div>
+            <div id="c4_content" style="display:none">
+
+              <div class="result-hero">
+                <div class="result-hero-label">Total Class 4 NI Due</div>
+                <div class="result-hero-value" id="c4h_total">£0</div>
+                <div class="result-hero-sub">via Self Assessment</div>
+              </div>
+
+              <div class="result-section-title">Profits Summary</div>
+              <div class="result-row">
+                <div class="result-label">Self-employment profits</div>
+                <div class="result-value" id="c4r_profit">£0</div>
+              </div>
+              <div class="result-row" id="c4r_partner_row" style="display:none">
+                <div class="result-label">Partnership profit share</div>
+                <div class="result-value" id="c4r_partner">£0</div>
+              </div>
+              <div class="result-row" id="c4r_loss_row" style="display:none">
+                <div class="result-label">Less: Losses brought forward</div>
+                <div class="result-value" id="c4r_losses" style="color:var(--red)">–£0</div>
+              </div>
+              <div class="result-row total">
+                <div class="result-label">Net taxable profits</div>
+                <div class="result-value" id="c4r_net_profit">£0</div>
+              </div>
+
+              <div class="result-section-title">Class 4 NI Calculation</div>
+              <div class="breakdown-box">
+                <div class="breakdown-row">
+                  <span>Lower Profits Limit (LPL)</span>
+                  <span>£12,570</span>
+                </div>
+                <div class="breakdown-row">
+                  <span>Upper Profits Limit (UPL)</span>
+                  <span>£50,270</span>
+                </div>
+                <div class="breakdown-row hl">
+                  <span>Profits in main band × 6%</span>
+                  <span id="c4r_main_calc">£0</span>
+                </div>
+                <div class="breakdown-row hl" id="c4r_upper_row">
+                  <span>Profits above UPL × 2%</span>
+                  <span id="c4r_upper_calc">£0</span>
+                </div>
+              </div>
+
+              <div class="result-row total">
+                <div class="result-label">Class 4 NI due</div>
+                <div class="result-value" id="c4r_total">£0</div>
+              </div>
+
+              <div id="c4r_deferment_section" style="display:none">
+                <div class="result-section-title">Combined NI Check</div>
+                <div class="result-row">
+                  <div class="result-label">Employee NI (from employment)</div>
+                  <div class="result-value" id="c4r_emp_ni">£0</div>
+                </div>
+                <div class="result-row">
+                  <div class="result-label">Class 4 NI (self-employment)</div>
+                  <div class="result-value" id="c4r_c4_ni2">£0</div>
+                </div>
+                <div class="result-row total">
+                  <div class="result-label">Total NI liability</div>
+                  <div class="result-value" id="c4r_combined">£0</div>
+                </div>
+                <div id="c4r_overpay_box" style="display:none" class="info-box yellow" style="margin-top:.6rem">
+                  <strong>⚠️ Possible NI Overpayment</strong>
+                  Combined NI may exceed the annual maximum. You can apply to HMRC for Class 4 deferment or claim a refund after year end.
+                  <a href="https://www.gov.uk/defer-national-insurance" target="_blank" style="color:#ffa94d">Deferring NI – GOV.UK →</a>
+                </div>
+              </div>
+
+              <div class="result-section-title">State Pension Entitlement</div>
+              <div class="breakdown-box">
+                <div id="c4r_pension_status"></div>
+              </div>
+
+              <div class="result-section-title">Effective Rate</div>
+              <div class="result-row highlight">
+                <div class="result-label">Class 4 NI as % of profits</div>
+                <div class="result-value" id="c4r_eff">0%</div>
+              </div>
+              <div class="result-row highlight">
+                <div class="result-label">Approximate monthly NI cost</div>
+                <div class="result-value" id="c4r_monthly">£0</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       TAB 4: CLASS 1A (BENEFITS IN KIND)
+  ════════════════════════════════════════ -->
+  <div id="tab_class1a" class="tab-panel">
+    <div class="calc-layout">
+      <div>
+        <div class="card">
+          <div class="card-title"><span>🚗</span> Class 1A NI — Benefits in Kind</div>
+
+          <div class="info-box blue" style="margin-bottom:1.2rem">
+            <strong>📌 What is Class 1A NI?</strong>
+            Employers pay Class 1A NI at <strong>13.8%</strong> on the total taxable value of most benefits in kind reported on P11D forms. It is paid once per year, due <strong>19 July (paper) / 22 July (online)</strong> following the tax year end. Employees do not pay Class 1A NI.
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">Benefits — Enter Taxable Value per Employee</div>
+            <div id="bik_employees">
+              <!-- Dynamic rows -->
+            </div>
+            <button onclick="addBIKRow()" style="margin-top:.8rem;padding:.5rem 1.1rem;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-size:.8rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s" onmouseover="this.style.background='var(--accent-glow)'" onmouseout="this.style.background='transparent'">+ Add Employee / Benefit</button>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-label">Common Benefit Values</div>
+            <table class="band-table">
+              <thead><tr><th>Benefit Type</th><th>How Value is Calculated</th><th>Class 1A?</th></tr></thead>
+              <tbody>
+                <tr><td>Company car</td><td>List price × BIK % (CO2 based)</td><td class="hl">Yes</td></tr>
+                <tr><td>Private medical insurance</td><td>Cost to employer</td><td class="hl">Yes</td></tr>
+                <tr><td>Interest-free loans &gt; £10,000</td><td>Loan × official rate (2.25%)</td><td class="hl">Yes</td></tr>
+                <tr><td>Company van (personal use)</td><td>£3,960 flat rate</td><td class="hl">Yes</td></tr>
+                <tr><td>Fuel for company car</td><td>£27,800 × BIK %</td><td class="hl">Yes</td></tr>
+                <tr><td>Living accommodation</td><td>Annual value / excess cost method</td><td class="hl">Yes</td></tr>
+                <tr><td>Cash payments / cash vouchers</td><td>Taxed via payroll (Class 1)</td><td class="dim">No (Class 1)</td></tr>
+                <tr><td>Childcare vouchers (pre-Oct 2018)</td><td>Face value</td><td class="hl">Yes</td></tr>
+                <tr><td>Trivial benefits (&lt;£50)</td><td>Exempt</td><td class="dim">Exempt</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcClass1A()">🧮 Calculate Class 1A NI</button>
+        <button class="reset-btn" onclick="resetClass1A()">↺ Reset</button>
+
+        <div class="disclaimer" style="margin-top:1.5rem">
+          <strong>⚠️ Disclaimer</strong>
+          Class 1A NI is reported and paid via the P11D(b) form. This calculator provides the employer liability estimate only. Always verify benefit values with HMRC guidance.
+          <a href="https://www.gov.uk/employer-reporting-expenses-benefits/class-1a-national-insurance" target="_blank" style="color:#ffa94d">Class 1A NI – GOV.UK →</a>
+        </div>
+      </div>
+
+      <!-- CLASS 1A RESULTS -->
+      <div class="results-sticky">
+        <div class="result-card">
+          <div class="result-header">
+            <div class="result-header-title">🚗 Class 1A NI Result</div>
+            <div class="result-header-sub">Employer Liability · 2025/26</div>
+          </div>
+          <div class="result-body">
+            <div id="c1a_empty" class="empty-state">
+              <div class="empty-state-icon">🚗</div>
+              <div class="empty-state-text">Enter benefit values and click <strong style="color:var(--accent)">Calculate</strong>.</div>
+            </div>
+            <div id="c1a_content" style="display:none">
+
+              <div class="result-hero">
+                <div class="result-hero-label">Total Class 1A NI Due</div>
+                <div class="result-hero-value" id="c1ah_total">£0</div>
+                <div class="result-hero-sub">due 22 July following tax year</div>
+              </div>
+
+              <div class="result-section-title">Benefit Breakdown</div>
+              <div style="overflow-x:auto">
+                <table class="emp-table" id="c1a_table">
+                  <thead><tr><th>Employee</th><th>Benefit</th><th>P11D Value</th><th>Class 1A NI</th></tr></thead>
+                  <tbody id="c1a_tbody"></tbody>
+                </table>
+              </div>
+
+              <div class="result-section-title">Totals</div>
+              <div class="result-row">
+                <div class="result-label">Total P11D value of all benefits</div>
+                <div class="result-value" id="c1a_total_bik">£0</div>
+              </div>
+              <div class="result-row">
+                <div class="result-label">Class 1A rate</div>
+                <div class="result-value">13.8%</div>
+              </div>
+              <div class="result-row total">
+                <div class="result-label">Total Class 1A NI on P11D(b)</div>
+                <div class="result-value" id="c1a_total_ni">£0</div>
+              </div>
+
+              <div class="result-section-title">P11D(b) Filing</div>
+              <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.2rem">
+                <div style="display:flex;justify-content:space-between;font-size:.76rem">
+                  <span style="color:var(--text)">P11D submission deadline</span>
+                  <span style="background:rgba(255,169,77,.1);border:1px solid rgba(255,169,77,.3);border-radius:5px;padding:.2rem .6rem;font-size:.7rem;color:#ffa94d;font-weight:600">6 July 2026</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:.76rem">
+                  <span style="color:var(--text)">Class 1A NI due (paper)</span>
+                  <span style="background:rgba(255,169,77,.1);border:1px solid rgba(255,169,77,.3);border-radius:5px;padding:.2rem .6rem;font-size:.7rem;color:#ffa94d;font-weight:600">19 July 2026</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:.76rem">
+                  <span style="color:var(--text)">Class 1A NI due (electronic)</span>
+                  <span style="background:rgba(255,169,77,.1);border:1px solid rgba(255,169,77,.3);border-radius:5px;padding:.2rem .6rem;font-size:.7rem;color:#ffa94d;font-weight:600">22 July 2026</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<div class="page-footer">
+  ⚠️ For estimation only · Not professional tax advice · Verify with <a href="https://www.gov.uk/national-insurance" target="_blank" style="color:var(--accent)">HMRC GOV.UK</a> · © 2026 SAGAR DAS, ITP & Financial Advisor
+</div>
+
+<!-- ════════════════════════════════════════════
+     JAVASCRIPT
+═════════════════════════════════════════════ -->
+<script>
+/* ===== MOBILE MENU START ===== */
+const ham=document.getElementById('ham'),mob=document.getElementById('mob');
+ham.addEventListener('click',()=>{
+  mob.classList.toggle('open');
+  const s=ham.querySelectorAll('span');
+  if(mob.classList.contains('open')){
+    s[0].style.transform='rotate(45deg) translate(6px,6px)';
+    s[1].style.opacity='0';
+    s[2].style.transform='rotate(-45deg) translate(6px,-6px)';
+  }else{
+    s[0].style.transform='';s[1].style.opacity='';s[2].style.transform='';
+  }
+});
+/* ===== MOBILE MENU END ===== */
+
+/* ===== CLICK DROPDOWN MENU SCRIPT START ===== */
+document.addEventListener('DOMContentLoaded', function () {
+  const dropdowns = document.querySelectorAll('.nav-links .dropdown');
+
+  function closeAll() {
+    dropdowns.forEach(function (d) {
+      d.classList.remove('open');
+      const btn = d.querySelector('.nav-drop-btn');
+      if (btn) {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  closeAll();
+
+  dropdowns.forEach(function (dropdown) {
+    const btn = dropdown.querySelector('.nav-drop-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const isOpen = dropdown.classList.contains('open');
+      closeAll();
+
+      if (!isOpen) {
+        dropdown.classList.add('open');
+        btn.classList.add('active');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.nav-links .dropdown')) {
+      closeAll();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAll();
+  });
+});
+/* ===== CLICK DROPDOWN MENU SCRIPT END ===== */
+
+// ── UTILITIES ──
+function f(n){return Number(n).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fv(id,val){document.getElementById(id).textContent='£'+f(val);}
+function show(id,v){const el=document.getElementById(id);if(el)el.style.display=v?'flex':'none';}
+function showB(id,v){const el=document.getElementById(id);if(el)el.style.display=v?'block':'none';}
+function txt(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
+
+// ── TAB SWITCHING ──
+function switchTab(id,el){
+  document.querySelectorAll('.tab-panel').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.main-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ── NI CATEGORY DATA ──
+const catDescriptions={
+  A:'<strong>Category A — Standard Employee</strong> The most common category. Employee pays 8% between PT (£12,570) and UEL (£50,270), 2% above UEL. Employer pays 13.8% above ST (£9,100).',
+  B:'<strong>Category B — Married Woman / Widow (Reduced Rate)</strong> Employee elects to pay reduced rate: 3.85% between PT and UEL, 2% above UEL. This election (form CF383) must have been made before 12 May 1977 and still be valid. Employer still pays 13.8%.',
+  C:'<strong>Category C — Over State Pension Age</strong> Employees at or over State Pension Age pay no employee NI. Employer still pays 13.8% above ST.',
+  F:'<strong>Category F — Freeport (Standard)</strong> For employees working in a Freeport site. Employee rates same as A (8%/2%). Employer pays 0% up to FUST (£25,000), 13.8% above.',
+  H:'<strong>Category H — Apprentice Under 25</strong> Employee rates same as A (8%/2%). Employer pays 0% on earnings up to UST (£50,270), 13.8% above. Only for genuine apprenticeships.',
+  I:'<strong>Category I — Freeport Married Woman</strong> Freeport equivalent of Category B. Employee pays 3.85%/2%. Employer 0% up to FUST.',
+  J:'<strong>Category J — Deferred NI</strong> Employee has applied to defer NI (because they have more than one job and will likely overpay). Employee pays only 2% on all earnings above PT. Employer still pays 13.8%.',
+  L:'<strong>Category L — Freeport Deferred</strong> Freeport employee who has deferred NI. Employee pays 2% on all earnings above PT. Employer 0% up to FUST.',
+  M:'<strong>Category M — Under 21</strong> Employee rates same as A (8%/2%). Employer pays 0% on earnings up to UST (£50,270), 13.8% above. Applies until employee turns 21.',
+  S:'<strong>Category S — Freeport Over State Pension Age</strong> Freeport employee over SPa. No employee NI. Employer 0% up to FUST.',
+  V:'<strong>Category V — Veteran (First Year of Civilian Employment)</strong> For eligible veterans in their first year of civilian employment. Employee rates same as A (8%/2%). Employer pays 0% up to UST.',
+  Z:'<strong>Category Z — Under 21 Deferred NI</strong> Under 21 employee who has applied for NI deferment. Employee pays only 2%. Employer 0% up to UST.'
+};
+
+let currentC1Cat='A';
+function setC1Cat(cat,el){
+  currentC1Cat=cat;
+  document.querySelectorAll('#c1_cat_group .toggle-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('c1_cat_desc').innerHTML=catDescriptions[cat]||'';
+}
+
+function updateC1Freq(){}
+
+// ── CLASS 1 NI CALCULATION ──
+function calcClass1(){
+  const rawPay   = parseFloat(document.getElementById('c1_pay').value)||0;
+  const freq     = document.getElementById('c1_freq').value;
+  const cat      = currentC1Cat;
+  const sacrifice= parseFloat(document.getElementById('c1_sacrifice').value)||0;
+  const eaClaim  = document.getElementById('c1_ea').value==='yes';
+  const eaUsed   = parseFloat(document.getElementById('c1_ea_used').value)||0;
+
+  if(!rawPay){alert('Please enter gross pay.');return;}
+
+  // Convert to annual
+  const freqMult={annual:1,monthly:12,weekly:52,fortnightly:26,'4weekly':13,daily:365};
+  const annualGross = rawPay * (freqMult[freq]||1);
+  const niablePay   = Math.max(0, annualGross - sacrifice);
+
+  // Thresholds annual
+  const PT=12570, ST=9100, UEL=50270, UST=50270, FUST=25000;
+
+  // ── EMPLOYEE NI ──
+  let empNI=0;
+  let empRows=[];
+  if(cat==='C'||cat==='S'){
+    empRows.push({label:'No employee NI (over State Pension Age)',val:0});
+  } else if(cat==='J'||cat==='L'||cat==='Z'){
+    // Deferred: 2% on all earnings above PT
+    if(niablePay>PT){
+      const amt=niablePay-PT;
+      const ni=amt*0.02;
+      empNI+=ni;
+      empRows.push({label:`Deferred: 2% on £${f(amt)} (above PT £${f(PT)})`,val:ni});
+    } else {
+      empRows.push({label:'Below Primary Threshold',val:0});
+    }
+  } else if(cat==='B'||cat==='I'){
+    // Reduced rate 3.85%
+    if(niablePay>PT){
+      const main=Math.min(niablePay,UEL)-PT;
+      const ni=main*0.0385;
+      empNI+=ni;
+      empRows.push({label:`3.85% on £${f(main)} (PT to UEL)`,val:ni});
+    }
+    if(niablePay>UEL){
+      const upper=niablePay-UEL;
+      const ni=upper*0.02;
+      empNI+=ni;
+      empRows.push({label:`2% on £${f(upper)} (above UEL £${f(UEL)})`,val:ni});
+    }
+    if(empRows.length===0) empRows.push({label:'Below Primary Threshold',val:0});
+  } else {
+    // Standard 8%/2%
+    if(niablePay>PT){
+      const main=(Math.min(niablePay,UEL)-PT);
+      const ni=main*0.08;
+      empNI+=ni;
+      empRows.push({label:`8% on £${f(main)} (PT £${f(PT)} to UEL £${f(UEL)})`,val:ni});
+    }
+    if(niablePay>UEL){
+      const upper=niablePay-UEL;
+      const ni=upper*0.02;
+      empNI+=ni;
+      empRows.push({label:`2% on £${f(upper)} (above UEL £${f(UEL)})`,val:ni});
+    }
+    if(empRows.length===0) empRows.push({label:'Below Primary Threshold (no NI)',val:0});
+  }
+
+  // ── EMPLOYER NI ──
+  let erNI=0;
+  let erRows=[];
+  const freeportCats=['F','I','L','S'];
+  const underAgeZero=['H','M','V','Z'];
+
+  if(freeportCats.includes(cat)){
+    if(niablePay>FUST){
+      const above=niablePay-FUST;
+      const ni=above*0.138;
+      erNI+=ni;
+      erRows.push({label:`13.8% on £${f(above)} (above FUST £${f(FUST)})`,val:ni});
+    }
+    if(erRows.length===0) erRows.push({label:`0% up to FUST £${f(FUST)} (Freeport relief)`,val:0});
+  } else if(underAgeZero.includes(cat)){
+    if(niablePay>UST){
+      const above=niablePay-UST;
+      const ni=above*0.138;
+      erNI+=ni;
+      erRows.push({label:`13.8% on £${f(above)} (above UST £${f(UST)})`,val:ni});
+    }
+    if(erRows.length===0) erRows.push({label:`0% up to UST £${f(UST)} (under-age relief)`,val:0});
+  } else {
+    if(niablePay>ST){
+      const main=niablePay-ST;
+      const ni=main*0.138;
+      erNI+=ni;
+      erRows.push({label:`13.8% on £${f(main)} (above ST £${f(ST)})`,val:ni});
+    }
+    if(erRows.length===0) erRows.push({label:'Below Secondary Threshold (no employer NI)',val:0});
+  }
+
+  // Employment Allowance
+  const eaAvailable = eaClaim ? Math.max(0, 10500 - eaUsed) : 0;
+  const eaApplied   = Math.min(eaAvailable, erNI);
+  const erNINet     = Math.max(0, erNI - eaApplied);
+
+  // ── RENDER ──
+  showB('c1_empty',false);
+  showB('c1_content',true);
+  txt('c1_res_sub',`Category ${cat} · Annual basis · 2025/26`);
+
+  fv('c1h_emp',empNI);
+  fv('c1h_er',erNINet);
+
+  fv('c1r_annual_gross',annualGross);
+  txt('c1r_freq_note',freq==='annual'?'entered as annual':`${rawPay} × ${freqMult[freq]} periods`);
+  show('c1r_sacrifice_row',sacrifice>0);
+  if(sacrifice>0) txt('c1r_sacrifice','–£'+f(sacrifice));
+  fv('c1r_niable',niablePay);
+
+  // Employee rows
+  document.getElementById('c1r_emp_rows').innerHTML=
+    empRows.map(r=>`<div class="breakdown-row hl"><span>${r.label}</span><span>£${f(r.val)}</span></div>`).join('');
+  fv('c1r_emp_total',empNI);
+
+  // Employer rows
+  document.getElementById('c1r_er_rows').innerHTML=
+    erRows.map(r=>`<div class="breakdown-row hl"><span>${r.label}</span><span>£${f(r.val)}</span></div>`).join('');
+  show('c1r_ea_row',eaApplied>0);
+  if(eaApplied>0){
+    txt('c1r_ea_val','–£'+f(eaApplied));
+    txt('c1r_ea_note',`£${f(eaApplied)} of £10,500 allowance used`);
+  }
+  fv('c1r_er_total',erNINet);
+
+  fv('c1r_cost_gross',annualGross);
+  fv('c1r_cost_erni',erNINet);
+  fv('c1r_cost_total',annualGross+erNINet);
+
+  // Period breakdown
+  const periods={annual:{n:1,lbl:'Annual'},monthly:{n:12,lbl:'Monthly'},weekly:{n:52,lbl:'Weekly'},fortnightly:{n:26,lbl:'Fortnightly'},'4weekly':{n:13,lbl:'4-Weekly'},daily:{n:365,lbl:'Daily'}};
+  const tbody=document.getElementById('c1r_period_body');
+  tbody.innerHTML='';
+  for(const[key,p] of Object.entries(periods)){
+    const tr=document.createElement('tr');
+    const periodGross=annualGross/p.n;
+    const periodEmp=empNI/p.n;
+    const periodEr=erNINet/p.n;
+    tr.innerHTML=`<td>${p.lbl}</td><td>£${f(periodGross)}</td><td class="hl">£${f(periodEmp)}</td><td style="color:var(--orange)">£${f(periodEr)}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  const effEmp = annualGross>0?(empNI/annualGross*100):0;
+  const effEr  = annualGross>0?(erNINet/annualGross*100):0;
+  const totalCost=annualGross+erNINet;
+  const effTotal= totalCost>0?((empNI+erNINet)/totalCost*100):0;
+  txt('c1r_eff_emp',effEmp.toFixed(2)+'%');
+  txt('c1r_eff_er',effEr.toFixed(2)+'%');
+  txt('c1r_eff_total',effTotal.toFixed(2)+'%');
+}
+
+function resetC1(){
+  document.getElementById('c1_pay').value='';
+  document.getElementById('c1_sacrifice').value='';
+  document.getElementById('c1_ea_used').value='';
+  document.getElementById('c1_freq').value='annual';
+  document.getElementById('c1_director').value='no';
+  document.getElementById('c1_wk1').value='no';
+  document.getElementById('c1_ea').value='no';
+  setC1Cat('A',document.querySelector('#c1_cat_group .toggle-btn'));
+  showB('c1_empty',true);showB('c1_content',false);
+}
+
+// ── MULTI EMPLOYEE ──
+let meRows=[];
+function addEmployeeRow(){
+  const idx=meRows.length;
+  meRows.push({id:idx});
+  const container=document.getElementById('me_employees');
+  const div=document.createElement('div');
+  div.id=`me_row_${idx}`;
+  div.style.cssText='display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:.6rem;align-items:end;margin-bottom:.6rem';
+  div.innerHTML=`
+    <div class="form-field">
+      <label class="form-label">Employee name</label>
+      <input type="text" id="me_name_${idx}" class="form-input" placeholder="e.g. Employee ${idx+1}">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Annual salary (£)</label>
+      <div class="input-prefix-wrap">
+        <span class="input-prefix">£</span>
+        <input type="number" id="me_salary_${idx}" class="form-input" placeholder="0.00">
+      </div>
+    </div>
+    <div class="form-field">
+      <label class="form-label">NI Category</label>
+      <select id="me_cat_${idx}" class="form-select">
+        <option value="A">A — Standard</option>
+        <option value="B">B — Married woman</option>
+        <option value="C">C — Over SPa</option>
+        <option value="H">H — Apprentice U25</option>
+        <option value="M">M — Under 21</option>
+        <option value="V">V — Veteran</option>
+        <option value="J">J — Deferred</option>
+      </select>
+    </div>
+    <button onclick="removeRow('me_row_${idx}',${idx},'me')" style="padding:.6rem .8rem;border-radius:8px;border:1px solid rgba(255,107,107,.3);background:transparent;color:var(--red);cursor:pointer;font-size:.9rem;margin-bottom:0;line-height:1" title="Remove">✕</button>
+  `;
+  container.appendChild(div);
+}
+
+function resetMultiEmployee(){
+  document.getElementById('me_employees').innerHTML='';
+  meRows=[];
+  showB('me_empty',true);showB('me_content',false);
+  addEmployeeRow();addEmployeeRow();addEmployeeRow();
+}
+
+function calcEmployerNI(salary,cat){
+  const ST=9100,UST=50270,FUST=25000;
+  let erNI=0;
+  const freeportCats=['F','I','L','S'];
+  const underAgeZero=['H','M','V','Z'];
+  if(freeportCats.includes(cat)){
+    if(salary>FUST) erNI=(salary-FUST)*0.138;
+  } else if(underAgeZero.includes(cat)){
+    if(salary>UST) erNI=(salary-UST)*0.138;
+  } else {
+    if(salary>ST) erNI=(salary-ST)*0.138;
+  }
+  return erNI;
+}
+
+function calcMultiEmployee(){
+  const eaClaim=document.getElementById('me_ea').value==='yes';
+  let totalPayroll=0,totalErNI=0;
+  const rows=[];
+  const allIdx=[];
+  document.querySelectorAll('[id^="me_salary_"]').forEach(el=>{
+    const idx=el.id.replace('me_salary_','');
+    allIdx.push(idx);
+  });
+  for(const idx of allIdx){
+    const salEl=document.getElementById(`me_salary_${idx}`);
+    const catEl=document.getElementById(`me_cat_${idx}`);
+    const nameEl=document.getElementById(`me_name_${idx}`);
+    if(!salEl) continue;
+    const salary=parseFloat(salEl.value)||0;
+    const cat=catEl?catEl.value:'A';
+    const name=nameEl?nameEl.value||`Employee ${parseInt(idx)+1}`:`Employee ${parseInt(idx)+1}`;
+    const erNI=calcEmployerNI(salary,cat);
+    totalPayroll+=salary;
+    totalErNI+=erNI;
+    rows.push({name,salary,cat,erNI,totalCost:salary+erNI});
+  }
+  const eaApplied=eaClaim?Math.min(10500,totalErNI):0;
+  const erNINet=Math.max(0,totalErNI-eaApplied);
+
+  showB('me_empty',false);showB('me_content',true);
+  fv('meh_total',erNINet);
+
+  const tbody=document.getElementById('me_tbody');
+  tbody.innerHTML='';
+  rows.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${i+1}. ${r.name}</td><td>£${f(r.salary)}</td><td><span class="cat-badge">${r.cat}</span></td><td class="hl">£${f(r.erNI)}</td><td>£${f(r.totalCost)}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  fv('me_total_payroll',totalPayroll);
+  fv('me_total_erni_gross',totalErNI);
+  show('me_ea_row',eaApplied>0);
+  if(eaApplied>0) txt('me_ea_val','–£'+f(eaApplied));
+  fv('me_total_erni_net',erNINet);
+  fv('me_total_cost',totalPayroll+erNINet);
+  const pct=totalPayroll>0?(erNINet/totalPayroll*100):0;
+  txt('me_erni_pct',pct.toFixed(2)+'%');
+}
+
+function removeRow(divId,idx,type){
+  const el=document.getElementById(divId);
+  if(el) el.remove();
+}
+
+// ── CLASS 4 ──
+document.getElementById('c4_employed').addEventListener('change',function(){
+  showB('c4_employed_fields',this.value==='yes');
+});
+
+function calcClass4(){
+  const profit   = parseFloat(document.getElementById('c4_profit').value)||0;
+  const partner  = parseFloat(document.getElementById('c4_partner').value)||0;
+  const losses   = parseFloat(document.getElementById('c4_losses').value)||0;
+  const employed = document.getElementById('c4_employed').value==='yes';
+  const empPay   = parseFloat(document.getElementById('c4_emp_pay').value)||0;
+  const empNIPaid= parseFloat(document.getElementById('c4_emp_ni_paid').value)||0;
+  const taxYear  = document.getElementById('c4_year').value;
+
+  if(!profit && !partner){alert('Please enter self-employment or partnership profits.');return;}
+
+  const LPL=12570, UPL=50270;
+  const totalProfit=profit+partner;
+  const netProfit=Math.max(0,totalProfit-losses);
+
+  let class4=0, mainBand=0, upperBand=0, mainNI=0, upperNI=0;
+  if(netProfit>LPL){
+    mainBand=Math.min(netProfit,UPL)-LPL;
+    mainNI=mainBand*0.06;
+    class4+=mainNI;
+  }
+  if(netProfit>UPL){
+    upperBand=netProfit-UPL;
+    upperNI=upperBand*0.02;
+    class4+=upperNI;
+  }
+
+  // Deferment check if also employed
+  let empNI=0;
+  if(employed && empPay>0){
+    const PT=12570, UEL=50270;
+    if(empPay>PT) empNI+=(Math.min(empPay,UEL)-PT)*0.08;
+    if(empPay>UEL) empNI+=(empPay-UEL)*0.02;
+  }
+  const combinedNI=class4+(employed?empNIPaid||empNI:0);
+  // Max NI check (approximate)
+  const maxNI=(UPL-LPL)*0.08+(Math.max(0,200000-UPL))*0.02; // simplified
+  const overpay=combinedNI>maxNI+200;
+
+  // State Pension
+  let pensionStatus='';
+  if(netProfit>=LPL){
+    pensionStatus='<div class="breakdown-row hl"><span>Qualifying year</span><span>✅ Yes</span></div><div class="breakdown-row"><span>NI credits from profits above £12,570</span><span>Automatic</span></div>';
+  } else if(netProfit>=6725){
+    pensionStatus='<div class="breakdown-row hl"><span>Qualifying year (treated as paid)</span><span>✅ Yes</span></div><div class="breakdown-row"><span>NI credit given (profits £6,725–£12,570)</span><span>Free credit</span></div>';
+  } else {
+    pensionStatus='<div class="breakdown-row" style="color:var(--red)"><span>No qualifying year — profits below £6,725</span><span>❌</span></div><div class="breakdown-row"><span>Consider voluntary Class 3 contributions</span><span>£17.75/wk</span></div>';
+  }
+
+  showB('c4_empty',false);showB('c4_content',true);
+  txt('c4_res_sub',`Self-Employed · ${taxYear==='2526'?'2025/26':'2024/25'}`);
+
+  fv('c4h_total',class4);
+  fv('c4r_profit',profit);
+  show('c4r_partner_row',partner>0);
+  if(partner>0) fv('c4r_partner',partner);
+  show('c4r_loss_row',losses>0);
+  if(losses>0) txt('c4r_losses','–£'+f(losses));
+  fv('c4r_net_profit',netProfit);
+
+  txt('c4r_main_calc',`£${f(mainBand)} × 6% = £${f(mainNI)}`);
+  showB('c4r_upper_row',upperBand>0);
+  txt('c4r_upper_calc',`£${f(upperBand)} × 2% = £${f(upperNI)}`);
+  fv('c4r_total',class4);
+
+  showB('c4r_deferment_section',employed);
+  if(employed){
+    fv('c4r_emp_ni',empNIPaid||empNI);
+    fv('c4r_c4_ni2',class4);
+    fv('c4r_combined',combinedNI);
+    showB('c4r_overpay_box',overpay);
+  }
+
+  document.getElementById('c4r_pension_status').innerHTML=pensionStatus;
+
+  const eff=netProfit>0?(class4/netProfit*100):0;
+  txt('c4r_eff',eff.toFixed(2)+'%');
+  fv('c4r_monthly',class4/12);
+}
+
+function resetC4(){
+  ['c4_profit','c4_partner','c4_losses','c4_emp_pay','c4_emp_ni_paid'].forEach(id=>{
+    document.getElementById(id).value='';
+  });
+  document.getElementById('c4_employed').value='no';
+  showB('c4_employed_fields',false);
+  showB('c4_empty',true);showB('c4_content',false);
+}
+
+// ── CLASS 1A ──
+let bikRows=[];
+function addBIKRow(){
+  const idx=bikRows.length;
+  bikRows.push({id:idx});
+  const container=document.getElementById('bik_employees');
+  const div=document.createElement('div');
+  div.id=`bik_row_${idx}`;
+  div.style.cssText='display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:.6rem;align-items:end;margin-bottom:.6rem';
+  div.innerHTML=`
+    <div class="form-field">
+      <label class="form-label">Employee name</label>
+      <input type="text" id="bik_name_${idx}" class="form-input" placeholder="Employee ${idx+1}">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Benefit type</label>
+      <select id="bik_type_${idx}" class="form-select">
+        <option value="Company car">Company car</option>
+        <option value="Private medical">Private medical</option>
+        <option value="Company van">Company van (£3,960)</option>
+        <option value="Fuel benefit">Car fuel benefit</option>
+        <option value="Low interest loan">Low interest loan</option>
+        <option value="Living accommodation">Living accommodation</option>
+        <option value="Other">Other benefit</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label class="form-label">P11D value (£)</label>
+      <div class="input-prefix-wrap">
+        <span class="input-prefix">£</span>
+        <input type="number" id="bik_val_${idx}" class="form-input" placeholder="0.00">
+      </div>
+    </div>
+    <button onclick="removeRow('bik_row_${idx}',${idx},'bik')" style="padding:.6rem .8rem;border-radius:8px;border:1px solid rgba(255,107,107,.3);background:transparent;color:var(--red);cursor:pointer;font-size:.9rem;line-height:1" title="Remove">✕</button>
+  `;
+  container.appendChild(div);
+}
+
+function calcClass1A(){
+  let totalBIK=0;
+  const rows=[];
+  document.querySelectorAll('[id^="bik_val_"]').forEach(el=>{
+    const idx=el.id.replace('bik_val_','');
+    const val=parseFloat(el.value)||0;
+    const nameEl=document.getElementById(`bik_name_${idx}`);
+    const typeEl=document.getElementById(`bik_type_${idx}`);
+    const name=nameEl?nameEl.value||`Employee ${parseInt(idx)+1}`:`Employee ${parseInt(idx)+1}`;
+    const type=typeEl?typeEl.value:'Benefit';
+    const ni=val*0.138;
+    totalBIK+=val;
+    rows.push({name,type,val,ni});
+  });
+
+  if(rows.length===0){alert('Please add at least one benefit row.');return;}
+
+  const totalNI=totalBIK*0.138;
+
+  showB('c1a_empty',false);showB('c1a_content',true);
+  fv('c1ah_total',totalNI);
+
+  const tbody=document.getElementById('c1a_tbody');
+  tbody.innerHTML='';
+  rows.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${r.name}</td><td>${r.type}</td><td>£${f(r.val)}</td><td class="hl">£${f(r.ni)}</td>`;
+    tbody.appendChild(tr);
+  });
+  if(rows.length>1){
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td colspan="2" style="font-weight:700;color:var(--textl)">TOTAL</td><td style="font-weight:700;color:var(--textl)">£${f(totalBIK)}</td><td class="hl" style="font-weight:700">£${f(totalNI)}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  fv('c1a_total_bik',totalBIK);
+  fv('c1a_total_ni',totalNI);
+}
+
+function resetClass1A(){
+  document.getElementById('bik_employees').innerHTML='';
+  bikRows=[];
+  showB('c1a_empty',true);showB('c1a_content',false);
+  addBIKRow();addBIKRow();
+}
+
+// ── INIT ──
+(function init(){
+  // Pre-populate multi employee with 3 rows
+  addEmployeeRow(); addEmployeeRow(); addEmployeeRow();
+  // Pre-populate BIK with 2 rows
+  addBIKRow(); addBIKRow();
+})();
+</script>
+
+<script src="../theme.js"></script>\n</body>
+</html>
