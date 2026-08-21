@@ -1,144 +1,412 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Trikono</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRIKONO | UK Ltd Formation & Full HMRC Tax Compliance</title>
+  <!-- Fonts & Tailwind CSS CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+              950: '#0f172a',
+            }
+          }
         }
-
-        body {
-            background: radial-gradient(circle at top right, #1e293b, #0f172a, #020617);
-            color: #f8fafc;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 580px;
-            width: 100%;
-            background: rgba(30, 41, 59, 0.5);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 48px 36px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(59, 130, 246, 0.15);
-            color: #60a5fa;
-            border: 1px solid rgba(96, 165, 250, 0.3);
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        h1 {
-            font-size: 38px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 16px;
-            letter-spacing: -0.8px;
-        }
-
-        p.subtitle {
-            font-size: 17px;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 36px;
-        }
-
-        .contact-box {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 28px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 14px 20px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #e2e8f0;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .contact-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-            color: #ffffff;
-        }
-
-        .contact-item svg {
-            width: 18px;
-            height: 18px;
-            fill: none;
-            stroke: #60a5fa;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        footer {
-            margin-top: 32px;
-            font-size: 13px;
-            color: #64748b;
-        }
-    </style>
+      }
+    }
+  </script>
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white relative">
 
-    <div class="container">
-        <div class="badge">Coming Soon</div>
+  <!-- Top Notification Bar -->
+  <div class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-sky-600 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold text-white tracking-wide shadow-md">
+    🚀 10+ Years Experience | 5,000+ UK Companies Formed Worldwide | Complete HMRC Filing Support
+  </div>
+
+  <!-- Header / Navbar -->
+  <header class="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-xl border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <span class="text-2xl font-extrabold tracking-wider text-white">TRI<span class="text-indigo-400">KONO</span></span>
+      </div>
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-300">
+        <a href="#formation" class="hover:text-indigo-400 transition">Formation Package</a>
+        <a href="#compliance" class="hover:text-indigo-400 transition">Tax & Accounting</a>
+        <a href="#documents" class="hover:text-indigo-400 transition">HMRC Compliance</a>
+        <a href="#guides" class="hover:text-indigo-400 transition">Tax Guides</a>
+        <a href="#contact" class="hover:text-indigo-400 transition">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a 
+          href="https://wa.me/447383340465?text=Hello%20TRIKONO,%20I%20want%20to%20incorporate%20my%20UK%20Company." 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center gap-2"
+        >
+          Incorporate Now
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative pt-12 pb-20 lg:pt-20 lg:pb-28 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
         
-        <h1>Welcome to Trikono</h1>
-        
-        <p class="subtitle">We are coming soon with complete solutions for all your needs.</p>
-        
-        <div class="contact-box">
-            <a href="mailto:info@trikono.com" class="contact-item">
-                <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                <span>Email: info@trikono.com</span>
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-indigo-300 text-xs sm:text-sm font-semibold">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Stop Payment Holds & Scale Globally
+          </div>
+          
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+            Smart founders are expanding with <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-300 to-indigo-200">UK Ltd Companies.</span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-400 leading-relaxed max-w-xl mx-auto lg:mx-0">
+            Don’t let Companies House rules, director ID verification, notary hassles, and complex regulations hold you back. Get a 100% legal UK Ltd setup, access Wise & Stripe, and receive global client payments seamlessly.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+            <a 
+              href="https://wa.me/447383340465?text=Hello%20TRIKONO,%20I%20am%20ready%20to%20register%20my%20UK%20Ltd%20company." 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-8 py-4 rounded-xl shadow-xl shadow-indigo-600/30 transition text-center text-base"
+            >
+              Register UK Company
             </a>
-            
-            <a href="tel:+447383340465" class="contact-item">
-                <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                <span>Phone: +44 7383 340465</span>
+            <a 
+              href="#formation" 
+              class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold px-8 py-4 rounded-xl transition text-center text-base"
+            >
+              Explore Package Details
             </a>
+          </div>
+
+          <div class="pt-6 grid grid-cols-2 sm:grid-cols-3 gap-3 text-slate-400 text-xs font-semibold text-left">
+            <div class="flex items-center gap-2 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">✅ 10+ Years Trust</div>
+            <div class="flex items-center gap-2 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">✅ 5,000+ Clients</div>
+            <div class="flex items-center gap-2 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">✅ Dedicated Manager</div>
+          </div>
         </div>
 
-        <footer>
-            &copy; 2026 Trikono. All rights reserved.
-        </footer>
+        <!-- Hero Visual (Image 3) -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-indigo-950/40 p-2 group">
+            <img src="image-3.jpg" alt="UK Tax & Company Formation Advisory" class="w-full h-auto object-cover rounded-2xl group-hover:scale-105 transition duration-500">
+            <div class="absolute bottom-6 left-6 right-6 bg-slate-950/90 backdrop-blur-md p-4 rounded-xl border border-slate-700/60 text-left">
+              <p class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Fast & Hassle-Free</p>
+              <p class="text-sm font-semibold text-white">Full statutory registration + corporate banking unlocked</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </section>
+
+  <!-- Formation Package Section -->
+  <section id="formation" class="py-20 bg-slate-900/40 border-t border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <h2 class="text-indigo-400 text-xs font-bold uppercase tracking-widest">Formation Suite</h2>
+        <h3 class="text-3xl sm:text-4xl font-extrabold text-white">One Comprehensive UK Formation Package</h3>
+        <p class="text-slate-400">Everything needed to launch and run an international business entity from anywhere in the world.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="text-3xl mb-3">📄</div>
+          <h4 class="text-lg font-bold text-white mb-1.5">Certificate of Incorporation</h4>
+          <p class="text-slate-400 text-sm">Official government certificate issued by Companies House establishing your UK legal company.</p>
+        </div>
+
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="text-3xl mb-3">🏢</div>
+          <h4 class="text-lg font-bold text-white mb-1.5">UK Registered Office Address</h4>
+          <p class="text-slate-400 text-sm">A physical UK registered address for all official statutory mail from HMRC & Companies House.</p>
+        </div>
+
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="text-3xl mb-3">🛡️</div>
+          <h4 class="text-lg font-bold text-white mb-1.5">Director’s Service Address</h4>
+          <p class="text-slate-400 text-sm">Keep your residential address 100% private from the public Companies House register.</p>
+        </div>
+
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="text-3xl mb-3">🆔</div>
+          <h4 class="text-lg font-bold text-white mb-1.5">Director ID Verification</h4>
+          <p class="text-slate-400 text-sm">Fully guided identity verification in strict compliance with the latest UK corporate rules.</p>
+        </div>
+
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="text-3xl mb-3">🔑</div>
+          <h4 class="text-lg font-bold text-white mb-1.5">Web Authentication Code</h4>
+          <p class="text-slate-400 text-sm">Your secure online access key to manage statutory filings directly on Companies House.</p>
+        </div>
+
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="text-3xl mb-3">🏛️</div>
+          <h4 class="text-lg font-bold text-white mb-1.5">HMRC UTR Number</h4>
+          <p class="text-slate-400 text-sm">Official company Unique Taxpayer Reference for corporate taxation and accounting.</p>
+        </div>
+
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="text-3xl mb-3">💳</div>
+          <h4 class="text-lg font-bold text-white mb-1.5">UK Bank Account Support</h4>
+          <p class="text-slate-400 text-sm">Assisted setup for multi-currency business accounts including Wise Business and Payoneer.</p>
+        </div>
+
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="text-3xl mb-3">⚡</div>
+          <h4 class="text-lg font-bold text-white mb-1.5">Stripe & PayPal Gateways</h4>
+          <p class="text-slate-400 text-sm">Unblock global payment processing and receive multi-currency client payouts instantly.</p>
+        </div>
+
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="text-3xl mb-3">📊</div>
+          <h4 class="text-lg font-bold text-white mb-1.5">Tax & Annual Compliance</h4>
+          <p class="text-slate-400 text-sm">Dedicated account manager to monitor annual accounts, confirmation statements, and filing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UK Taxes & Accounting Section (Image 1) -->
+  <section id="compliance" class="py-20 bg-slate-950 border-t border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid lg:grid-cols-12 gap-12 items-center mb-16">
+        <div class="lg:col-span-6 space-y-4">
+          <h2 class="text-indigo-400 text-xs font-bold uppercase tracking-widest">Complete UK Tax Management</h2>
+          <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Full-Spectrum UK Tax Compliance</h3>
+          <p class="text-slate-400 text-base leading-relaxed">
+            From Corporation Tax and VAT (MTD) to PAYE Payroll submissions, our UK compliance specialists handle every detail directly with HMRC, keeping your business audit-proof.
+          </p>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li class="flex items-center gap-2 font-semibold">✔ Corporation Tax (CT600) filing & calculations</li>
+            <li class="flex items-center gap-2 font-semibold">✔ Making Tax Digital (MTD) compliant VAT Returns</li>
+            <li class="flex items-center gap-2 font-semibold">✔ HMRC PAYE RTI Payroll and Pension Auto-enrollment</li>
+          </ul>
+        </div>
+
+        <div class="lg:col-span-6">
+          <div class="rounded-2xl overflow-hidden border border-slate-800 shadow-xl bg-white p-3">
+            <img src="image-1.jpg" alt="Taxes in the UK Map Overview" class="w-full h-auto rounded-lg">
+          </div>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="bg-slate-900/80 border border-slate-800 p-8 rounded-3xl relative">
+          <span class="inline-block px-3 py-1 bg-indigo-950 border border-indigo-700/50 text-indigo-300 text-xs font-bold rounded-lg mb-6">TAXATION</span>
+          <h4 class="text-2xl font-bold text-white mb-4">UK Corporate Tax</h4>
+          <ul class="space-y-3 text-slate-300 text-sm">
+            <li class="flex items-start gap-2"><span>✔</span> CT600 Preparation & Filing</li>
+            <li class="flex items-start gap-2"><span>✔</span> Tax Calculation Step by Step</li>
+            <li class="flex items-start gap-2"><span>✔</span> Allowable & Disallowable Expenses</li>
+            <li class="flex items-start gap-2"><span>✔</span> Direct HMRC Submission</li>
+          </ul>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-slate-900/80 border border-slate-800 p-8 rounded-3xl relative">
+          <span class="inline-block px-3 py-1 bg-sky-950 border border-sky-700/50 text-sky-300 text-xs font-bold rounded-lg mb-6">COMPENSATION</span>
+          <h4 class="text-2xl font-bold text-white mb-4">UK Payroll Management</h4>
+          <ul class="space-y-3 text-slate-300 text-sm">
+            <li class="flex items-start gap-2"><span>✔</span> PAYE System Setup</li>
+            <li class="flex items-start gap-2"><span>✔</span> RTI Submissions to HMRC</li>
+            <li class="flex items-start gap-2"><span>✔</span> Monthly Payslip Preparation</li>
+            <li class="flex items-start gap-2"><span>✔</span> Pension Auto Enrollment</li>
+            <li class="flex items-start gap-2"><span>✔</span> P60 & P45 Processing</li>
+          </ul>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-slate-900/80 border border-slate-800 p-8 rounded-3xl relative">
+          <span class="inline-block px-3 py-1 bg-emerald-950 border border-emerald-700/50 text-emerald-300 text-xs font-bold rounded-lg mb-6">INDIRECT TAX</span>
+          <h4 class="text-2xl font-bold text-white mb-4">UK VAT Returns</h4>
+          <ul class="space-y-3 text-slate-300 text-sm">
+            <li class="flex items-start gap-2"><span>✔</span> Official VAT Registration</li>
+            <li class="flex items-start gap-2"><span>✔</span> Making Tax Digital (MTD) Setup</li>
+            <li class="flex items-start gap-2"><span>✔</span> Input & Output VAT Calculation</li>
+            <li class="flex items-start gap-2"><span>✔</span> Timely VAT Submission Process</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Document & Official Verification (Image 2) -->
+  <section id="documents" class="py-20 bg-slate-900/50 border-t border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 grid lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7 space-y-5">
+          <span class="px-3 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs font-bold tracking-wider uppercase">Official Documentation</span>
+          <h3 class="text-2xl sm:text-4xl font-extrabold text-white">Direct HMRC UTR & Companies House Issuance</h3>
+          <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+            All company credentials, Unique Taxpayer References (UTR), and authentication keys are processed through authentic legal channels, ensuring 100% verified status for global banking, Stripe, and PayPal approval.
+          </p>
+          <div class="flex items-center gap-4 pt-2">
+            <div class="bg-slate-950 px-4 py-2 rounded-xl border border-slate-800">
+              <p class="text-xs text-slate-500 font-bold">UTR REFERENCE</p>
+              <p class="text-sm font-extrabold text-indigo-400">Guaranteed HMRC Registration</p>
+            </div>
+            <div class="bg-slate-950 px-4 py-2 rounded-xl border border-slate-800">
+              <p class="text-xs text-slate-500 font-bold">COMPLIANCE</p>
+              <p class="text-sm font-extrabold text-emerald-400">100% Audit-Proof</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl">
+            <img src="image-2.jpg" alt="HM Revenue & Customs UTR Tax Reference" class="w-full h-auto object-cover">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tax Resources & Knowledge Base -->
+  <section id="guides" class="py-20 bg-slate-950 border-t border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <h2 class="text-indigo-400 text-xs font-bold uppercase tracking-widest">Advisory & Knowledge Base</h2>
+        <h3 class="text-3xl sm:text-4xl font-extrabold text-white">UK Tax Guides & Regulatory Insights</h3>
+        <p class="text-slate-400">Stay ahead of UK statutory filing rules, expat regulations, and recent legislative updates.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        
+        <!-- Guide 1 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-indigo-500/50 transition">
+          <div>
+            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Expat & Non-Resident Guide</span>
+            <h4 class="text-xl font-bold text-white mt-2 mb-3">UK Tax Year Guide & Expat Planning</h4>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+              Learn essential cross-border tax considerations, overseas income structures, and forward planning for non-UK directors.
+            </p>
+          </div>
+          <a href="https://www.profee.com/articles/uk-tax-year-guide-2024-2025-planning-ahead-for-expats" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-bold text-indigo-400 hover:text-indigo-300">
+            Read Full Guide <span class="ml-2">→</span>
+          </a>
+        </div>
+
+        <!-- Guide 2 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-indigo-500/50 transition">
+          <div>
+            <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Statutory Compliance</span>
+            <h4 class="text-xl font-bold text-white mt-2 mb-3">Comprehensive Tax Filing in the UK</h4>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+              A complete breakdown of Self-Assessment, Corporation Tax (CT600), deadlines, and HMRC filing requirements.
+            </p>
+          </div>
+          <a href="https://ibissandco.com/tax-tips/a-comprehensive-guide-to-tax-filing-in-the-uk/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-bold text-sky-400 hover:text-sky-300">
+            Read Tax Tips <span class="ml-2">→</span>
+          </a>
+        </div>
+
+        <!-- Guide 3 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-indigo-500/50 transition">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Policy & Rate Updates</span>
+            <h4 class="text-xl font-bold text-white mt-2 mb-3">UK Tax Reforms & Budget Changes</h4>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+              Detailed analysis of corporate rates, capital gains adjustments, and how new UK government tax policies affect business owners.
+            </p>
+          </div>
+          <a href="https://depointe.co.uk/blog/uk-labour-tax-changes-2025/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-bold text-emerald-400 hover:text-emerald-300">
+            Read Policy Analysis <span class="ml-2">→</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA / Contact Section -->
+  <section id="contact" class="py-20 bg-slate-900/60 border-t border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-900 border border-indigo-500/30 rounded-3xl p-8 sm:p-14 text-center space-y-6 shadow-2xl">
+        <h3 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+          Don’t lose your next global client.
+        </h3>
+        <p class="text-slate-300 max-w-xl mx-auto text-base sm:text-lg">
+          Message us now, incorporate your UK Ltd entity, and start accepting global payments without delays.
+        </p>
+
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <!-- WhatsApp Contact Button -->
+          <a 
+            href="https://wa.me/447383340465?text=Hello%20TRIKONO,%20I%20would%20like%20to%20consult%20regarding%20UK%20Ltd%20formation%20and%20HMRC%20taxes." 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="w-full sm:w-auto bg-[#25D366] hover:bg-[#20ba59] text-white font-bold px-8 py-4 rounded-xl transition shadow-xl text-base inline-flex items-center justify-center gap-2"
+          >
+            <!-- WhatsApp SVG Icon -->
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            Chat on WhatsApp (+44 7383 340465)
+          </a>
+          <a 
+            href="mailto:info@trikono.com" 
+            class="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-semibold px-8 py-4 rounded-xl transition text-base"
+          >
+            Email: info@trikono.com
+          </a>
+        </div>
+
+        <div class="pt-2 text-xs text-indigo-300 font-medium">
+          TRIKONO | Direct Inquiries: +44 7383 340465 | info@trikono.com
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 bg-slate-950 border-t border-slate-900 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p class="text-slate-400 font-bold text-sm tracking-wider">TRIKONO</p>
+      <p>© 2026 TRIKONO. All rights reserved. Professional UK Company Formation & Statutory HMRC Compliance.</p>
+    </div>
+  </footer>
+
+  <!-- Floating Fixed WhatsApp Action Button -->
+  <a 
+    href="https://wa.me/447383340465?text=Hello%20TRIKONO,%20I%20am%20interested%20in%20UK%20Company%20Formation%20and%20Tax%20services." 
+    target="_blank" 
+    rel="noopener noreferrer"
+    class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#25D366] hover:bg-[#20ba59] text-white px-5 py-3.5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 group"
+    aria-label="Chat on WhatsApp"
+  >
+    <!-- WhatsApp SVG Icon -->
+    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+    </svg>
+    <span class="font-bold text-sm tracking-wide hidden sm:inline-block">Chat on WhatsApp</span>
+  </a>
 
 </body>
 </html>
