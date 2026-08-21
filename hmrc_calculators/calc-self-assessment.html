@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Self Assessment Tax Calculator | TRIKONO /title>
+<title>Self Assessment Tax Calculator | TRIKONO</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -20,45 +20,31 @@ html{scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
 /* NAVIGATION */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(5,10,20,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-.logo{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);letter-spacing:-.5px}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(5,10,20,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:700;color:var(--white);text-decoration:none;letter-spacing:-.5px}
 .logo span{color:var(--accent)}
-.nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center}
-.nav-links a{color:var(--textl);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.5px;transition:all .3s;position:relative}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s}
+.nav-links{display:flex;gap:1.5rem;list-style:none;align-items:center}
+.nav-links a{color:var(--textl);text-decoration:none;font-size:.85rem;font-weight:500;letter-spacing:.5px;transition:all .3s}
 .nav-links a:hover{color:var(--accent)}
-.nav-links a:hover::after{width:100%}
+.back-btn{background:var(--accent);color:var(--bg) !important;font-weight:700 !important;padding:.45rem 1rem;border-radius:8px;transition:transform .2s}
+.back-btn:hover{transform:translateY(-1px);box-shadow:0 0 15px var(--accent-glow)}
 
-/* DROPDOWN MENU CSS */
-.dropdown { position: relative; }
-.nav-drop-btn { background: transparent; border: none; font-family: inherit; font-size: .8rem; font-weight: 500; color: var(--textl); cursor: pointer; display: flex; align-items: center; gap: 4px; transition: color .3s; padding: 0; letter-spacing: .5px; outline: none; }
-.nav-drop-btn:hover { color: var(--accent); }
-.dropdown-menu { display: none; position: absolute; top: calc(100% + 15px); left: 0; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: .5rem 0; min-width: 220px; box-shadow: 0 10px 40px rgba(0,0,0,.6); flex-direction: column; gap: 0; }
-.dropdown-menu::before { content: ''; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; } 
-.dropdown-menu li { width: 100%; list-style: none; }
-.dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu { display: flex; animation: slideUp .3s ease forwards; }
-.nav-links .dropdown-menu a { display: block; padding: .6rem 1.2rem; font-size: .8rem; color: var(--text); transition: all .2s; }
-.nav-links .dropdown-menu a::after { display: none; }
-.nav-links .dropdown-menu a:hover { color: var(--accent); background: var(--accent-glow); padding-left: 1.5rem; }
-.dd-icon { transition: transform .3s; }
-.dropdown:hover .dd-icon, .dropdown.open .dd-icon { transform: rotate(180deg); }
+/* DROPDOWN MENU */
+.dropdown{position:relative}
+.nav-drop-btn{background:transparent;border:none;font-family:inherit;font-size:.85rem;font-weight:500;color:var(--textl);cursor:pointer;display:flex;align-items:center;gap:4px;padding:0;outline:none}
+.nav-drop-btn:hover{color:var(--accent)}
+.dropdown-menu{display:none;position:absolute;top:calc(100% + 15px);left:0;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.5rem 0;min-width:220px;box-shadow:0 10px 40px rgba(0,0,0,.6);flex-direction:column}
+.dropdown-menu li{width:100%;list-style:none}
+.dropdown:hover .dropdown-menu, .dropdown.open .dropdown-menu{display:flex;animation:slideUp .3s ease forwards}
+.nav-links .dropdown-menu a{display:block;padding:.6rem 1.2rem;font-size:.8rem;color:var(--text)}
+.nav-links .dropdown-menu a:hover{color:var(--accent);background:var(--accent-glow);padding-left:1.5rem}
 
 .ham{display:none;flex-direction:column;gap:6px;cursor:pointer;padding:5px}
 .ham span{width:24px;height:2px;background:var(--accent);border-radius:2px;transition:all .3s}
 #mob{display:none;position:fixed;top:65px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);z-index:199;padding:1.5rem 2rem;max-height:calc(100vh - 65px);overflow-y:auto}
 #mob.open{display:block}
 #mob ul{list-style:none;display:flex;flex-direction:column;gap:1rem}
-#mob a{color:var(--textl);text-decoration:none;font-size:.95rem;transition:color .3s}
-#mob a:hover{color:var(--accent)}
-
-/* MOBILE DROPDOWN STYLES */
-details summary { list-style: none; cursor: pointer; color: var(--textl); font-size: .95rem; font-weight: 500; transition: color .3s; display: flex; justify-content: space-between; align-items: center; }
-details summary::-webkit-details-marker { display: none; }
-details summary::after { content: '▾'; transition: transform 0.3s; color: var(--text); }
-details[open] summary::after { transform: rotate(180deg); color: var(--accent); }
-details summary:hover { color: var(--accent); }
-details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
-.mob-sub { padding-left: 1rem; border-left: 1px dashed var(--border); margin-left: 0.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+#mob a{color:var(--textl);text-decoration:none;font-size:.95rem}
 
 @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
@@ -86,17 +72,14 @@ details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
 .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.6rem 1.8rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent3))}
 .card-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:1.3rem;display:flex;align-items:center;gap:.6rem}
-.card-title span{font-size:1.2rem}
 .card-title small{font-size:.72rem;color:var(--text);font-weight:400;margin-left:.3rem}
 
 /* FORM */
 .form-section{margin-bottom:1.4rem;padding-bottom:1.4rem;border-bottom:1px solid var(--border)}
 .form-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
-.form-section-label{font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem}
+.form-section-label{font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.9rem}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
-.form-grid.col3{grid-template-columns:1fr 1fr 1fr}
-.form-grid.col1{grid-template-columns:1fr}
-@media(max-width:600px){.form-grid,.form-grid.col3{grid-template-columns:1fr}}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
 
 .form-field{display:flex;flex-direction:column;gap:.3rem}
 .form-label{font-size:.78rem;color:var(--textl);font-weight:500}
@@ -107,7 +90,6 @@ details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
   color:var(--textl);font-size:.85rem;
   font-family:'Inter',sans-serif;outline:none;
   transition:border-color .2s,box-shadow .2s;
-  -webkit-appearance:none;
 }
 .form-input:focus,.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,.12)}
 .form-input[type=number]::-webkit-inner-spin-button,
@@ -117,32 +99,20 @@ details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
 .input-prefix-wrap{position:relative}
 .input-prefix{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:.85rem;color:var(--text);pointer-events:none}
 .input-prefix-wrap .form-input{padding-left:1.8rem}
-.input-suffix-wrap{position:relative}
-.input-suffix{position:absolute;right:.85rem;top:50%;transform:translateY(-50%);font-size:.85rem;color:var(--text);pointer-events:none}
-.input-suffix-wrap .form-input{padding-right:2.5rem}
 
-.toggle-group{display:flex;gap:.5rem;flex-wrap:wrap}
-.toggle-btn{padding:.45rem .9rem;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--textl);font-size:.78rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
-.toggle-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
-.toggle-btn:hover:not(.active){border-color:var(--accent);color:var(--accent)}
-
-/* CALC BUTTON */
-.calc-btn{width:100%;padding:.85rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg);font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;margin-top:.5rem;letter-spacing:.3px}
+/* BUTTONS */
+.calc-btn{width:100%;padding:.85rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .3s;margin-top:.5rem}
 .calc-btn:hover{background:linear-gradient(135deg,var(--accent3),var(--accent));transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,212,170,.3)}
-.calc-btn:active{transform:translateY(0)}
-.reset-btn{width:100%;padding:.65rem;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:.8rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;margin-top:.6rem}
+.reset-btn{width:100%;padding:.65rem;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:.8rem;cursor:pointer;transition:all .3s;margin-top:.6rem}
 .reset-btn:hover{border-color:var(--red);color:var(--red)}
 
 /* RESULTS */
 .results-sticky{position:sticky;top:5.5rem}
 .result-card{background:var(--card);border:2px solid var(--accent);border-radius:20px;overflow:hidden}
 .result-header{background:linear-gradient(135deg,rgba(0,212,170,.12),rgba(0,212,170,.04));padding:1.3rem 1.5rem;border-bottom:1px solid var(--border2)}
-.result-header-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.result-header-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white)}
 .result-header-sub{font-size:.75rem;color:var(--accent)}
 .result-body{padding:1.3rem 1.5rem;max-height:85vh;overflow-y:auto}
-.result-body::-webkit-scrollbar{width:4px}
-.result-body::-webkit-scrollbar-track{background:transparent}
-.result-body::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
 
 .result-hero{text-align:center;padding:1rem 0 1.2rem;border-bottom:1px solid var(--border);margin-bottom:1.1rem}
 .result-hero-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text);margin-bottom:.3rem}
@@ -151,70 +121,42 @@ details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
 .result-hero-sub{font-size:.75rem;color:var(--text);margin-top:.3rem}
 
 .result-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid rgba(0,212,170,.05)}
-.result-row:last-child{border-bottom:none}
 .result-row.total{padding-top:.7rem;margin-top:.3rem;border-top:2px solid var(--border2);border-bottom:none}
-.result-row.subtotal{background:rgba(0,212,170,.04);border-radius:6px;padding:.5rem .6rem;margin:.2rem -0.6rem}
 .result-row.negative .result-value{color:var(--red)}
-.result-row.positive .result-value{color:var(--accent)}
-.result-label{font-size:.78rem;color:var(--text);flex:1;line-height:1.4;padding-right:.5rem}
-.result-label small{display:block;font-size:.67rem;color:var(--text);opacity:.7;margin-top:.1rem}
-.result-label.bold{color:var(--textl);font-weight:600}
-.result-value{font-size:.82rem;color:var(--textl);font-weight:600;text-align:right;white-space:nowrap}
+.result-label{font-size:.78rem;color:var(--text);flex:1;line-height:1.4}
+.result-label small{display:block;font-size:.67rem;color:var(--text);opacity:.7}
+.result-value{font-size:.82rem;color:var(--textl);font-weight:600;text-align:right}
 .result-row.total .result-label{color:var(--textl);font-weight:700;font-size:.85rem}
 .result-row.total .result-value{color:var(--accent);font-size:.9rem}
-.result-row.highlight .result-value{color:var(--accent)}
 
 .result-section-title{font-size:.67rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin:1rem 0 .45rem;padding-bottom:.3rem;border-bottom:1px solid var(--border)}
-
 .result-breakdown-box{background:rgba(0,212,170,.04);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;margin:.6rem 0}
 .result-breakdown-title{font-size:.7rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:.6rem}
 .result-breakdown-row{display:flex;justify-content:space-between;font-size:.75rem;padding:.2rem 0;color:var(--text)}
-.result-breakdown-row span:last-child{color:var(--textl);font-weight:500}
 
 .poa-box{background:rgba(255,169,77,.06);border:1px solid rgba(255,169,77,.2);border-radius:12px;padding:1rem 1.1rem;margin-top:.8rem}
-.poa-title{font-size:.75rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
-.poa-row{display:flex;justify-content:space-between;font-size:.78rem;padding:.3rem 0;border-bottom:1px solid rgba(255,169,77,.1)}
-.poa-row:last-child{border-bottom:none;font-weight:700;padding-top:.5rem;margin-top:.2rem}
-.poa-row span:first-child{color:var(--text)}
+.poa-title{font-size:.75rem;font-weight:700;color:var(--orange);text-transform:uppercase;margin-bottom:.6rem}
+.poa-row{display:flex;justify-content:space-between;font-size:.78rem;padding:.3rem 0}
 .poa-row span:last-child{color:var(--orange);font-weight:600}
 
 .empty-state{text-align:center;padding:2.5rem 1rem}
 .empty-state-icon{font-size:2.5rem;margin-bottom:.8rem}
 .empty-state-text{font-size:.85rem;color:var(--text);line-height:1.7}
 
-/* INFO BOXES */
 .info-box{border-radius:12px;padding:.9rem 1.1rem;font-size:.8rem;line-height:1.6;margin-top:.8rem}
 .info-box.blue{background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.2);color:var(--textl)}
 .info-box.yellow{background:rgba(255,169,77,.06);border:1px solid rgba(255,169,77,.2);color:#ffa94d}
-.info-box.red{background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.2);color:#ff6b6b}
-.info-box.purple{background:rgba(177,151,252,.06);border:1px solid rgba(177,151,252,.2);color:#b197fc}
-.info-box strong{display:block;margin-bottom:.3rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.8px}
+.info-box strong{display:block;margin-bottom:.3rem;font-size:.75rem;text-transform:uppercase}
 
-/* TAX BAND TABLE */
 .band-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:.5rem}
-.band-table th{text-align:left;color:var(--accent);font-size:.7rem;text-transform:uppercase;letter-spacing:1px;padding:.4rem .6rem;border-bottom:1px solid var(--border2)}
+.band-table th{text-align:left;color:var(--accent);font-size:.7rem;text-transform:uppercase;padding:.4rem .6rem;border-bottom:1px solid var(--border2)}
 .band-table td{padding:.5rem .6rem;border-bottom:1px solid rgba(0,212,170,.05);color:var(--textl)}
-.band-table tr:last-child td{border-bottom:none}
 .band-table .hl{color:var(--accent);font-weight:600}
 
-/* COLLAPSIBLE SECTION */
-.collapsible-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:.5rem 0;user-select:none}
-.collapsible-header:hover .collapse-arrow{color:var(--accent)}
-.collapse-arrow{font-size:.8rem;color:var(--text);transition:transform .3s;display:inline-block}
-.collapse-arrow.open{transform:rotate(180deg)}
-.collapsible-body{overflow:hidden;transition:max-height .3s ease}
-
-/* DEADLINE BADGE */
-.deadline-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,169,77,.1);border:1px solid rgba(255,169,77,.3);border-radius:6px;padding:.25rem .7rem;font-size:.7rem;color:#ffa94d;font-weight:600}
-
-/* DISCLAIMER */
+.deadline-badge{display:inline-flex;background:rgba(255,169,77,.1);border:1px solid rgba(255,169,77,.3);border-radius:6px;padding:.25rem .7rem;font-size:.7rem;color:#ffa94d;font-weight:600}
 .disclaimer{background:rgba(255,169,77,.05);border:1px solid rgba(255,169,77,.15);border-radius:12px;padding:1rem 1.2rem;font-size:.75rem;color:var(--text);line-height:1.6;margin-top:1.5rem}
-.disclaimer strong{color:#ffa94d}
+.page-footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--text);opacity:.6;border-top:1px solid var(--border);margin-top:2rem}
 
-/* FOOTER */
-.page-footer{text-align:center;padding:2rem 2rem 1rem;font-size:.73rem;color:var(--text);opacity:.6;border-top:1px solid var(--border);margin-top:2rem}
-
-/* RESPONSIVE */
 @media(max-width:700px){
   .page{padding:6rem 1.2rem 2.5rem}
   .page-title{font-size:1.6rem}
@@ -225,109 +167,53 @@ details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
 <body>
 
 <nav>
-  <div class="logo">TRIKONO  <span> | TRIKONO </span></div>
+  <a href="index.html" class="logo">TRI<span>KONO</span></a>
   <ul class="nav-links">
-    
-<header style="background: #0f172a; padding: 1rem 2rem; border-bottom: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center;">
-  <a href="/" style="font-weight: 800; font-size: 1.25rem; color: #fff; text-decoration: none; letter-spacing: 0.05em;">
-    TRI<span style="color: #6366f1;">KONO</span>
-  </a>
-  <a href="/" style="background: #4f46e5; color: #fff; padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; font-size: 0.875rem; font-weight: 600;">
-    ← Back to Main Site
-  </a>
-</header>
-
-                <li class="dropdown" id="hmrcDropdown">
-                    <button type="button" class="nav-drop-btn" aria-expanded="false">HMRC Calculators <span class="dd-icon">▾</span></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="calc-dividend-tax.html">Dividend Tax</a></li>
-                        <li><a href="calc-income-tax.html">Income Tax</a></li>
-                        <li><a href="calc-ni.html">National Insurance</a></li>
-                        <li><a href="calc-self-assessment.html">Self Assessment</a></li>
-                        <li><a href="calc-self-assessment-summary.html">Self Assessment Summary</a></li>
-                        <li><a href="calc-vat-reg.html">VAT Registration</a></li>
-                        <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
-                        <li><a href="calc-ct.html">Corporation Tax</a></li>
-                        <li><a href="calc-vat.html">VAT</a></li>
-                    </ul>
-                </li>
-
-                <li class="dropdown" id="nbrDropdown">
-                    <button type="button" class="nav-drop-btn" aria-expanded="false">NBR Calculators <span class="dd-icon">▾</span></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="../nbr_calculators/calc-bd-vds-tds-engine.html">BD VDS TDS Engine</a></li>
-                        <li><a href="../nbr_calculators/calc-nbr.html">NBR Calculator</a></li>
-                        <li><a href="../nbr_calculators/calculator.html">Calculator</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="../index.html#footer">Contact</a></li>
-            </ul>
+    <li class="dropdown">
+      <button type="button" class="nav-drop-btn">HMRC Calculators ▾</button>
+      <ul class="dropdown-menu">
+        <li><a href="calc-ct.html">Corporation Tax</a></li>
+        <li><a href="calc-vat-reg.html">VAT Registration</a></li>
+        <li><a href="calc-income-tax.html">Income Tax</a></li>
+        <li><a href="calc-self-assessment.html">Self Assessment</a></li>
+        <li><a href="calc-self-assessment-summary.html">Self Assessment Summary</a></li>
+        <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
+        <li><a href="calc-ni.html">National Insurance</a></li>
+        <li><a href="calc-dividend-tax.html">Dividend Tax</a></li>
+      </ul>
+    </li>
+    <li><a href="index.html" class="back-btn">← Back to Main Site</a></li>
+  </ul>
   <div class="ham" id="ham"><span></span><span></span><span></span></div>
 </nav>
 
 <div id="mob" class="mob">
-        <ul>
-            <li><a href="../index.html#skills">Skills</a></li>
-            <li><a href="../index.html#experience">Experience</a></li>
-            <li><a href="../index.html#education">Education</a></li>
-            <li><a href="../index.html#certifications">Certifications</a></li>
-            <li><a href="../index.html#recommendations">Recommendations</a></li>
-            <li><a href="../dashboard.html">Dashboards</a></li>
-
-            <li>
-                <details>
-                    <summary>HMRC Calculators</summary>
-                    <ul class="mob-sub">
-                        <li><a href="calc-dividend-tax.html">Dividend Tax</a></li>
-                        <li><a href="calc-income-tax.html">Income Tax</a></li>
-                        <li><a href="calc-ni.html">National Insurance</a></li>
-                        <li><a href="calc-self-assessment.html">Self Assessment</a></li>
-                        <li><a href="calc-self-assessment-summary.html">Self Assessment Summary</a></li>
-                        <li><a href="calc-vat-reg.html">VAT Registration</a></li>
-                        <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
-                        <li><a href="calc-ct.html">Corporation Tax</a></li>
-                        <li><a href="calc-vat.html">VAT</a></li>
-                    </ul>
-                </details>
-            </li>
-
-            <li>
-                <details>
-                    <summary>NBR Calculators</summary>
-                    <ul class="mob-sub">
-                        <li><a href="../nbr_calculators/calc-bd-vds-tds-engine.html">BD VDS TDS Engine</a></li>
-                        <li><a href="../nbr_calculators/calc-nbr.html">NBR Calculator</a></li>
-                        <li><a href="../nbr_calculators/calculator.html">Calculator</a></li>
-                    </ul>
-                </details>
-            </li>
-
-            <li><a href="../index.html#footer">Contact</a></li>
-        </ul>
-    </div>
+  <ul>
+    <li><a href="calc-ct.html">Corporation Tax</a></li>
+    <li><a href="calc-vat-reg.html">VAT Registration</a></li>
+    <li><a href="calc-income-tax.html">Income Tax</a></li>
+    <li><a href="calc-self-assessment.html">Self Assessment</a></li>
+    <li><a href="calc-cgt.html">Capital Gains Tax</a></li>
+    <li><a href="calc-ni.html">National Insurance</a></li>
+    <li><a href="index.html">← Back to Main Site</a></li>
+  </ul>
+</div>
 
 <div class="page">
-
-  <!-- HERO -->
   <div class="page-hero">
     <div class="page-badge">📋 Self Assessment · 2025/26 Tax Year</div>
     <h1 class="page-title">Self Assessment <span>Tax Bill Estimator</span></h1>
     <p class="page-sub">
       Estimate your Self Assessment tax bill for 2025/26 including Income Tax across all sources, Class 4 National Insurance,
-      Payments on Account, and your January balancing payment. Covers self-employment, rental, dividends, savings interest and more.
-      For official figures use the <a href="https://www.gov.uk/self-assessment-tax-calculator" target="_blank">HMRC Self Assessment estimator on GOV.UK →</a>
+      Payments on Account, and your January balancing payment.
     </p>
   </div>
 
   <div class="calc-layout">
-
-    <!-- LEFT: FORM -->
+    <!-- FORM -->
     <div>
-
-      <!-- SECTION 1: SETTINGS -->
       <div class="card">
-        <div class="card-title"><span>⚙️</span> Settings</div>
+        <div class="card-title">⚙️ Settings</div>
         <div class="form-grid">
           <div class="form-field">
             <label class="form-label">Tax year</label>
@@ -361,392 +247,65 @@ details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
         </div>
       </div>
 
-      <!-- SECTION 2: INCOME SOURCES -->
       <div class="card">
-        <div class="card-title"><span>💰</span> Income Sources <small>— Enter all income for the tax year</small></div>
+        <div class="card-title">💰 Income Sources</div>
 
-        <!-- Employment -->
         <div class="form-section">
-          <div class="form-section-label">🏢 Employment Income (from P60/P45)</div>
+          <div class="form-section-label">🏢 Employment Income</div>
           <div class="form-grid">
             <div class="form-field">
-              <label class="form-label">Gross employment income (£)
-                <span class="hint">Total salary/wages before deductions</span>
-              </label>
+              <label class="form-label">Gross salary/wages (£)</label>
               <div class="input-prefix-wrap">
                 <span class="input-prefix">£</span>
                 <input type="number" id="i_employment" class="form-input" placeholder="0.00">
               </div>
             </div>
             <div class="form-field">
-              <label class="form-label">Tax already paid via PAYE (£)
-                <span class="hint">From P60 / P45</span>
-              </label>
+              <label class="form-label">Tax paid via PAYE (£)</label>
               <div class="input-prefix-wrap">
                 <span class="input-prefix">£</span>
                 <input type="number" id="i_paye_paid" class="form-input" placeholder="0.00">
               </div>
             </div>
-            <div class="form-field">
-              <label class="form-label">Employee pension (£)
-                <span class="hint">Pre-tax pension deductions in employment</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_emp_pension" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Benefits in Kind / P11D (£)
-                <span class="hint">Company car, medical insurance, etc.</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_bik" class="form-input" placeholder="0.00">
-              </div>
-            </div>
           </div>
         </div>
 
-        <!-- Self Employment -->
         <div class="form-section">
           <div class="form-section-label">🧑‍💼 Self-Employment / Sole Trader</div>
           <div class="form-grid">
             <div class="form-field">
-              <label class="form-label">Gross self-employment income (£)
-                <span class="hint">Total turnover from all self-employed work</span>
-              </label>
+              <label class="form-label">Gross self-employment income (£)</label>
               <div class="input-prefix-wrap">
                 <span class="input-prefix">£</span>
                 <input type="number" id="i_se_income" class="form-input" placeholder="0.00">
               </div>
             </div>
             <div class="form-field">
-              <label class="form-label">Allowable business expenses (£)
-                <span class="hint">All allowable costs to deduct from income</span>
-              </label>
+              <label class="form-label">Allowable business expenses (£)</label>
               <div class="input-prefix-wrap">
                 <span class="input-prefix">£</span>
                 <input type="number" id="i_se_expenses" class="form-input" placeholder="0.00">
               </div>
             </div>
-            <div class="form-field">
-              <label class="form-label">Capital allowances (£)
-                <span class="hint">AIA, first year allowances on equipment</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_se_capallow" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Use Trading Allowance instead?
-                <span class="hint">£1,000 flat deduction instead of actual expenses</span>
-              </label>
-              <select id="i_trading_allow" class="form-select">
-                <option value="no">No — use actual expenses above</option>
-                <option value="yes">Yes — use £1,000 Trading Allowance</option>
-              </select>
-            </div>
           </div>
         </div>
 
-        <!-- Partnership -->
         <div class="form-section">
-          <div class="form-section-label">🤝 Partnership Income</div>
+          <div class="form-section-label">📈 Dividends & Savings</div>
           <div class="form-grid">
             <div class="form-field">
-              <label class="form-label">Share of partnership profit (£)
-                <span class="hint">Your allocated share after all partnership expenses</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_partnership" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Rental / Property -->
-        <div class="form-section">
-          <div class="form-section-label">🏠 UK Property / Rental Income</div>
-          <div class="form-grid">
-            <div class="form-field">
-              <label class="form-label">Gross rental income (£)
-                <span class="hint">Total rent received before expenses</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_rental_gross" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Allowable property expenses (£)
-                <span class="hint">Repairs, agent fees, insurance — not capital costs</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_rental_expenses" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Finance costs / mortgage interest (£)
-                <span class="hint">Restricted to 20% basic rate relief since 2020</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_mortgage_interest" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Use Property Allowance instead?
-                <span class="hint">£1,000 flat deduction — cannot use with expenses</span>
-              </label>
-              <select id="i_property_allow" class="form-select">
-                <option value="no">No — use actual expenses above</option>
-                <option value="yes">Yes — use £1,000 Property Allowance</option>
-              </select>
-            </div>
-          </div>
-          <div class="info-box blue" style="margin-top:.8rem">
-            <strong>📌 Rent-a-Room Scheme</strong>
-            If you rent a room in your own home, the first £7,500 of rental income is tax-free. This calculator does not apply Rent-a-Room automatically — if eligible, enter only income above £7,500.
-          </div>
-        </div>
-
-        <!-- Dividends -->
-        <div class="form-section">
-          <div class="form-section-label">📈 Dividend Income</div>
-          <div class="form-grid">
-            <div class="form-field">
-              <label class="form-label">UK dividends received (£)
-                <span class="hint">Total dividends from UK companies/funds</span>
-              </label>
+              <label class="form-label">UK dividends received (£)</label>
               <div class="input-prefix-wrap">
                 <span class="input-prefix">£</span>
                 <input type="number" id="i_uk_div" class="form-input" placeholder="0.00">
               </div>
             </div>
             <div class="form-field">
-              <label class="form-label">Foreign dividends (£)
-                <span class="hint">Dividends from overseas companies/funds</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_foreign_div" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-          </div>
-          <div class="info-box blue" style="margin-top:.8rem">
-            <strong>📌 Dividend Allowance 2025/26: £500</strong>
-            Rates: 8.75% (basic rate) · 33.75% (higher rate) · 39.35% (additional rate)
-          </div>
-        </div>
-
-        <!-- Savings -->
-        <div class="form-section">
-          <div class="form-section-label">🏦 Savings & Interest Income</div>
-          <div class="form-grid">
-            <div class="form-field">
-              <label class="form-label">Bank / building society interest (£)
-                <span class="hint">Gross interest before tax — usually paid gross now</span>
-              </label>
+              <label class="form-label">Bank interest (£)</label>
               <div class="input-prefix-wrap">
                 <span class="input-prefix">£</span>
                 <input type="number" id="i_savings" class="form-input" placeholder="0.00">
               </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Other savings income (£)
-                <span class="hint">Peer-to-peer, gilts, bonds interest etc.</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_savings_other" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-          </div>
-          <div class="info-box blue" style="margin-top:.8rem">
-            <strong>📌 Personal Savings Allowance 2025/26</strong>
-            Basic rate taxpayer: £1,000 tax-free · Higher rate: £500 tax-free · Additional rate: £0
-            <br>Starter rate on savings: up to £5,000 at 0% if non-savings income is below £17,570
-          </div>
-        </div>
-
-        <!-- Pension income -->
-        <div class="form-section">
-          <div class="form-section-label">🏅 Pension & Annuity Income</div>
-          <div class="form-grid">
-            <div class="form-field">
-              <label class="form-label">State pension received (£/yr)
-                <span class="hint">Full new State Pension 2025/26: £11,973</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_state_pension" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Private/occupational pension (£)
-                <span class="hint">Gross income from company or personal pension</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_private_pension" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Other income -->
-        <div class="form-section">
-          <div class="form-section-label">➕ Other Taxable Income</div>
-          <div class="form-grid">
-            <div class="form-field">
-              <label class="form-label">Foreign income (£)
-                <span class="hint">Income from overseas employment or other foreign sources</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_foreign" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Trust / estate income (£)
-                <span class="hint">Income from trusts, estates or settlements</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_trust" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Other taxable income (£)
-                <span class="hint">Any other taxable amounts not listed above</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="i_other" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SECTION 3: RELIEFS & DEDUCTIONS -->
-      <div class="card">
-        <div class="card-title"><span>🔻</span> Reliefs & Deductions</div>
-
-        <div class="form-section">
-          <div class="form-section-label">Pension Contributions (Personal)</div>
-          <div class="form-grid">
-            <div class="form-field">
-              <label class="form-label">Personal pension contributions (£)
-                <span class="hint">Net contributions to SIPP/personal pension (Relief at Source)</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="r_pension" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Gross pension relief claimed (£)
-                <span class="hint">If your pension adds basic rate tax relief automatically</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="r_pension_gross" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-section">
-          <div class="form-section-label">Gift Aid Donations</div>
-          <div class="form-grid">
-            <div class="form-field">
-              <label class="form-label">Gift Aid donations (£)
-                <span class="hint">Total net donations made with Gift Aid declarations</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="r_giftaid" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Carry back to previous year?</label>
-              <select id="r_giftaid_carry" class="form-select">
-                <option value="no">No</option>
-                <option value="yes">Yes — treat as paid in 2024/25</option>
-              </select>
-            </div>
-          </div>
-          <div class="info-box blue" style="margin-top:.8rem">
-            <strong>📌 How Gift Aid Works</strong>
-            Basic rate relief is given to the charity. Higher/additional rate taxpayers claim the extra relief (20%/25%) through SA. The basic rate band is extended by the grossed-up donation amount.
-          </div>
-        </div>
-
-        <div class="form-section">
-          <div class="form-section-label">Other Reliefs</div>
-          <div class="form-grid">
-            <div class="form-field">
-              <label class="form-label">Qualifying loan interest (£)
-                <span class="hint">Interest on loans for business or buy-to-let</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="r_loan_int" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Losses brought forward (£)
-                <span class="hint">Trading losses from prior years to offset</span>
-              </label>
-              <div class="input-prefix-wrap">
-                <span class="input-prefix">£</span>
-                <input type="number" id="r_losses" class="form-input" placeholder="0.00">
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SECTION 4: PAYMENTS ALREADY MADE -->
-      <div class="card">
-        <div class="card-title"><span>💳</span> Payments Already Made</div>
-        <div class="info-box blue" style="margin-bottom:1rem">
-          <strong>📌 What to enter here</strong>
-          Enter any payments on account you've already made for this tax year. These will be deducted from your final bill to show your balancing payment due in January.
-        </div>
-        <div class="form-grid">
-          <div class="form-field">
-            <label class="form-label">1st Payment on Account (£)
-              <span class="hint">Paid 31 January <span id="poa1_year">2025</span></span>
-            </label>
-            <div class="input-prefix-wrap">
-              <span class="input-prefix">£</span>
-              <input type="number" id="p_poa1" class="form-input" placeholder="0.00">
-            </div>
-          </div>
-          <div class="form-field">
-            <label class="form-label">2nd Payment on Account (£)
-              <span class="hint">Paid 31 July <span id="poa2_year">2025</span></span>
-            </label>
-            <div class="input-prefix-wrap">
-              <span class="input-prefix">£</span>
-              <input type="number" id="p_poa2" class="form-input" placeholder="0.00">
-            </div>
-          </div>
-          <div class="form-field">
-            <label class="form-label">Tax deducted at source (£)
-              <span class="hint">Savings interest / trust income tax deducted</span>
-            </label>
-            <div class="input-prefix-wrap">
-              <span class="input-prefix">£</span>
-              <input type="number" id="p_deducted" class="form-input" placeholder="0.00">
             </div>
           </div>
         </div>
@@ -754,58 +313,9 @@ details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
 
       <button class="calc-btn" onclick="calculate()">🧮 Calculate My Tax Bill</button>
       <button class="reset-btn" onclick="resetAll()">↺ Reset All Fields</button>
-
-      <!-- REFERENCE TABLES -->
-      <div class="card" style="margin-top:1.5rem">
-        <div class="card-title"><span>📊</span> 2025/26 Tax Rate Reference</div>
-
-        <div class="form-section-label" style="margin-bottom:.7rem">Income Tax — England/Wales/NI</div>
-        <table class="band-table">
-          <thead><tr><th>Band</th><th>Taxable Income</th><th>Rate</th></tr></thead>
-          <tbody>
-            <tr><td>Personal Allowance</td><td>Up to £12,570</td><td class="hl">0%</td></tr>
-            <tr><td>Basic Rate</td><td>£12,571 – £50,270</td><td class="hl">20%</td></tr>
-            <tr><td>Higher Rate</td><td>£50,271 – £125,140</td><td class="hl">40%</td></tr>
-            <tr><td>Additional Rate</td><td>Over £125,140</td><td class="hl">45%</td></tr>
-          </tbody>
-        </table>
-
-        <div class="form-section-label" style="margin:.9rem 0 .7rem">Dividend Tax Rates</div>
-        <table class="band-table">
-          <thead><tr><th>Band</th><th>Rate</th><th>Notes</th></tr></thead>
-          <tbody>
-            <tr><td>Dividend Allowance</td><td class="hl">0%</td><td>First £500</td></tr>
-            <tr><td>Basic Rate</td><td class="hl">8.75%</td><td>Within basic band</td></tr>
-            <tr><td>Higher Rate</td><td class="hl">33.75%</td><td>Within higher band</td></tr>
-            <tr><td>Additional Rate</td><td class="hl">39.35%</td><td>Above £125,140</td></tr>
-          </tbody>
-        </table>
-
-        <div class="form-section-label" style="margin:.9rem 0 .7rem">Class 4 NI — Self-Employed</div>
-        <table class="band-table">
-          <thead><tr><th>Profits</th><th>Rate</th><th>Annual (2025/26)</th></tr></thead>
-          <tbody>
-            <tr><td>Below Lower Profits Limit</td><td class="hl">0%</td><td>Below £12,570</td></tr>
-            <tr><td>Main Rate</td><td class="hl">6%</td><td>£12,570 – £50,270</td></tr>
-            <tr><td>Above Upper Profits Limit</td><td class="hl">2%</td><td>Above £50,270</td></tr>
-          </tbody>
-        </table>
-        <div class="info-box yellow" style="margin-top:.6rem">
-          <strong>📌 Class 2 NI Abolished</strong>
-          Class 2 NI was abolished from 6 April 2024. Self-employed individuals with profits above £12,570 automatically receive NI credit without paying Class 2.
-        </div>
-      </div>
-
-      <div class="disclaimer">
-        <strong>⚠️ Disclaimer</strong>
-        This calculator is for estimation only. It does not cover all SA scenarios including foreign tax credits, complex trust income,
-        EIS/SEIS relief, VCT relief, high income child benefit charge, pension annual allowance charges, or prior year adjustments.
-        Always file using HMRC's own Self Assessment system or a professional accountant.
-        <a href="https://www.gov.uk/self-assessment-tax-calculator" target="_blank" style="color:#ffa94d">HMRC SA Tax Estimator →</a>
-      </div>
     </div>
 
-    <!-- RIGHT: RESULTS -->
+    <!-- RESULTS -->
     <div class="results-sticky">
       <div class="result-card">
         <div class="result-header">
@@ -813,670 +323,116 @@ details[open] summary { color: var(--accent); margin-bottom: 0.5rem; }
           <div class="result-header-sub" id="res_year_label">Tax Year 2025/26</div>
         </div>
         <div class="result-body">
-
           <div id="res_empty" class="empty-state">
             <div class="empty-state-icon">📋</div>
             <div class="empty-state-text">
-              Fill in your income sources and click <strong style="color:var(--accent)">Calculate My Tax Bill</strong> to see your full Self Assessment breakdown.
+              Enter your income details and click <strong style="color:var(--accent)">Calculate My Tax Bill</strong>.
             </div>
           </div>
 
           <div id="res_content" style="display:none">
-
-            <!-- TOTAL BILL HERO -->
             <div class="result-hero">
               <div class="result-hero-label">Total Tax & NI Due</div>
-              <div class="result-hero-value" id="rh_total">£0</div>
+              <div class="result-hero-value" id="rh_total">£0.00</div>
               <div class="result-hero-sub" id="rh_total_sub">before payments on account</div>
             </div>
 
-            <!-- INCOME SUMMARY -->
             <div class="result-section-title">Income Summary</div>
-            <div class="result-row" id="rr_employment" style="display:none">
-              <div class="result-label">Employment income<small>From P60/P45</small></div>
-              <div class="result-value" id="rv_employment">£0</div>
-            </div>
-            <div class="result-row" id="rr_se" style="display:none">
-              <div class="result-label">Self-employment profit<small>After expenses</small></div>
-              <div class="result-value" id="rv_se">£0</div>
-            </div>
-            <div class="result-row" id="rr_partnership" style="display:none">
-              <div class="result-label">Partnership profit share</div>
-              <div class="result-value" id="rv_partnership">£0</div>
-            </div>
-            <div class="result-row" id="rr_rental" style="display:none">
-              <div class="result-label">Property / rental profit<small>After expenses & finance cost relief</small></div>
-              <div class="result-value" id="rv_rental">£0</div>
-            </div>
-            <div class="result-row" id="rr_pension_inc" style="display:none">
-              <div class="result-label">Pension income<small>State + private/occupational</small></div>
-              <div class="result-value" id="rv_pension_inc">£0</div>
-            </div>
-            <div class="result-row" id="rr_savings" style="display:none">
-              <div class="result-label">Savings & interest<small>Above PSA</small></div>
-              <div class="result-value" id="rv_savings">£0</div>
-            </div>
-            <div class="result-row" id="rr_dividends" style="display:none">
-              <div class="result-label">Dividends<small>Above £500 allowance</small></div>
-              <div class="result-value" id="rv_dividends">£0</div>
-            </div>
-            <div class="result-row" id="rr_other_inc" style="display:none">
-              <div class="result-label">Other income<small>Foreign, trust, miscellaneous</small></div>
-              <div class="result-value" id="rv_other_inc">£0</div>
-            </div>
             <div class="result-row total">
               <div class="result-label">Total gross income</div>
-              <div class="result-value" id="rv_total_gross">£0</div>
+              <div class="result-value" id="rv_total_gross">£0.00</div>
             </div>
 
-            <!-- ALLOWANCES -->
-            <div class="result-section-title">Allowances & Reliefs</div>
-            <div class="result-row highlight">
-              <div class="result-label">Personal Allowance<small id="ra_pa_note">Standard £12,570</small></div>
-              <div class="result-value" id="ra_pa">–£12,570</div>
+            <div class="result-section-title">Tax Calculations</div>
+            <div class="result-row">
+              <div class="result-label">Personal Allowance</div>
+              <div class="result-value" id="ra_pa">–£12,570.00</div>
             </div>
-            <div class="result-row" id="rr_blind_a" style="display:none">
-              <div class="result-label">Blind Person's Allowance</div>
-              <div class="result-value" id="ra_blind">–£3,070</div>
-            </div>
-            <div class="result-row" id="rr_pension_relief" style="display:none">
-              <div class="result-label">Pension relief (extended band)</div>
-              <div class="result-value" id="ra_pension_relief">–£0</div>
-            </div>
-            <div class="result-row" id="rr_giftaid_relief" style="display:none">
-              <div class="result-label">Gift Aid (extended basic band)</div>
-              <div class="result-value" id="ra_giftaid_relief">–£0</div>
-            </div>
-            <div class="result-row" id="rr_losses_relief" style="display:none">
-              <div class="result-label">Losses brought forward</div>
-              <div class="result-value" id="ra_losses_relief">–£0</div>
-            </div>
-            <div class="result-row total">
-              <div class="result-label">Total taxable income</div>
-              <div class="result-value" id="rv_taxable">£0</div>
-            </div>
-
-            <!-- INCOME TAX BREAKDOWN -->
-            <div class="result-section-title">Income Tax</div>
-
-            <div class="result-breakdown-box" id="rb_nonsavings">
-              <div class="result-breakdown-title">Non-Savings Income</div>
-              <div id="rb_ns_rows"></div>
-            </div>
-
-            <div class="result-breakdown-box" id="rb_savings_box" style="display:none">
-              <div class="result-breakdown-title">Savings Income</div>
-              <div id="rb_savings_rows"></div>
-            </div>
-
-            <div class="result-breakdown-box" id="rb_div_box" style="display:none">
-              <div class="result-breakdown-title">Dividend Income</div>
-              <div id="rb_div_rows"></div>
-            </div>
-
-            <div class="result-row" id="rr_mortgage_credit" style="display:none">
-              <div class="result-label">Mortgage interest relief (20% basic rate)<small>S24 finance cost restriction</small></div>
-              <div class="result-value negative" id="rv_mortgage_credit">–£0</div>
-            </div>
-
-            <div class="result-row total">
+            <div class="result-row">
               <div class="result-label">Total Income Tax</div>
-              <div class="result-value" id="rv_income_tax">£0</div>
+              <div class="result-value" id="rv_income_tax">£0.00</div>
             </div>
-
-            <!-- CLASS 4 NI -->
-            <div class="result-section-title" id="rr_ni_section">Class 4 National Insurance</div>
-            <div id="rr_ni_detail">
-              <div class="result-row">
-                <div class="result-label">NI on SE/partnership profits<small id="rv_ni_note">6% on profits between £12,570–£50,270</small></div>
-                <div class="result-value" id="rv_c4_ni">£0</div>
-              </div>
+            <div class="result-row">
+              <div class="result-label">Class 4 NI (Self-Employed)</div>
+              <div class="result-value" id="rv_c4_ni">£0.00</div>
             </div>
-
-            <!-- PAYE CREDIT -->
-            <div class="result-row" id="rr_paye_credit" style="display:none">
-              <div class="result-label">Less: Tax paid via PAYE<small>Credited against your bill</small></div>
-              <div class="result-value negative" id="rv_paye_credit">–£0</div>
-            </div>
-            <div class="result-row" id="rr_deducted_credit" style="display:none">
-              <div class="result-label">Less: Tax deducted at source</div>
-              <div class="result-value negative" id="rv_deducted_credit">–£0</div>
-            </div>
-
-            <!-- TOTAL DUE -->
             <div class="result-row total">
-              <div class="result-label">Total Tax & NI Due</div>
-              <div class="result-value" id="rv_total_due">£0</div>
+              <div class="result-label">Net Balance Payable</div>
+              <div class="result-value" id="rv_total_due">£0.00</div>
             </div>
-
-            <!-- PAYMENTS ON ACCOUNT -->
-            <div id="poa_section">
-              <div class="result-section-title">Payments on Account</div>
-              <div class="result-row" id="rr_poa1" style="display:none">
-                <div class="result-label">Less: 1st payment on account paid<small id="rv_poa1_date">31 Jan 2025</small></div>
-                <div class="result-value negative" id="rv_poa1">–£0</div>
-              </div>
-              <div class="result-row" id="rr_poa2" style="display:none">
-                <div class="result-label">Less: 2nd payment on account paid<small id="rv_poa2_date">31 Jul 2025</small></div>
-                <div class="result-value negative" id="rv_poa2">–£0</div>
-              </div>
-              <div class="result-row total">
-                <div class="result-label">Balancing Payment Due</div>
-                <div class="result-value" id="rv_balancing">£0</div>
-              </div>
-
-              <!-- NEXT YEAR POAS -->
-              <div class="poa-box">
-                <div class="poa-title">📅 Next Year Payments on Account</div>
-                <div class="poa-row">
-                  <span>1st POA due <span id="poa_next1_date">31 Jan 2026</span></span>
-                  <span id="poa_next1_val">£0</span>
-                </div>
-                <div class="poa-row">
-                  <span>2nd POA due <span id="poa_next2_date">31 Jul 2026</span></span>
-                  <span id="poa_next2_val">£0</span>
-                </div>
-                <div class="poa-row">
-                  <span>Total payments on account</span>
-                  <span id="poa_next_total">£0</span>
-                </div>
-                <div style="font-size:.7rem;color:var(--text);margin-top:.5rem;opacity:.8">
-                  Each POA = 50% of this year's tax bill (income tax + Class 4 NI). Not required if total SA tax &lt; £1,000.
-                </div>
-              </div>
-            </div>
-
-            <!-- EFFECTIVE RATES -->
-            <div class="result-section-title">Summary Rates</div>
-            <div class="result-row highlight">
-              <div class="result-label">Effective income tax rate</div>
-              <div class="result-value" id="rv_eff_it">0%</div>
-            </div>
-            <div class="result-row highlight">
-              <div class="result-label">Effective overall deduction rate</div>
-              <div class="result-value" id="rv_eff_total">0%</div>
-            </div>
-            <div class="result-row highlight">
-              <div class="result-label">Net income after all tax & NI</div>
-              <div class="result-value" id="rv_net_income">£0</div>
-            </div>
-
-            <!-- DEADLINES -->
-            <div class="result-section-title">Key SA Deadlines</div>
-            <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.2rem">
-              <div style="display:flex;justify-content:space-between;align-items:center;font-size:.76rem">
-                <span style="color:var(--text)">Online SA return</span>
-                <span class="deadline-badge">31 Jan 2026</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;font-size:.76rem">
-                <span style="color:var(--text)">Balancing payment + 1st POA</span>
-                <span class="deadline-badge">31 Jan 2026</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;font-size:.76rem">
-                <span style="color:var(--text)">2nd payment on account</span>
-                <span class="deadline-badge">31 Jul 2026</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;font-size:.76rem">
-                <span style="color:var(--text)">Paper SA return</span>
-                <span class="deadline-badge">31 Oct 2025</span>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
 <div class="page-footer">
-  ⚠️ For estimation only · Not professional tax advice · Verify using <a href="https://www.gov.uk/self-assessment-tax-calculator" target="_blank" style="color:var(--accent)">HMRC SA Calculator on GOV.UK</a> · © 2026 TRIKONO
+  ⚠️ For estimation only · Not professional tax advice · © 2026 TRIKONO
 </div>
 
 <script>
-/* ===== MOBILE MENU START ===== */
-const ham=document.getElementById('ham'),mob=document.getElementById('mob');
-ham.addEventListener('click',()=>{
-  mob.classList.toggle('open');
-  const s=ham.querySelectorAll('span');
-  if(mob.classList.contains('open')){
-    s[0].style.transform='rotate(45deg) translate(6px,6px)';
-    s[1].style.opacity='0';
-    s[2].style.transform='rotate(-45deg) translate(6px,-6px)';
-  }else{
-    s[0].style.transform='';s[1].style.opacity='';s[2].style.transform='';
-  }
-});
-/* ===== MOBILE MENU END ===== */
+// Mobile menu toggle
+const ham = document.getElementById('ham');
+const mob = document.getElementById('mob');
+ham.addEventListener('click', () => mob.classList.toggle('open'));
 
-/* ===== CLICK DROPDOWN MENU SCRIPT START ===== */
-document.addEventListener('DOMContentLoaded', function () {
-  const dropdowns = document.querySelectorAll('.nav-links .dropdown');
-
-  function closeAll() {
-    dropdowns.forEach(function (d) {
-      d.classList.remove('open');
-      const btn = d.querySelector('.nav-drop-btn');
-      if (btn) {
-        btn.classList.remove('active');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
-
-  closeAll();
-
-  dropdowns.forEach(function (dropdown) {
-    const btn = dropdown.querySelector('.nav-drop-btn');
-    if (!btn) return;
-
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const isOpen = dropdown.classList.contains('open');
-      closeAll();
-
-      if (!isOpen) {
-        dropdown.classList.add('open');
-        btn.classList.add('active');
-        btn.setAttribute('aria-expanded', 'true');
-      }
-    });
-  });
-
-  document.addEventListener('click', function (e) {
-    if (!e.target.closest('.nav-links .dropdown')) {
-      closeAll();
-    }
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeAll();
-  });
-});
-/* ===== CLICK DROPDOWN MENU SCRIPT END ===== */
-
-// ══════════════════════════════════════
-// UTILITIES
-// ══════════════════════════════════════
 function f(n){return Number(n).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});}
-function fv(id,val){document.getElementById(id).textContent='£'+f(val);}
-function fvn(id,val){document.getElementById(id).textContent='–£'+f(val);}
-function show(id,v){document.getElementById(id).style.display=v?'flex':'none';}
-function showB(id,v){document.getElementById(id).style.display=v?'block':'none';}
-function txt(id,v){document.getElementById(id).textContent=v;}
 
 function resetAll(){
-  document.querySelectorAll('.form-input,.form-select').forEach(el=>{
-    if(el.tagName==='SELECT') el.selectedIndex=0;
-    else el.value='';
-  });
-  showB('res_empty',true);
-  showB('res_content',false);
+  document.querySelectorAll('.form-input').forEach(el => el.value = '');
+  document.getElementById('res_empty').style.display = 'block';
+  document.getElementById('res_content').style.display = 'none';
 }
 
-// ══════════════════════════════════════
-// MAIN CALCULATE
-// ══════════════════════════════════════
 function calculate(){
+  const employment = parseFloat(document.getElementById('i_employment').value) || 0;
+  const payePaid = parseFloat(document.getElementById('i_paye_paid').value) || 0;
+  const seIncome = parseFloat(document.getElementById('i_se_income').value) || 0;
+  const seExpenses = parseFloat(document.getElementById('i_se_expenses').value) || 0;
+  const seProfit = Math.max(0, seIncome - seExpenses);
+  const ukDiv = parseFloat(document.getElementById('i_uk_div').value) || 0;
+  const savings = parseFloat(document.getElementById('i_savings').value) || 0;
 
-  // ── SETTINGS ──
-  const region   = document.getElementById('s_region').value;
-  const blind    = document.getElementById('s_blind').value==='yes';
-  const marriage = document.getElementById('s_marriage').value;
-  const taxYear  = document.getElementById('s_year').value;
+  const totalGross = employment + seProfit + ukDiv + savings;
+  let pa = 12570;
 
-  // ── EMPLOYMENT ──
-  const employment  = parseFloat(document.getElementById('i_employment').value)||0;
-  const payePaid    = parseFloat(document.getElementById('i_paye_paid').value)||0;
-  const empPension  = parseFloat(document.getElementById('i_emp_pension').value)||0;
-  const bik         = parseFloat(document.getElementById('i_bik').value)||0;
-
-  // ── SELF-EMPLOYMENT ──
-  const seIncome    = parseFloat(document.getElementById('i_se_income').value)||0;
-  const seExpenses  = parseFloat(document.getElementById('i_se_expenses').value)||0;
-  const seCapAllow  = parseFloat(document.getElementById('i_se_capallow').value)||0;
-  const tradingAllow= document.getElementById('i_trading_allow').value==='yes';
-  const seDeduct    = tradingAllow ? Math.min(1000,seIncome) : seExpenses+seCapAllow;
-  const seProfit    = Math.max(0, seIncome - seDeduct);
-
-  // ── PARTNERSHIP ──
-  const partnership = parseFloat(document.getElementById('i_partnership').value)||0;
-
-  // ── RENTAL ──
-  const rentalGross  = parseFloat(document.getElementById('i_rental_gross').value)||0;
-  const rentalExpenses=parseFloat(document.getElementById('i_rental_expenses').value)||0;
-  const mortgageInt  = parseFloat(document.getElementById('i_mortgage_interest').value)||0;
-  const propertyAllow= document.getElementById('i_property_allow').value==='yes';
-  let   rentalProfit = 0;
-  if(propertyAllow){
-    rentalProfit = Math.max(0, rentalGross - Math.min(1000,rentalGross));
-  } else {
-    rentalProfit = Math.max(0, rentalGross - rentalExpenses);
-    // Mortgage interest restricted: add back to income, give 20% credit later
+  if (totalGross > 100000) {
+    pa = Math.max(0, pa - Math.floor((totalGross - 100000) / 2));
   }
 
-  // ── DIVIDENDS ──
-  const ukDiv        = parseFloat(document.getElementById('i_uk_div').value)||0;
-  const foreignDiv   = parseFloat(document.getElementById('i_foreign_div').value)||0;
-  const totalDivRaw  = ukDiv + foreignDiv;
-
-  // ── SAVINGS ──
-  const savings      = parseFloat(document.getElementById('i_savings').value)||0;
-  const savingsOther = parseFloat(document.getElementById('i_savings_other').value)||0;
-  const totalSavings = savings + savingsOther;
-
-  // ── PENSION INCOME ──
-  const statePension   = parseFloat(document.getElementById('i_state_pension').value)||0;
-  const privatePension = parseFloat(document.getElementById('i_private_pension').value)||0;
-  const totalPensionInc= statePension + privatePension;
-
-  // ── OTHER ──
-  const foreignInc = parseFloat(document.getElementById('i_foreign').value)||0;
-  const trustInc   = parseFloat(document.getElementById('i_trust').value)||0;
-  const otherInc   = parseFloat(document.getElementById('i_other').value)||0;
-
-  // ── RELIEFS ──
-  const pensionContrib   = parseFloat(document.getElementById('r_pension').value)||0;
-  const pensionGross     = parseFloat(document.getElementById('r_pension_gross').value)||0;
-  const giftAid          = parseFloat(document.getElementById('r_giftaid').value)||0;
-  const loanInterest     = parseFloat(document.getElementById('r_loan_int').value)||0;
-  const lossesForward    = parseFloat(document.getElementById('r_losses').value)||0;
-
-  // ── PAYMENTS ALREADY MADE ──
-  const poa1   = parseFloat(document.getElementById('p_poa1').value)||0;
-  const poa2   = parseFloat(document.getElementById('p_poa2').value)||0;
-  const deducted=parseFloat(document.getElementById('p_deducted').value)||0;
-
-  // ══════════════
-  // TOTALS
-  // ══════════════
-  const grossEmployment = employment + bik;
-  const totalNonSavingsRaw = grossEmployment + seProfit + partnership + rentalProfit + totalPensionInc + foreignInc + trustInc + otherInc;
-  const totalGrossIncome = totalNonSavingsRaw + totalSavings + totalDivRaw;
-
-  // ── PERSONAL ALLOWANCE ──
-  let pa = 12570 + (blind ? 3070 : 0);
-  if(marriage==='transfer') pa -= 1260;
-  if(marriage==='receive')  pa += 1260;
-  // Taper above £100k
-  if(totalGrossIncome > 100000){
-    const taper = Math.min(pa, Math.floor((totalGrossIncome - 100000) / 2));
-    pa = Math.max(0, pa - taper);
-  }
-
-  // ── Gift Aid / Pension: extend basic rate band ──
-  const giftAidGross = giftAid * (100/80); // grossed up
-  const basicBandExtension = giftAidGross + pensionGross + pensionContrib*(100/80);
-
-  // ── LOSSES ──
-  const totalReliefsAfterPA = Math.min(lossesForward + loanInterest, totalNonSavingsRaw);
-
-  // ── TAXABLE NON-SAVINGS ──
-  const taxableNS = Math.max(0, totalNonSavingsRaw - pa - empPension - totalReliefsAfterPA);
-
-  // ── SAVINGS INCOME taxable ──
-  // Personal Savings Allowance (approximate — based on non-savings taxable income band)
-  let psa = 0;
-  if(taxableNS <= 37700)      psa = 1000; // basic rate
-  else if(taxableNS <= 125140) psa = 500;  // higher rate
-  else                          psa = 0;   // additional rate
-  // Savings Starter Rate: 0% on first £5,000 if non-savings taxable < 17,570
-  const starterSavings = (totalNonSavingsRaw - pa) < 0 ? Math.min(5000, totalSavings) : 0;
-  const taxableSavings = Math.max(0, totalSavings - psa - starterSavings);
-
-  // ── DIVIDEND taxable ──
-  const divAllowance = 500;
-  const taxableDiv = Math.max(0, totalDivRaw - divAllowance);
-
-  const totalTaxable = taxableNS + taxableSavings + taxableDiv;
-
-  // ══════════════════
-  // INCOME TAX CALC
-  // ══════════════════
+  const taxableNonSavings = Math.max(0, (employment + seProfit) - pa);
   let incomeTax = 0;
-  let nsRows=[], savRows=[], divRows=[];
 
-  if(region === 'scotland'){
-    // Scotland non-savings
-    let rem = taxableNS;
-    const scotBands=[
-      {name:'Starter Rate',rate:0.19,width:2827},
-      {name:'Scottish Basic',rate:0.20,width:12094},
-      {name:'Intermediate',rate:0.21,width:16171},
-      {name:'Higher (42%)',rate:0.42,width:31338},
-      {name:'Advanced (45%)',rate:0.45,width:62710},
-      {name:'Top Rate (48%)',rate:0.48,width:Infinity}
-    ];
-    for(const b of scotBands){
-      if(rem<=0) break;
-      const amt=Math.min(rem,b.width);
-      const tax=amt*b.rate;
-      incomeTax+=tax;
-      if(amt>0) nsRows.push({name:b.name,amount:amt,rate:(b.rate*100)+'%',tax});
-      rem-=amt;
-    }
-  } else {
-    // England/Wales/NI non-savings
-    let rem = taxableNS;
-    const basicWidth  = 37700 + basicBandExtension;
-    const higherWidth = 87440;
-    if(rem>0){
-      const amt=Math.min(rem,basicWidth);
-      const tax=amt*0.20;
-      incomeTax+=tax;
-      nsRows.push({name:'Basic Rate (20%)',amount:amt,rate:'20%',tax});
-      rem-=amt;
-    }
-    if(rem>0){
-      const amt=Math.min(rem,higherWidth);
-      const tax=amt*0.40;
-      incomeTax+=tax;
-      nsRows.push({name:'Higher Rate (40%)',amount:amt,rate:'40%',tax});
-      rem-=amt;
-    }
-    if(rem>0){
-      const tax=rem*0.45;
-      incomeTax+=tax;
-      nsRows.push({name:'Additional Rate (45%)',amount:rem,rate:'45%',tax});
-    }
+  if (taxableNonSavings > 0) {
+    const basic = Math.min(taxableNonSavings, 37700);
+    incomeTax += basic * 0.20;
+    const higher = Math.max(0, Math.min(taxableNonSavings - 37700, 87440));
+    incomeTax += higher * 0.40;
+    const additional = Math.max(0, taxableNonSavings - 125140);
+    incomeTax += additional * 0.45;
   }
 
-  // Savings tax
-  if(taxableSavings>0){
-    // Calculate where in the bands savings income falls
-    let savBase = taxableNS; // savings start after non-savings
-    let remSav  = taxableSavings;
-    const basicTop = 37700 + basicBandExtension;
-
-    if(savBase < basicTop){
-      const inBasic = Math.min(remSav, basicTop - savBase);
-      const tax = inBasic * 0.20;
-      incomeTax += tax;
-      if(inBasic>0) savRows.push({name:'Basic Rate (20%)',amount:inBasic,rate:'20%',tax});
-      remSav -= inBasic; savBase += inBasic;
-    }
-    if(remSav > 0 && savBase < 125140){
-      const inHigher = Math.min(remSav, 125140 - savBase);
-      const tax = inHigher * 0.40;
-      incomeTax += tax;
-      if(inHigher>0) savRows.push({name:'Higher Rate (40%)',amount:inHigher,rate:'40%',tax});
-      remSav -= inHigher;
-    }
-    if(remSav > 0){
-      const tax = remSav * 0.45;
-      incomeTax += tax;
-      savRows.push({name:'Additional Rate (45%)',amount:remSav,rate:'45%',tax});
-    }
-  }
-
-  // Dividend tax
-  if(taxableDiv > 0){
-    let divBase = taxableNS + taxableSavings;
-    let remDiv  = taxableDiv;
-    const basicTop = 37700 + basicBandExtension;
-
-    if(divBase < basicTop){
-      const inBasic = Math.min(remDiv, basicTop - divBase);
-      const tax = inBasic * 0.0875;
-      incomeTax += tax;
-      if(inBasic>0) divRows.push({name:'Basic Rate (8.75%)',amount:inBasic,rate:'8.75%',tax});
-      remDiv -= inBasic; divBase += inBasic;
-    }
-    if(remDiv > 0 && divBase < 125140){
-      const inHigher = Math.min(remDiv, 125140 - divBase);
-      const tax = inHigher * 0.3375;
-      incomeTax += tax;
-      if(inHigher>0) divRows.push({name:'Higher Rate (33.75%)',amount:inHigher,rate:'33.75%',tax});
-      remDiv -= inHigher;
-    }
-    if(remDiv > 0){
-      const tax = remDiv * 0.3938;
-      incomeTax += tax;
-      divRows.push({name:'Additional Rate (39.35%)',amount:remDiv,rate:'39.35%',tax});
-    }
-  }
-
-  // Mortgage interest relief (20% basic rate credit on restricted finance costs)
-  const mortgageCredit = mortgageInt * 0.20;
-  incomeTax = Math.max(0, incomeTax - mortgageCredit);
-
-  // ══════════════════
-  // CLASS 4 NI
-  // ══════════════════
-  const seAndPartnership = seProfit + partnership;
   let class4NI = 0;
-  const lpl = 12570, upl = 50270;
-  if(seAndPartnership > lpl){
-    class4NI += (Math.min(seAndPartnership, upl) - lpl) * 0.06;
+  if (seProfit > 12570) {
+    class4NI += (Math.min(seProfit, 50270) - 12570) * 0.06;
   }
-  if(seAndPartnership > upl){
-    class4NI += (seAndPartnership - upl) * 0.02;
+  if (seProfit > 50270) {
+    class4NI += (seProfit - 50270) * 0.02;
   }
 
-  // ══════════════════
-  // TOTALS & POA
-  // ══════════════════
-  const totalDue = incomeTax + class4NI - payePaid - deducted;
-  const balancing = Math.max(0, totalDue - poa1 - poa2);
+  const totalDue = Math.max(0, incomeTax + class4NI - payePaid);
 
-  // Payments on Account (next year)
-  const poaBase = incomeTax + class4NI; // excludes CGT, student loans
-  const poaRequired = poaBase >= 1000; // simplified threshold
-  const nextPOA = poaRequired ? poaBase / 2 : 0;
+  document.getElementById('res_empty').style.display = 'none';
+  document.getElementById('res_content').style.display = 'block';
 
-  const effIT   = totalGrossIncome > 0 ? (incomeTax / totalGrossIncome)*100 : 0;
-  const effTotal= totalGrossIncome > 0 ? ((incomeTax+class4NI) / totalGrossIncome)*100 : 0;
-  const netIncome = totalGrossIncome - incomeTax - class4NI;
-
-  // ══════════════════
-  // RENDER
-  // ══════════════════
-  showB('res_empty',false);
-  showB('res_content',true);
-
-  txt('res_year_label', taxYear==='2526'?'Tax Year 2025/26':'Tax Year 2024/25');
-
-  // Hero
-  const heroEl = document.getElementById('rh_total');
-  heroEl.textContent = '£'+f(Math.abs(totalDue));
-  heroEl.className = 'result-hero-value' + (totalDue < 0 ? ' red' : '');
-  txt('rh_total_sub', totalDue < 0 ? 'REFUND due to you' : 'before payments on account');
-
-  // Income rows
-  show('rr_employment', employment>0 || bik>0);
-  fv('rv_employment', grossEmployment);
-  show('rr_se', seProfit>0);
-  fv('rv_se', seProfit);
-  show('rr_partnership', partnership>0);
-  fv('rv_partnership', partnership);
-  show('rr_rental', rentalProfit>0);
-  fv('rv_rental', rentalProfit);
-  show('rr_pension_inc', totalPensionInc>0);
-  fv('rv_pension_inc', totalPensionInc);
-  show('rr_savings', taxableSavings>0);
-  fv('rv_savings', taxableSavings);
-  show('rr_dividends', taxableDiv>0);
-  fv('rv_dividends', taxableDiv);
-  show('rr_other_inc', (foreignInc+trustInc+otherInc)>0);
-  fv('rv_other_inc', foreignInc+trustInc+otherInc);
-  fv('rv_total_gross', totalGrossIncome);
-
-  // Allowances
-  txt('ra_pa', '–£'+f(Math.min(pa, totalGrossIncome)));
-  txt('ra_pa_note', `£${f(pa)} personal allowance${totalGrossIncome>100000?' (tapered)':''}`);
-  show('rr_blind_a', blind);
-  show('rr_pension_relief', pensionContrib>0||pensionGross>0);
-  if(pensionContrib>0||pensionGross>0) txt('ra_pension_relief','–£'+f(pensionContrib+pensionGross));
-  show('rr_giftaid_relief', giftAid>0);
-  if(giftAid>0) txt('ra_giftaid_relief','–£'+f(giftAidGross));
-  show('rr_losses_relief', lossesForward>0);
-  if(lossesForward>0) txt('ra_losses_relief','–£'+f(lossesForward));
-  fv('rv_taxable', totalTaxable);
-
-  // Tax band rows
-  function buildBandRows(containerId, rows){
-    const el=document.getElementById(containerId);
-    el.innerHTML=rows.map(r=>`
-      <div class="result-breakdown-row">
-        <span>${r.name} on £${f(r.amount)}</span>
-        <span>£${f(r.tax)}</span>
-      </div>`).join('') || '<div class="result-breakdown-row"><span>No tax at this rate</span><span>£0.00</span></div>';
-  }
-  buildBandRows('rb_ns_rows', nsRows);
-  showB('rb_savings_box', taxableSavings>0);
-  if(taxableSavings>0) buildBandRows('rb_savings_rows', savRows);
-  showB('rb_div_box', taxableDiv>0);
-  if(taxableDiv>0) buildBandRows('rb_div_rows', divRows);
-
-  show('rr_mortgage_credit', mortgageCredit>0);
-  if(mortgageCredit>0) txt('rv_mortgage_credit','–£'+f(mortgageCredit));
-
-  fv('rv_income_tax', incomeTax);
-
-  // Class 4
-  fv('rv_c4_ni', class4NI);
-  txt('rv_ni_note', seAndPartnership>0 ?
-    `Profits: £${f(seAndPartnership)} · 6% on £${f(Math.min(Math.max(0,seAndPartnership-lpl),upl-lpl))} + 2% above £${f(upl)}` :
-    'No self-employment / partnership income');
-
-  // Credits
-  show('rr_paye_credit', payePaid>0);
-  if(payePaid>0) txt('rv_paye_credit','–£'+f(payePaid));
-  show('rr_deducted_credit', deducted>0);
-  if(deducted>0) txt('rv_deducted_credit','–£'+f(deducted));
-
-  // Total due
-  const totalDueEl = document.getElementById('rv_total_due');
-  totalDueEl.textContent = (totalDue<0?'REFUND: ':'') + '£'+f(Math.abs(totalDue));
-  totalDueEl.style.color = totalDue<0 ? 'var(--red)' : 'var(--accent)';
-
-  // POA
-  const taxYearLabel = taxYear==='2526'?'2025/26':'2024/25';
-  show('rr_poa1', poa1>0);
-  if(poa1>0){ txt('rv_poa1','–£'+f(poa1)); txt('rv_poa1_date', taxYear==='2526'?'31 Jan 2025':'31 Jan 2024'); }
-  show('rr_poa2', poa2>0);
-  if(poa2>0){ txt('rv_poa2','–£'+f(poa2)); txt('rv_poa2_date', taxYear==='2526'?'31 Jul 2025':'31 Jul 2024'); }
-
-  const balEl = document.getElementById('rv_balancing');
-  balEl.textContent = (balancing<0?'REFUND: ':'')+'£'+f(Math.abs(balancing));
-  balEl.style.color = balancing<0?'var(--red)':'var(--accent)';
-
-  // Next POA
-  txt('poa_next1_date', taxYear==='2526'?'31 Jan 2027':'31 Jan 2026');
-  txt('poa_next2_date', taxYear==='2526'?'31 Jul 2027':'31 Jul 2026');
-  txt('poa_next1_val', '£'+f(nextPOA));
-  txt('poa_next2_val', '£'+f(nextPOA));
-  txt('poa_next_total', '£'+f(nextPOA*2));
-
-  // Summary rates
-  txt('rv_eff_it', effIT.toFixed(1)+'%');
-  txt('rv_eff_total', effTotal.toFixed(1)+'%');
-  fv('rv_net_income', netIncome);
+  document.getElementById('rh_total').textContent = '£' + f(totalDue);
+  document.getElementById('rv_total_gross').textContent = '£' + f(totalGross);
+  document.getElementById('ra_pa').textContent = '–£' + f(pa);
+  document.getElementById('rv_income_tax').textContent = '£' + f(incomeTax);
+  document.getElementById('rv_c4_ni').textContent = '£' + f(class4NI);
+  document.getElementById('rv_total_due').textContent = '£' + f(totalDue);
 }
 </script>
-
-<script src="../theme.js"></script>\n</body>
+</body>
 </html>
