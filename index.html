@@ -53,7 +53,7 @@
       </div>
       <nav class="hidden lg:flex items-center space-x-8 text-sm font-semibold text-slate-600">
         <a href="#formation" class="hover:text-brand-700 transition">Services</a>
-        <a href="#calculators-suite" class="hover:text-brand-700 text-brand-700 font-bold transition">HMRC Calculators</a>
+        <a href="#calculators-suite" class="hover:text-brand-700 text-brand-700 font-bold transition">HMRC Calculators (8 Tools)</a>
         <a href="#pricing" class="hover:text-brand-700 transition">Pricing (+Govt Fee)</a>
         <a href="#calculator" class="hover:text-brand-700 transition">Fee Estimator</a>
         <a href="#reviews" class="hover:text-brand-700 transition">Reviews</a>
@@ -104,7 +104,7 @@
               href="#calculators-suite" 
               class="bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 font-semibold px-8 py-4 rounded-xl transition text-center text-base shadow-sm"
             >
-              Launch HMRC Calculators ↗
+              Explore 8 Tax Calculators ↓
             </a>
           </div>
 
@@ -130,7 +130,7 @@
     </div>
   </section>
 
-  <!-- NEW SECTION: Hosted HMRC Calculators Portal -->
+  <!-- Complete HMRC Calculators Suite Grid -->
   <section id="calculators-suite" class="py-20 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
@@ -138,101 +138,207 @@
         <span class="px-3.5 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/40 text-indigo-300 text-xs font-bold uppercase tracking-widest">
           Interactive Tool Suite
         </span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">HMRC Online Calculators Portal</h2>
+        <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">HMRC Online Calculators Suite</h2>
         <p class="text-slate-300 text-sm sm:text-base">
-          Compute Corporation Tax, VAT obligations, and PAYE Payroll statutory brackets using our dedicated calculation portal.
+          Directly compute Corporation Tax, VAT threshold status, Self-Assessment, Capital Gains, NICs, and Dividend Tax brackets.
         </p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-8">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
-        <!-- Tool 1: CT600 Calculator -->
-        <div class="bg-slate-900/80 border border-slate-800 p-8 rounded-3xl flex flex-col justify-between hover:border-brand-600 transition shadow-xl group">
-          <div class="space-y-4">
-            <div class="w-12 h-12 rounded-2xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-2xl font-bold">
-              🧮
+        <!-- Calculator 1: Corporation Tax -->
+        <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-brand-600 transition shadow-lg group">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-xl font-bold">
+              🏢
             </div>
-            <h3 class="text-xl font-bold text-white">UK Corporation Tax Calculator</h3>
-            <p class="text-slate-400 text-sm leading-relaxed">
-              Determine effective tax liabilities between small profits rates (19%) and main rates (25%) including marginal relief computations.
+            <h3 class="text-lg font-bold text-white">Corporation Tax (CT)</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Calculate small profits (19%) vs main rate (25%) including marginal relief bands.
             </p>
           </div>
-          <div class="pt-6">
+          <div class="pt-5">
             <a 
-              href="https://grid.metrovps.com/websites/9120fdbd-90b9-46d9-b03d-747f94c71086/files#public_html/hmrc_calculators" 
+              href="hmrc_calculators/calc-ct.html" 
               target="_blank" 
-              rel="noopener noreferrer"
-              class="w-full inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-md"
+              class="w-full inline-flex items-center justify-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow-md"
             >
-              Open CT600 Calculator ↗
+              Open CT Calculator ↗
             </a>
           </div>
         </div>
 
-        <!-- Tool 2: VAT Calculator -->
-        <div class="bg-slate-900/80 border border-slate-800 p-8 rounded-3xl flex flex-col justify-between hover:border-brand-600 transition shadow-xl group">
-          <div class="space-y-4">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center text-2xl font-bold">
+        <!-- Calculator 2: VAT Registration -->
+        <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-brand-600 transition shadow-lg group">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center text-xl font-bold">
               📊
             </div>
-            <h3 class="text-xl font-bold text-white">UK VAT & MTD Reconciler</h3>
-            <p class="text-slate-400 text-sm leading-relaxed">
-              Calculate standard (20%), reduced (5%), and zero-rated VAT splits with net input-output tax position calculations.
+            <h3 class="text-lg font-bold text-white">VAT Registration</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Check rolling 12-month turnover vs the £90,000 threshold and determine MTD readiness.
             </p>
           </div>
-          <div class="pt-6">
+          <div class="pt-5">
             <a 
-              href="https://grid.metrovps.com/websites/9120fdbd-90b9-46d9-b03d-747f94c71086/files#public_html/hmrc_calculators" 
+              href="hmrc_calculators/calc-vat-reg.html" 
               target="_blank" 
-              rel="noopener noreferrer"
-              class="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-md"
+              class="w-full inline-flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow-md"
             >
-              Open VAT Calculator ↗
+              Check VAT Status ↗
             </a>
           </div>
         </div>
 
-        <!-- Tool 3: PAYE Payroll & NI Calculator -->
-        <div class="bg-slate-900/80 border border-slate-800 p-8 rounded-3xl flex flex-col justify-between hover:border-brand-600 transition shadow-xl group">
-          <div class="space-y-4">
-            <div class="w-12 h-12 rounded-2xl bg-sky-600/20 text-sky-400 flex items-center justify-center text-2xl font-bold">
-              💼
+        <!-- Calculator 3: Income Tax -->
+        <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-brand-600 transition shadow-lg group">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-sky-600/20 text-sky-400 flex items-center justify-center text-xl font-bold">
+              💰
             </div>
-            <h3 class="text-xl font-bold text-white">PAYE & NIC Wage Estimator</h3>
-            <p class="text-slate-400 text-sm leading-relaxed">
-              Break down director salaries, Employee/Employer National Insurance Contributions, and statutory workplace pension deductions.
+            <h3 class="text-lg font-bold text-white">Income Tax</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Calculate personal allowance, basic (20%), higher (40%), and additional (45%) tax brackets.
             </p>
           </div>
-          <div class="pt-6">
+          <div class="pt-5">
             <a 
-              href="https://grid.metrovps.com/websites/9120fdbd-90b9-46d9-b03d-747f94c71086/files#public_html/hmrc_calculators" 
+              href="hmrc_calculators/calc-income-tax.html" 
               target="_blank" 
-              rel="noopener noreferrer"
-              class="w-full inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-md"
+              class="w-full inline-flex items-center justify-center gap-1.5 bg-sky-600 hover:bg-sky-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow-md"
             >
-              Open PAYE Calculator ↗
+              Open Income Tax ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Calculator 4: Self-Assessment -->
+        <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-brand-600 transition shadow-lg group">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-600/20 text-amber-400 flex items-center justify-center text-xl font-bold">
+              📑
+            </div>
+            <h3 class="text-lg font-bold text-white">Self-Assessment</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Complete tax computation for sole traders, directors, and partners filing SA100 returns.
+            </p>
+          </div>
+          <div class="pt-5">
+            <a 
+              href="hmrc_calculators/calc-self-assessment.html" 
+              target="_blank" 
+              class="w-full inline-flex items-center justify-center gap-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow-md"
+            >
+              Open SA Calculator ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Calculator 5: Self-Assessment Summary -->
+        <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-brand-600 transition shadow-lg group">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center text-xl font-bold">
+              📋
+            </div>
+            <h3 class="text-lg font-bold text-white">SA Quick Summary</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Generate a fast overview of Payments on Account and total balancing payment due to HMRC.
+            </p>
+          </div>
+          <div class="pt-5">
+            <a 
+              href="hmrc_calculators/calc-self-assessment-summary.html" 
+              target="_blank" 
+              class="w-full inline-flex items-center justify-center gap-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow-md"
+            >
+              View SA Summary ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Calculator 6: Capital Gains Tax (CGT) -->
+        <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-brand-600 transition shadow-lg group">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-rose-600/20 text-rose-400 flex items-center justify-center text-xl font-bold">
+              📈
+            </div>
+            <h3 class="text-lg font-bold text-white">Capital Gains (CGT)</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Compute CGT on shares, business assets, and property with annual exempt allowance deduction.
+            </p>
+          </div>
+          <div class="pt-5">
+            <a 
+              href="hmrc_calculators/calc-cgt.html" 
+              target="_blank" 
+              class="w-full inline-flex items-center justify-center gap-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow-md"
+            >
+              Open CGT Calculator ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Calculator 7: National Insurance (NI) -->
+        <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-brand-600 transition shadow-lg group">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-teal-600/20 text-teal-400 flex items-center justify-center text-xl font-bold">
+              🛡️
+            </div>
+            <h3 class="text-lg font-bold text-white">National Insurance (NIC)</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Calculate Class 1 (Employee/Employer), Class 2, and Class 4 National Insurance contributions.
+            </p>
+          </div>
+          <div class="pt-5">
+            <a 
+              href="hmrc_calculators/calc-ni.html" 
+              target="_blank" 
+              class="w-full inline-flex items-center justify-center gap-1.5 bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow-md"
+            >
+              Open NIC Calculator ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Calculator 8: Dividend Tax -->
+        <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-brand-600 transition shadow-lg group">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-yellow-600/20 text-yellow-400 flex items-center justify-center text-xl font-bold">
+              🪙
+            </div>
+            <h3 class="text-lg font-bold text-white">Dividend Tax</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Optimize director salary vs dividend extraction using basic, higher, and additional dividend rates.
+            </p>
+          </div>
+          <div class="pt-5">
+            <a 
+              href="hmrc_calculators/calc-dividend-tax.html" 
+              target="_blank" 
+              class="w-full inline-flex items-center justify-center gap-1.5 bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow-md"
+            >
+              Open Dividend Tax ↗
             </a>
           </div>
         </div>
 
       </div>
 
-      <!-- Quick Server Portal Access Bar -->
-      <div class="mt-12 p-6 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <!-- Test Suite & All-in-One Dashboard Access Bar -->
+      <div class="mt-10 p-6 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3">
           <span class="text-2xl">⚡</span>
           <div>
-            <h4 class="font-bold text-white text-sm">Need Direct Access to all Public Calculator Files?</h4>
-            <p class="text-xs text-slate-400">Access our hosted calculators repository directly on our secure server.</p>
+            <h4 class="font-bold text-white text-sm">Want to test all calculations simultaneously?</h4>
+            <p class="text-xs text-slate-400">Launch the combined test suite to cross-verify company and personal tax computations.</p>
           </div>
         </div>
         <a 
-          href="https://grid.metrovps.com/websites/9120fdbd-90b9-46d9-b03d-747f94c71086/files#public_html/hmrc_calculators" 
+          href="hmrc_calculators/test-calculators.html" 
           target="_blank" 
-          rel="noopener noreferrer"
           class="bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold px-6 py-3 rounded-xl transition whitespace-nowrap"
         >
-          View Server Directory ↗
+          Launch Calculator Test Suite ↗
         </a>
       </div>
 
@@ -406,7 +512,7 @@
             <a 
               id="calc-whatsapp-btn"
               href="https://wa.me/447383340465?text=Hello%20TRIKONO,%20I%20calculated%20my%20UK%20formation%20package%20at%20£350%20(Service%20+%20Govt%20Fee).%20Let's%20proceed." 
-              target="_blank"
+              target="_blank" 
               class="w-full sm:w-auto bg-brand-700 hover:bg-brand-800 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-md text-center"
             >
               Order This Custom Setup
